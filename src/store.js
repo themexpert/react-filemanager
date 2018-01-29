@@ -219,7 +219,7 @@ export default class FMStore {
             return;
         const perPage = 30;
         if(more) {
-            if((this.data.current_page-1)*perPage >= this.data.total)
+            if(this.list.length >= this.data.total)
                 return;
             this.data.current_page++;
         }

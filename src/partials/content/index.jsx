@@ -1,9 +1,11 @@
 import React, {Component} from 'react'
-import {Col, Icon, Row, Spin} from "antd";
+import {Card, Col, Icon, Row, Spin} from "antd";
 import {inject, observer} from 'mobx-react'
 import Item from "./item";
 import PluginContainer from "../plugins";
 import throttle from 'debounce';
+
+const {Meta} = Card;
 
 @inject("fm_store")
 @observer
@@ -36,10 +38,18 @@ export default class FMContent extends Component {
         const offsetHeight = el.offsetHeight;
         const scrollHeight = content.scrollHeight;
 
-        if(scrollHeight - offsetHeight < scrollTop + 10) {
+        if (scrollHeight - offsetHeight < scrollTop + 10) {
             this.props.fm_store.fetch(true);
         }
     }, 100);
+
+    hasMore = () => {
+        return this.props.fm_store.list.length < this.props.fm_store.data.total;
+    };
+
+    onClickLoadMore = () => {
+        this.props.fm_store.fetch(true);
+    };
 
     render = () => {
         return (
@@ -57,6 +67,15 @@ export default class FMContent extends Component {
                             return <Item key={item.basename} item={item} className={item.selected ? 'selected' : ''}
                                          store={this.props.fm_store}/>
                         })}
+                        {this.hasMore() ? <Card
+                            hoverable
+                            className="item"
+                            style={{width: 120}}
+                            cover={<img src={this.props.fm_store.server + '?icon=plus'} alt="icon" height="96"/>}
+                            onClick={this.onClickLoadMore}
+                        >
+                            <Meta title="Load More"/>
+                        </Card> : null}
                         <div style={{clear: 'both'}}/>
                     </div>
                 </Row>
