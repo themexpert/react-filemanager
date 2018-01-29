@@ -2,16 +2,12 @@
 
 ## Usage
 
-`src/file-manager.jsx` is a React component, It takes a `string` prop, `server`.
-```JSX
-import FileManager from './src/file-manager.jsx';
-....
-<FileManager server={server_endpoint}/>
-```
+`yarn add react-file-manager-client`
 
-`src/index.js` is a wrapper on `src/file-manager.jsx` that returns a callback that mounts the `FileManager` component, appends to body and then returns a callback that can be used to open the file manager modal
+`npm install react-file-manager-client`
+
 ```JS
-import initFM from './src'
+import initFM from 'react-file-manager-client'
 
 const openFileManager = initFM('server_endpoint');
 ```
@@ -22,8 +18,8 @@ The returned callback `openFileManager` accepts a `callback` as a parameter to s
 <button onclick="openFileManager(fileSelectCallback)">Open File Manager</button> 
 ```
 ```JS
-function fileSelectCallback(path, selected_list) {
-    console.log(path, selected_list);
+function fileSelectCallback(selected_list) {
+    console.log(selected_list);
     //do whatever
     
     //path => the relative path to the root path set in `app/FM/config.php`
@@ -55,7 +51,7 @@ File: `wrapper.js`
 
 Content: 
 ```JS
-import initFM from './src'
+import initFM from 'react-file-manager-client'
 
 export default initFM('server-endpoint');
 ```
@@ -75,7 +71,7 @@ export default class FilePicker extends Component {
         };
     }
     
-    onFileSelect = (dir, files) => {
+    onFileSelect = (files) => {
         //we want the user to select at least one file
         if(!files.length)
             return 'Please select a file';
@@ -88,8 +84,7 @@ export default class FilePicker extends Component {
         //which implies user selected one file by this line of code
         
         //relative path to the root of file manager set in the server side config
-        const filepath = dir + files[0].basename;
-        console.log(filepath, dir, files);
+        console.log(files);
         
         return true; //closes the file manager modal
     };
