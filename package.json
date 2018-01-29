@@ -11,8 +11,20 @@
     "image",
     "processing"
   ],
-  "author": "Rocky",
+  "author": {
+    "name": "Rocky",
+    "url": "https://github.com/users/i-rocky",
+    "email": "wpkpda@gmail.com"
+  },
   "license": "MIT",
+  "homepage": "https://github.com/themexpert/react-file-manager-client.git",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/themexpert/react-file-manager-client.git"
+  },
+  "bugs": {
+    "url": "https://github.com/themexpert/react-file-manager-client/issues"
+  },
   "scripts": {
     "dev": "npm run development",
     "development": "cross-env NODE_ENV=development node_modules/webpack/bin/webpack.js --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
