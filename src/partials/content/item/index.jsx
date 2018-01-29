@@ -57,10 +57,10 @@ export default class Item extends Component {
 
     tooltip = () => {
         return [
-            <p>Name: {this.props.item.basename}</p>,
-            <p>Permission: {this.props.item.permission}</p>,
-            <p>Size: {this.props.item.size}</p>,
-            <p>Last Mod: {this.props.item.last_modification_time}</p>
+            <p key="name">Name: {this.props.item.basename}</p>,
+            <p key="permission">Permission: {this.props.item.permission}</p>,
+            <p key="size">Size: {this.props.item.size}</p>,
+            <p key="last-mod">Last Mod: {this.props.item.last_modification_time}</p>
         ];
     };
 
