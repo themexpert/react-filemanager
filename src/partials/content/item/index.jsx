@@ -1,6 +1,7 @@
 import React, {Component} from 'react'
-import {Col, Row} from "antd";
+import {Card, Col, Row, Tooltip} from "antd";
 
+const {Meta} = Card;
 require('./style.css');
 
 export default class Item extends Component {
@@ -56,17 +57,19 @@ export default class Item extends Component {
 
     render = () => {
         return (
-            <Col className={this.getClass()} md={3} onClick={this.onClick} onDoubleClick={this.onDoubleClick}
-                 onContextMenu={this.onContextMenu}>
-                <Row style={{height: '120px'}}>
-                    <Col>
-                        <Row><img src={this.img()} height="96"/></Row>
-                        <Row>
-                            <p className="item-name">{this.props.item.basename}</p>
-                        </Row>
-                    </Col>
-                </Row>
-            </Col>
+            <Tooltip title={"Hello"}>
+                <Card
+                    hoverable
+                    className={this.getClass()}
+                    style={{width: 120}}
+                    cover={<img src={this.img()} alt="icon" height="96"/>}
+                    onClick={this.onClick}
+                    onDoubleClick={this.onDoubleClick}
+                    onContextMenu={this.onContextMenu}
+                >
+                    <Meta title={this.props.item.basename}/>
+                </Card>
+            </Tooltip>
         );
     };
 }

@@ -45,6 +45,7 @@ export default class FileManager extends Component {
                     maskClosable={false}
                     onOk={this.handleOk}
                     onCancel={this.handleCancel}
+
                     footer={[
                          <Button key="back" onClick={this.handleCancel}>Cancel</Button>,
                          <Button key="submit" type="primary" loading={store.isLoading} onClick={this.handleOk}>

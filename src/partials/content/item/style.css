@@ -8,6 +8,7 @@
     -ms-transition: all 0.3s;
     -o-transition: all 0.3s;
     transition: all 0.3s;
+    float: left;
 }
 
 .item:hover {
@@ -17,10 +18,7 @@
 .item.selected {
     border: 1px solid #261af5;
 }
-.item-name {
-    text-overflow: ellipsis;
-    padding: 3px;
-    margin: 0;
-    overflow: hidden;
-    text-align: left;
+
+.item .ant-card-body {
+    padding: 6px;
 }
