@@ -60,10 +60,6 @@ export default class FMContent extends Component {
                         <div style={{clear: 'both'}}/>
                     </div>
                 </Row>
-                {this.props.fm_store.data.loading ?
-                    <Row>
-                        <Spin indicator={<Icon type="loading" style={{fontSize: 24}} spin/>}/>
-                    </Row> : null}
                 <PluginContainer/>
             </Col>
         );

@@ -45,13 +45,13 @@ export default class FileManager extends Component {
                     maskClosable={false}
                     onOk={this.handleOk}
                     onCancel={this.handleCancel}
-
+                    loading={store.data.loading}
                     footer={[
-                         <Button key="back" onClick={this.handleCancel}>Cancel</Button>,
-                         <Button key="submit" type="primary" loading={store.isLoading} onClick={this.handleOk}>
-                             Select
-                         </Button>,
-                        ]}
+                        <Button key="back" onClick={this.handleCancel}>Cancel</Button>,
+                        <Button key="submit" type="primary" loading={store.isLoading} onClick={this.handleOk}>
+                            Select
+                        </Button>,
+                    ]}
                     width={window.innerWidth - 50}
                 >
                     <Col>

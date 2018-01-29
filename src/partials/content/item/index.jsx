@@ -55,9 +55,18 @@ export default class Item extends Component {
         return path + query.join('&');
     };
 
+    tooltip = () => {
+        return [
+            <p>Name: {this.props.item.basename}</p>,
+            <p>Permission: {this.props.item.permission}</p>,
+            <p>Size: {this.props.item.size}</p>,
+            <p>Last Mod: {this.props.item.last_modification_time}</p>
+        ];
+    };
+
     render = () => {
         return (
-            <Tooltip title={"Hello"}>
+            <Tooltip title={this.tooltip()} overlayClassName="info-tooltip">
                 <Card
                     hoverable
                     className={this.getClass()}

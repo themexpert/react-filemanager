@@ -22,3 +22,8 @@
 .item .ant-card-body {
     padding: 6px;
 }
+
+.info-tooltip p {
+    padding: 4px;
+    margin: 0;
+}
