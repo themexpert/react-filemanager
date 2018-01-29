@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {Row, Col, Modal, Button, Alert} from 'antd'
+import {Row, Col, Modal, Button, Alert, Spin} from 'antd'
 import FMAction from "./partials/action/index";
 import FMContent from "./partials/content/index";
 import FMStore from "./store";
@@ -45,7 +45,6 @@ export default class FileManager extends Component {
                     maskClosable={false}
                     onOk={this.handleOk}
                     onCancel={this.handleCancel}
-                    loading={store.data.loading}
                     footer={[
                         <Button key="back" onClick={this.handleCancel}>Cancel</Button>,
                         <Button key="submit" type="primary" loading={store.isLoading} onClick={this.handleOk}>
@@ -54,10 +53,12 @@ export default class FileManager extends Component {
                     ]}
                     width={window.innerWidth - 50}
                 >
-                    <Col>
-                        <Row><FMAction/></Row>
-                        <Row><FMContent/></Row>
-                    </Col>
+                    <Spin spinning={store.data.loading}>
+                        <Col>
+                            <Row><FMAction/></Row>
+                            <Row><FMContent/></Row>
+                        </Col>
+                    </Spin>
                 </Modal>
             </Provider>
         );
