@@ -1,0 +1,26 @@
+.item {
+    text-align: center;
+    border: 1px solid #cccccc;
+    margin: 8px;
+    cursor: pointer;
+    -webkit-transition: all 0.3s;
+    -moz-transition: all 0.3s;
+    -ms-transition: all 0.3s;
+    -o-transition: all 0.3s;
+    transition: all 0.3s;
+}
+
+.item:hover {
+    border: 1px dashed #261af5;
+}
+
+.item.selected {
+    border: 1px solid #261af5;
+}
+.item-name {
+    text-overflow: ellipsis;
+    padding: 3px;
+    margin: 0;
+    overflow: hidden;
+    text-align: left;
+}
