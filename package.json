@@ -38,9 +38,7 @@
     "axios": "^0.17.1",
     "debounce": "^1.1.0",
     "mobx": "^3.4.1",
-    "react": "^16.2.0"
-  },
-  "devDependencies": {
+    "react": "^16.2.0",
     "babel-loader": "^7.1.2",
     "babel-plugin-import": "^1.6.3",
     "babel-plugin-transform-class-properties": "^6.24.1",
