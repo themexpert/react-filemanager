@@ -2,37 +2,6 @@
 
 ## Usage
 
-#### Server side
-Let's say we have the following file structure
-
-* $_SERVER['DOCUMENT_ROOT']
-    * app
-        * FM
-        * index.php
-    * public
-        * uploads
-
-Change the File Manager mount root in `/app/FM/config.php` file 
-
-```PHP
-    'root' => "/public/uploads" //file manager will be mounted at this directory
-```
-
-File: `/app/index.php` 
-```PHP
-    require_once 'FM/FileManager.php';
-    
-    (new FileManager());
-    exit; //just incase someone else tries to send some more data or maybe upto you
-```
-
-Now our server endpoint will be `/app/`
-
-We can use any other file and have the server endpoint wherever we want
-
-
-#### Client Side
-
 `src/file-manager.jsx` is a React component, It takes a `string` prop, `server`.
 ```JSX
 import FileManager from './src/file-manager.jsx';
