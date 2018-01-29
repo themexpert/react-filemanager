@@ -253,7 +253,6 @@ export default class FMStore {
                 this.data.loading = false;
             })
             .catch(err => {
-                console.log(err);
                 try {
                     message.error(err.response.data.message);
                 }catch (e) {console.log(e);}
