@@ -1,6 +1,6 @@
 {
-  "name": "@themexpert/react-filemanager-client",
-  "version": "0.1.0",
+  "name": "@themexpert/react-filemanager",
+  "version": "0.0.2",
   "main": "src/index.js",
   "keywords": [
     "file",
@@ -17,13 +17,13 @@
     "email": "wpkpda@gmail.com"
   },
   "license": "MIT",
-  "homepage": "https://github.com/themexpert/react-filemanager-client.git",
+  "homepage": "https://github.com/themexpert/react-filemanager.git",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/themexpert/react-filemanager-client.git"
+    "url": "git+https://github.com/themexpert/react-filemanager.git"
   },
   "bugs": {
-    "url": "https://github.com/themexpert/react-filemanager-client/issues"
+    "url": "https://github.com/themexpert/react-filemanager/issues"
   },
   "scripts": {
     "dev": "npm run development",

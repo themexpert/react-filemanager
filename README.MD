@@ -5,9 +5,9 @@ https://github.com/themexpert/react-filemanager-server
 
 ## Usage
 
-`yarn add @themexpert/react-filemanager-client`
+`yarn add @themexpert/react-filemanager`
 
-`npm -i @themexpert/react-filemanager-client`
+`npm -i @themexpert/react-filemanager`
 
 Webpack rules
 ```JS
@@ -28,7 +28,7 @@ Webpack rules
  ```
 
 ```JS
-import initFM from 'react-filemanager-client'
+import initFM from 'react-filemanager'
 
 const openFileManager = initFM('server_endpoint');
 ```
