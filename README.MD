@@ -1,13 +1,13 @@
 ## React File Manager (Chooser)
 
 ## Dependency
-https://packagist.org/packages/i-rocky/react-file-manager-server
+https://github.com/themexpert/react-filemanager-server
 
 ## Usage
 
-`yarn add react-file-manager-client`
+`yarn add react-filemanager-client`
 
-`npm install react-file-manager-client`
+`npm install react-filemanager-client`
 
 Webpack rules
 ```JS
@@ -28,7 +28,7 @@ Webpack rules
  ```
 
 ```JS
-import initFM from 'react-file-manager-client'
+import initFM from 'react-filemanager-client'
 
 const openFileManager = initFM('server_endpoint');
 ```
@@ -72,7 +72,7 @@ File: `wrapper.js`
 
 Content: 
 ```JS
-import initFM from 'react-file-manager-client'
+import initFM from 'react-filemanager-client'
 
 export default initFM('server-endpoint');
 ```
