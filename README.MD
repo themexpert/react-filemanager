@@ -9,6 +9,24 @@ https://packagist.org/packages/i-rocky/react-file-manager-server
 
 `npm install react-file-manager-client`
 
+Webpack rules
+```JS
+
+        module: {
+            rules: [
+                {
+                    test: /\.jsx?$/,
+                    exclude: /node_modules/,
+                    loader: 'babel-loader',
+                    query: {
+                        "presets": ["react", "env", "stage-0"],
+                        "plugins": ["transform-decorators-legacy"]
+                    }
+                }
+            ]
+        }
+ ```
+
 ```JS
 import initFM from 'react-file-manager-client'
 

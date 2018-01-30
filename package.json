@@ -1,5 +1,5 @@
 {
-  "name": "react-file-manager-client",
+  "name": "@themexpert/react-file-manager-client",
   "version": "0.0.2",
   "main": "src/index.js",
   "keywords": [
