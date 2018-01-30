@@ -1,7 +1,7 @@
-## React File Manager (Chooser)
+React based file and media manager developed for [Quix Page Builder](https://www.themexpert.com/quix-pagebuilder) and open sourced by [ThemeXpert](https://www.themexpert.com) team.
 
 ## Dependency
-https://github.com/themexpert/react-filemanager-server
+We've written a PHP library to handle all server side things. You need to include this to your project using composer. More information https://github.com/themexpert/react-filemanager-server
 
 ## Usage
 
