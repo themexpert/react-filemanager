@@ -5,9 +5,9 @@ https://github.com/themexpert/react-filemanager-server
 
 ## Usage
 
-`yarn add react-filemanager-client`
+`yarn add @themexpert/react-filemanager-client`
 
-`npm install react-filemanager-client`
+`npm -i @themexpert/react-filemanager-client`
 
 Webpack rules
 ```JS
