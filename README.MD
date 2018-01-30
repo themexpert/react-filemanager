@@ -1,5 +1,8 @@
 ## React File Manager (Chooser)
 
+## Dependency
+https://packagist.org/packages/i-rocky/react-file-manager-server
+
 ## Usage
 
 `yarn add react-file-manager-client`

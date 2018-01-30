@@ -1,6 +1,6 @@
 {
   "name": "react-file-manager-client",
-  "version": "0.0.3",
+  "version": "0.0.2",
   "main": "src/index.js",
   "keywords": [
     "file",
