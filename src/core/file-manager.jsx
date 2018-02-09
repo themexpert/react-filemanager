@@ -5,7 +5,7 @@ import FMContent from "./partials/content/index";
 import FMStore from "./store";
 import {Provider, observer} from 'mobx-react'
 
-require('./style.css');
+require('../style.css');
 
 const stores = {fm_store: new FMStore()};
 

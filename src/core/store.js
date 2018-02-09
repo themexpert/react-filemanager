@@ -1,14 +1,14 @@
 import React from 'react'
 import {observable, computed, action} from 'mobx'
 import {message} from 'antd'
-import NewDirectory from "./partials/plugins/general/new_dir";
+import NewDirectory from "./general/new_dir/index";
 import axios from 'axios'
-import NewFile from "./partials/plugins/general/new_file";
-import Uploader from "./partials/plugins/general/upload";
-import Copy from "./partials/plugins/general/copy";
-import Move from "./partials/plugins/general/move";
-import Rename from "./partials/plugins/general/rename";
-import FileInfo from "./partials/plugins/general/file-info";
+import NewFile from "./general/new_file/index";
+import Uploader from "./general/upload/index";
+import Copy from "./general/copy/index";
+import Move from "./general/move/index";
+import Rename from "./general/rename/index";
+import FileInfo from "./general/file-info/index";
 
 export default class FMStore {
     @observable config = {

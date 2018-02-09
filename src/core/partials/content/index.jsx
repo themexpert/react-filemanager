@@ -1,8 +1,8 @@
 import React, {Component} from 'react'
 import {Card, Col, Icon, Row, Spin} from "antd";
 import {inject, observer} from 'mobx-react'
-import Item from "./item";
-import PluginContainer from "../plugins";
+import Item from "./item/index";
+import PluginContainer from "../../index";
 import throttle from 'debounce';
 
 const {Meta} = Card;

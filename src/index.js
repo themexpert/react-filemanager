@@ -1,6 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import FileManager from './file-manager'
+import FileManager from './core/file-manager'
 
 export default function (server) {
     const FMElement = React.createElement(FileManager, {server: server});
