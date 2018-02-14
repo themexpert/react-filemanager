@@ -11,10 +11,10 @@ import Rename from "./general/rename/index";
 import FileInfo from "./general/file-info/index";
 
 export default class FMStore {
-    @observable config = {
+    config = observable({
         plugins: []
-    };
-    @observable plugins = {
+    });
+    plugins = observable({
         new_dir: {
             category: 'general',
             component: NewDirectory
@@ -43,14 +43,14 @@ export default class FMStore {
             category: 'general',
             component: FileInfo
         }
-    };
-    @observable plugin = {
+    });
+    plugin = observable({
         component: null,
         alias: null,
         category: null,
         key: Math.random()
-    };
-    @observable plugin_data = {
+    });
+    plugin_data = observable({
         search: {
             dataSet: [],
             dataSource: [],
@@ -59,8 +59,8 @@ export default class FMStore {
         file_info: {
             file: null
         }
-    };
-    @observable data = {
+    });
+    data = observable({
         total: 0,
         current_page: 1,
         files: [],
@@ -72,20 +72,20 @@ export default class FMStore {
         show_upload_dialog: false,
         is_uploading: false,
         callback: e => console.log(e)
-    };
+    });
 
-    @computed get contextMenu() {
+    get contextMenu() {
         return (<ul>
             <li>Hello</li>
             <li>World</li>
         </ul>);
-    }
+    };
 
-    @computed get itemContextMenu() {
+    get itemContextMenu() {
 
-    }
+    };
 
-    @action selectPlugin = alias => {
+    selectPlugin = action(alias => {
         return () => {
             if (this.plugins[alias] == null) {
                 message.error('The requested plugin is not installed.');
@@ -97,50 +97,50 @@ export default class FMStore {
             this.plugin.category = plugin.category;
             this.plugin.key = Math.random();
         };
-    };
+    });
 
-    @action clearPlugin = () => {
+    clearPlugin = action(() => {
         setTimeout(() => {
             this.plugin.component = null;
             this.plugin.alias = null;
             this.plugin.category = null;
         }, 1000);
-    };
+    });
 
-    @action Request = payload => {
+    Request = action(payload => {
         return this.post({
             category: this.plugin.category,
             alias: this.plugin.alias,
             working_dir: this.data.working_dir,
             payload
         });
-    };
+    });
 
     showErrorMessage = msg => {
         message.info(msg, 4);
     };
 
-    @computed get list() {
+    get list() {
         return this.data.folders.concat(this.data.files);
-    }
-
-    //region server { server, setServer }
-    @action setServer = server => {
-        this.data.server = server;
     };
 
-    @computed get server() {
+    //region server { server, setServer }
+    setServer = action(server => {
+        this.data.server = server;
+    });
+
+    get server() {
         return this.data.server;
-    }
+    };
 
     //endregion
 
     //region callback { setCallback, callback }
-    @action setCallback = callback => {
+    setCallback = action(callback => {
         this.data.callback = callback;
-    };
+    });
 
-    @action runCallback = e => {
+    runCallback = action(e => {
         const selection = this.list.filter(item => item.selected);
         const has_dir = selection.filter(item => item.is_dir);
         if(has_dir.length) {
@@ -153,11 +153,11 @@ export default class FMStore {
         if(this.data.callback.call(this, result)) {
             this.setVisible(false);
         }
-    };
+    });
     //endregion
 
     //region working_dir { workingDir, setWorkingDir }
-    @action setWorkingDir = dir => {
+    setWorkingDir = action(dir => {
         this.data.folders = [];
         this.data.files = [];
         this.data.total = 0;
@@ -167,11 +167,11 @@ export default class FMStore {
         this.plugin_data.search.query = '';
         this.plugin_data.search.dataSource = [];
         this.fetch();
-    };
+    });
 
-    @computed get workingDir() {
+    get workingDir() {
         return this.data.working_dir;
-    }
+    };
 
     remove_duplicate_slash = str => {
         let clean = '';
@@ -187,29 +187,29 @@ export default class FMStore {
     //endregion
 
     //region state { isLoading, isVisible, setVisible, showUploadDialog, setShowUploadDialog, isUploading }
-    @computed get isVisible() {
+    get isVisible() {
         return this.data.visible;
-    }
+    };
 
-    @action setVisible = state => {
+    setVisible = action(state => {
         this.data.visible = state;
-    };
+    });
 
-    @computed get isLoading() {
+    get isLoading() {
         return this.data.loading;
-    }
-
-    @computed get showUploadDialog() {
-        return this.data.show_upload_dialog;
-    }
-
-    @action setShowUploadDialog = state => {
-        this.data.show_upload_dialog = state;
     };
 
-    @computed get isUploading() {
+    get showUploadDialog() {
+        return this.data.show_upload_dialog;
+    };
+
+    setShowUploadDialog = action(state => {
+        this.data.show_upload_dialog = state;
+    });
+
+    get isUploading() {
         return this.data.is_uploading;
-    }
+    };
 
     //endregion
 
@@ -274,7 +274,7 @@ export default class FMStore {
             });
     };
 
-    @action selectDir = index => {
+    selectDir = action(index => {
         const new_dir = [];
         this.workingDir.split('/').forEach((x, i) => {
             if (i <= index)
@@ -282,9 +282,9 @@ export default class FMStore {
         });
         this.setWorkingDir(new_dir.join('/') + '/');
         this.fetch();
-    };
+    });
 
-    @action select = (item, e) => {
+    select = action((item, e) => {
         if (!e.ctrlKey) {
             let i;
             for (i = this.data.folders.length - 1; i >= 0; i--) {
@@ -302,13 +302,13 @@ export default class FMStore {
         }
 
         item.selected = e.ctrlKey ? !item.selected : true;
+    });
+
+    get selectedItems() {
+        return this.list.filter(item => item.selected);
     };
 
-    @computed get selectedItems() {
-        return this.list.filter(item => item.selected);
-    }
-
-    @action clickAction = item => {
+    clickAction = action(item => {
         if (item.is_dir) {
             this.setWorkingDir(this.data.working_dir + item.basename + '/');
             this.fetch();
@@ -319,9 +319,9 @@ export default class FMStore {
             this.plugin.component = this.plugins.file_info.component;
             this.plugin_data.file_info.file = item;
         }
-    };
+    });
 
-    @action trash = () => {
+    trash = action(() => {
         const items = [];
         this.data.folders.forEach(folder => {
             if (folder.selected)
@@ -348,5 +348,5 @@ export default class FMStore {
             .catch(err => {
                 message.error(err.response.data.message);
             });
-    };
+    });
 }

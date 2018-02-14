@@ -10,8 +10,14 @@ mix
                     exclude: /node_modules/,
                     loader: 'babel-loader',
                     query: {
-                        "presets": ["react", "env", "stage-0"],
-                        "plugins": ["transform-decorators-legacy"]
+                        "presets": ["es2015", "stage-1", "react"],
+                        "plugins": [[
+                            "import",
+                            {
+                                "libraryName": "antd",
+                                "style": true
+                            }
+                        ]]
                     }
                 }
             ]

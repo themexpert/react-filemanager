@@ -9,8 +9,7 @@ require('../style.css');
 
 const stores = {fm_store: new FMStore()};
 
-@observer
-export default class FileManager extends Component {
+const FileManager = class FileManager extends Component {
     constructor(props) {
         super(props);
 
@@ -63,4 +62,6 @@ export default class FileManager extends Component {
             </Provider>
         );
     };
-}
+};
+
+export default observer(FileManager);

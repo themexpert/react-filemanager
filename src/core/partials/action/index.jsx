@@ -7,9 +7,7 @@ import throttle from 'debounce'
 const {confirm} = Modal;
 require('./style.css');
 
-@inject('fm_store')
-@observer
-export default class FMAction extends Component {
+const FMAction = class FMAction extends Component {
     constructor(props) {
         super(props);
     }
@@ -131,4 +129,6 @@ export default class FMAction extends Component {
             </Col>
         );
     };
-}
+};
+
+export default inject("fm_store")(observer(FMAction));

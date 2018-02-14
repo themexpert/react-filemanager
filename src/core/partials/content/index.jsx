@@ -2,14 +2,12 @@ import React, {Component} from 'react'
 import {Card, Col, Icon, Row, Spin} from "antd";
 import {inject, observer} from 'mobx-react'
 import Item from "./item/index";
-import PluginContainer from "../../index";
+import PluginContainer from "../../PluginContainer";
 import throttle from 'debounce';
 
 const {Meta} = Card;
 
-@inject("fm_store")
-@observer
-export default class FMContent extends Component {
+const FMContent = class FMContent extends Component {
     constructor(props) {
         super(props);
 
@@ -83,4 +81,6 @@ export default class FMContent extends Component {
             </Col>
         );
     };
-}
+};
+
+export default inject("fm_store")(observer(FMContent));
