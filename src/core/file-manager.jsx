@@ -1,9 +1,17 @@
 import React, {Component} from 'react'
-import {Row, Col, Modal, Button, Alert, Spin} from 'antd'
 import FMAction from "./partials/action/index";
 import FMContent from "./partials/content/index";
 import FMStore from "./store";
 import {Provider, observer} from 'mobx-react'
+
+import Modal from "antd/lib/modal";
+require("antd/lib/modal/style");
+import Button from "antd/lib/button";
+require("antd/lib/button/style");
+import Spin from "antd/lib/spin";
+require("antd/lib/spin/style");
+import Col from "antd/lib/grid/col";
+import Row from "antd/lib/grid/row";
 
 require('../style.css');
 

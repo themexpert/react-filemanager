@@ -1,5 +1,11 @@
 import React, {Component} from 'react'
-import {Input, Modal, message} from "antd";
+
+import message from 'antd/lib/message'
+require('antd/lib/message/style');
+import Modal from 'antd/lib/modal'
+require('antd/lib/modal/style');
+import Input from 'antd/lib/input'
+require('antd/lib/input/style');
 
 export default class NewFile extends Component {
     constructor(props) {

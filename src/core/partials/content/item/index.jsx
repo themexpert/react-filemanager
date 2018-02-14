@@ -1,5 +1,9 @@
 import React, {Component} from 'react'
-import {Card, Col, Row, Tooltip} from "antd";
+
+import Card from 'antd/lib/card'
+require('antd/lib/card/style');
+import Tooltip from 'antd/lib/tooltip'
+require('antd/lib/tooltip/style');
 
 const {Meta} = Card;
 require('./style.css');

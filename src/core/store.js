@@ -1,6 +1,9 @@
 import React from 'react'
 import {observable, computed, action} from 'mobx'
-import {message} from 'antd'
+
+import message from 'antd/lib/message'
+require('antd/lib/message/style');
+
 import NewDirectory from "./general/new_dir/index";
 import axios from 'axios'
 import NewFile from "./general/new_file/index";

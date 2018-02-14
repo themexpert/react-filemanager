@@ -1,5 +1,13 @@
 import React, {Component} from 'react'
-import {Icon, Modal, Upload, message} from "antd";
+
+import message from 'antd/lib/message'
+require('antd/lib/message/style');
+import Modal from 'antd/lib/modal'
+require('antd/lib/modal/style');
+import Icon from 'antd/lib/icon'
+require('antd/lib/icon/style');
+import Upload from 'antd/lib/upload'
+require('antd/lib/upload/style');
 
 const {Dragger} = Upload;
 

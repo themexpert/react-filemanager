@@ -1,9 +1,13 @@
 import React, {Component} from 'react'
-import {Card, Col, Icon, Row, Spin} from "antd";
 import {inject, observer} from 'mobx-react'
 import Item from "./item/index";
 import PluginContainer from "../../PluginContainer";
 import throttle from 'debounce';
+
+import Card from 'antd/lib/card'
+require('antd/lib/card/style');
+import Col from 'antd/lib/grid/col'
+import Row from 'antd/lib/grid/row'
 
 const {Meta} = Card;
 

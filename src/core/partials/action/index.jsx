@@ -1,6 +1,12 @@
 import React, {Component} from 'react'
-import {Col, Row, Input, Button, Modal, AutoComplete, message} from 'antd'
 import {inject, observer} from 'mobx-react'
+
+import Col from 'antd/lib/grid/col'
+import Row from 'antd/lib/grid/row'
+import Button from 'antd/lib/button'
+import Modal from 'antd/lib/modal'
+import AutoComplete from 'antd/lib/auto-complete'
+import message from 'antd/lib/message'
 
 import throttle from 'debounce'
 

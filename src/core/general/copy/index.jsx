@@ -1,6 +1,12 @@
 import React, {Component} from 'react'
-import {AutoComplete, Modal, message} from "antd";
 import throttle from 'debounce'
+
+import AutoComplete from 'antd/lib/auto-complete'
+require('antd/lib/auto-complete/style');
+import Modal from 'antd/lib/modal'
+require('antd/lib/modal/style');
+import message from 'antd/lib/message'
+require('antd/lib/message/style');
 
 export default class Copy extends Component {
     constructor(props) {
