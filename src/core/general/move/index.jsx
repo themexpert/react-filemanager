@@ -55,7 +55,7 @@ export default class Move extends Component {
         if (e === '')
             e = '/';
         this.props.store.post({
-            category: 'general',
+            plugin: 'General',
             alias: 'scan_dir',
             working_dir: '/',
             payload: {query: e}

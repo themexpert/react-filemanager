@@ -54,7 +54,7 @@ export default class Uploader extends Component {
             onChange: this.onChange,
             data: file => {
                 return {
-                    category: 'general',
+                    plugin: 'General',
                     alias: 'upload',
                     working_dir: this.props.store.workingDir
                 }

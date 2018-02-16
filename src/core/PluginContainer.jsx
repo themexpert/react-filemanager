@@ -8,10 +8,10 @@ const PluginContainer =  class PluginContainer extends Component {
 
     render = () => {
         const store = this.props.fm_store;
-        if(!store.plugin.component)
+        if(!store.Plugin.component)
             return null;
         return (
-            <store.plugin.component key={store.plugin.key} store={store}/>
+            <store.Plugin.component key={store.Plugin.key} store={store}/>
         );
     };
 };

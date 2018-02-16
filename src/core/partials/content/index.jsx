@@ -46,7 +46,7 @@ const FMContent = class FMContent extends Component {
     }, 100);
 
     hasMore = () => {
-        return this.props.fm_store.list.length < this.props.fm_store.data.total;
+        return this.props.fm_store.list.length < this.props.fm_store.Data.total;
     };
 
     onClickLoadMore = () => {

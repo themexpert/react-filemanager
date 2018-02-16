@@ -2,6 +2,7 @@ import React from 'react'
 import {observable, computed, action} from 'mobx'
 
 import message from 'antd/lib/message'
+
 require('antd/lib/message/style');
 
 import NewDirectory from "./general/new_dir/index";
@@ -13,69 +14,94 @@ import Move from "./general/move/index";
 import Rename from "./general/rename/index";
 import FileInfo from "./general/file-info/index";
 
+import PluginRegistry from './../plugins';
+
+window.PluginRegistry = PluginRegistry;
+
 export default class FMStore {
     config = observable({
-        plugins: []
+        plugins: {
+            new_dir: {
+                plugin: 'General',
+                component: NewDirectory
+            },
+            new_file: {
+                plugin: 'General',
+                component: NewFile
+            },
+            upload: {
+                plugin: 'General',
+                component: Uploader
+            },
+            copy: {
+                plugin: 'General',
+                component: Copy
+            },
+            move: {
+                plugin: 'General',
+                component: Move
+            },
+            rename: {
+                plugin: 'General',
+                component: Rename
+            },
+            file_info: {
+                plugin: 'General',
+                component: FileInfo
+            }
+        },
+        plugin: {
+            component: null,
+            alias: null,
+            plugin: null,
+            key: Math.random()
+        },
+        plugin_data: {
+            search: {
+                dataSet: [],
+                dataSource: [],
+                query: ''
+            },
+            file_info: {
+                file: null
+            }
+        },
+        data: {
+            total: 0,
+            current_page: 1,
+            files: [],
+            folders: [],
+            server: "",
+            working_dir: "/",
+            loading: false,
+            visible: false,
+            show_upload_dialog: false,
+            is_uploading: false,
+            callback: e => console.log(e)
+        },
+        action_menu: {}
     });
-    plugins = observable({
-        new_dir: {
-            category: 'general',
-            component: NewDirectory
-        },
-        new_file: {
-            category: 'general',
-            component: NewFile
-        },
-        upload: {
-            category: 'general',
-            component: Uploader
-        },
-        copy: {
-            category: 'general',
-            component: Copy
-        },
-        move: {
-            category: 'general',
-            component: Move
-        },
-        rename: {
-            category: 'general',
-            component: Rename
-        },
-        file_info: {
-            category: 'general',
-            component: FileInfo
-        }
-    });
-    plugin = observable({
-        component: null,
-        alias: null,
-        category: null,
-        key: Math.random()
-    });
-    plugin_data = observable({
-        search: {
-            dataSet: [],
-            dataSource: [],
-            query: ''
-        },
-        file_info: {
-            file: null
-        }
-    });
-    data = observable({
-        total: 0,
-        current_page: 1,
-        files: [],
-        folders: [],
-        server: "",
-        working_dir: "/",
-        loading: false,
-        visible: false,
-        show_upload_dialog: false,
-        is_uploading: false,
-        callback: e => console.log(e)
-    });
+
+    get pluginData() {
+        return this.config.plugin_data;
+    }
+
+    get Plugins() {
+        return this.config.plugins;
+    }
+
+    get Plugin() {
+        return this.config.plugin;
+    }
+
+    get Data() {
+        return this.config.data;
+    }
+
+    get actionMenu() {
+        return this.config.action_menu;
+    }
+
 
     get contextMenu() {
         return (<ul>
@@ -88,33 +114,56 @@ export default class FMStore {
 
     };
 
+    loadPlugins = action(() => {
+        this.post({plugins: true}).then(({data}) => {
+            const plugins = data;
+            Object.keys(plugins).forEach(plugin=>{
+                if(plugin==='General')
+                    return;
+                Object.keys(plugins[plugin].methods).forEach(hook=>{
+                    this.config.plugins[hook] = {
+                        plugin: plugin,
+                        component: PluginRegistry[plugins[plugin].methods[hook]](hook, this.attachComponent)
+                    };
+                });
+                Object.keys(plugins[plugin].actions).forEach(hook=>{
+                    this.config.action_menu[hook] = plugins[plugin].actions[hook];
+                });
+            });
+        });
+    });
+
+    attachComponent = (hook, component) => {
+        this.config.plugins[hook].component = component;
+    };
+
     selectPlugin = action(alias => {
         return () => {
-            if (this.plugins[alias] == null) {
+            if (this.config.plugins[alias] == null) {
                 message.error('The requested plugin is not installed.');
                 return;
             }
-            const plugin = this.plugins[alias];
-            this.plugin.component = plugin.component;
-            this.plugin.alias = alias;
-            this.plugin.category = plugin.category;
-            this.plugin.key = Math.random();
+            const plugin = this.config.plugins[alias];
+            this.config.plugin.component = plugin.component;
+            this.config.plugin.alias = alias;
+            this.config.plugin.plugin = plugin.plugin;
+            this.config.plugin.key = Math.random();
         };
     });
 
     clearPlugin = action(() => {
         setTimeout(() => {
-            this.plugin.component = null;
-            this.plugin.alias = null;
-            this.plugin.category = null;
+            this.config.plugin.component = null;
+            this.config.plugin.alias = null;
+            this.config.plugin.plugin = null;
         }, 1000);
     });
 
     Request = action(payload => {
         return this.post({
-            category: this.plugin.category,
-            alias: this.plugin.alias,
-            working_dir: this.data.working_dir,
+            plugin: this.config.plugin.plugin,
+            alias: this.config.plugin.alias,
+            working_dir: this.config.data.working_dir,
             payload
         });
     });
@@ -124,36 +173,36 @@ export default class FMStore {
     };
 
     get list() {
-        return this.data.folders.concat(this.data.files);
+        return this.config.data.folders.concat(this.config.data.files);
     };
 
     //region server { server, setServer }
     setServer = action(server => {
-        this.data.server = server;
+        this.config.data.server = server;
     });
 
     get server() {
-        return this.data.server;
+        return this.config.data.server;
     };
 
     //endregion
 
     //region callback { setCallback, callback }
     setCallback = action(callback => {
-        this.data.callback = callback;
+        this.config.data.callback = callback;
     });
 
     runCallback = action(e => {
         const selection = this.list.filter(item => item.selected);
         const has_dir = selection.filter(item => item.is_dir);
-        if(has_dir.length) {
+        if (has_dir.length) {
             message.warning("You can select files only.");
             return;
         }
-        const result = selection.map(item=>{
+        const result = selection.map(item => {
             return this.remove_duplicate_slash(this.workingDir + '/' + item.basename);
         });
-        if(this.data.callback.call(this, result)) {
+        if (this.config.data.callback.call(this, result)) {
             this.setVisible(false);
         }
     });
@@ -161,19 +210,19 @@ export default class FMStore {
 
     //region working_dir { workingDir, setWorkingDir }
     setWorkingDir = action(dir => {
-        this.data.folders = [];
-        this.data.files = [];
-        this.data.total = 0;
-        this.data.current_page = 1;
-        this.data.working_dir = this.remove_duplicate_slash('/' + dir);
+        this.config.data.folders = [];
+        this.config.data.files = [];
+        this.config.data.total = 0;
+        this.config.data.current_page = 1;
+        this.config.data.working_dir = this.remove_duplicate_slash('/' + dir);
         //TODO: Attach event to clear up plugin data
-        this.plugin_data.search.query = '';
-        this.plugin_data.search.dataSource = [];
+        this.config.plugin_data.search.query = '';
+        this.config.plugin_data.search.dataSource = [];
         this.fetch();
     });
 
     get workingDir() {
-        return this.data.working_dir;
+        return this.config.data.working_dir;
     };
 
     remove_duplicate_slash = str => {
@@ -191,75 +240,77 @@ export default class FMStore {
 
     //region state { isLoading, isVisible, setVisible, showUploadDialog, setShowUploadDialog, isUploading }
     get isVisible() {
-        return this.data.visible;
+        return this.config.data.visible;
     };
 
     setVisible = action(state => {
-        this.data.visible = state;
+        this.config.data.visible = state;
     });
 
     get isLoading() {
-        return this.data.loading;
+        return this.config.data.loading;
     };
 
     get showUploadDialog() {
-        return this.data.show_upload_dialog;
+        return this.config.data.show_upload_dialog;
     };
 
     setShowUploadDialog = action(state => {
-        this.data.show_upload_dialog = state;
+        this.config.data.show_upload_dialog = state;
     });
 
     get isUploading() {
-        return this.data.is_uploading;
+        return this.config.data.is_uploading;
     };
 
     //endregion
 
     //region fetch, refresh
     fetch = more => {
-        if(this.data.loading)
+        if (this.config.data.loading)
             return;
         const perPage = 30;
-        if(more) {
-            if(this.list.length >= this.data.total)
+        if (more) {
+            if (this.list.length >= this.config.data.total)
                 return;
-            this.data.current_page++;
+            this.config.data.current_page++;
         }
         else {
-            this.data.current_page = 1;
+            this.config.data.current_page = 1;
         }
-        this.data.loading = true;
+        this.config.data.loading = true;
         this.post({
-            category: 'general',
+            plugin: 'General',
             alias: 'fetch_list',
-            working_dir: this.data.working_dir,
-            page: this.data.current_page,
+            working_dir: this.config.data.working_dir,
+            page: this.config.data.current_page,
             per_page: perPage
         })
             .then(({data}) => {
-                this.data.total = data.total;
+                this.config.data.total = data.total;
                 data = data.items.map(item => {
                     item['selected'] = false;
                     return item;
                 });
                 const newFolders = data.filter(item => item.is_dir === true);
                 const newFiles = data.filter(item => item.is_dir === false);
-                if(more) {
-                    this.data.folders = this.data.folders.concat(newFolders);
-                    this.data.files = this.data.files.concat(newFiles);
+                if (more) {
+                    this.config.data.folders = this.config.data.folders.concat(newFolders);
+                    this.config.data.files = this.config.data.files.concat(newFiles);
                 }
                 else {
-                    this.data.folders = newFolders;
-                    this.data.files = newFiles;
+                    this.config.data.folders = newFolders;
+                    this.config.data.files = newFiles;
                 }
-                this.data.loading = false;
+                this.config.data.loading = false;
             })
             .catch(err => {
                 try {
                     message.error(err.response.data.message);
-                }catch (e) {console.log(e);}
-                this.data.loading = false;
+                } catch (e) {
+                    console.log(e);
+                }
+                this.config.data.loading = false;
             });
     };
 
@@ -269,7 +320,7 @@ export default class FMStore {
     //endregion
 
     post = data => {
-        return axios.post(this.data.server, data,
+        return axios.post(this.config.data.server, data,
             {
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded'
@@ -290,18 +341,18 @@ export default class FMStore {
     select = action((item, e) => {
         if (!e.ctrlKey) {
             let i;
-            for (i = this.data.folders.length - 1; i >= 0; i--) {
-                this.data.folders[i].selected = false;
+            for (i = this.config.data.folders.length - 1; i >= 0; i--) {
+                this.config.data.folders[i].selected = false;
             }
-            for (i = this.data.files.length - 1; i >= 0; i--) {
-                this.data.files[i].selected = false;
+            for (i = this.config.data.files.length - 1; i >= 0; i--) {
+                this.config.data.files[i].selected = false;
             }
         }
 
         if (item.is_dir) {
-            item = this.data.folders.find(x => x === item);
+            item = this.config.data.folders.find(x => x === item);
         } else {
-            item = this.data.files.find(x => x === item);
+            item = this.config.data.files.find(x => x === item);
         }
 
         item.selected = e.ctrlKey ? !item.selected : true;
@@ -313,24 +364,24 @@ export default class FMStore {
 
     clickAction = action(item => {
         if (item.is_dir) {
-            this.setWorkingDir(this.data.working_dir + item.basename + '/');
+            this.setWorkingDir(this.config.data.working_dir + item.basename + '/');
             this.fetch();
         }
         else {
-            this.plugin.category = 'general';
-            this.plugin.alias = 'file_info';
-            this.plugin.component = this.plugins.file_info.component;
-            this.plugin_data.file_info.file = item;
+            this.config.plugin.plugin = 'General';
+            this.config.plugin.alias = 'file_info';
+            this.config.plugin.component = this.config.plugins.file_info.component;
+            this.config.plugin_data.file_info.file = item;
         }
     });
 
     trash = action(() => {
         const items = [];
-        this.data.folders.forEach(folder => {
+        this.config.data.folders.forEach(folder => {
             if (folder.selected)
                 items.push(folder.basename);
         });
-        this.data.files.forEach(file => {
+        this.config.data.files.forEach(file => {
             if (file.selected)
                 items.push(file.basename);
         });
@@ -339,9 +390,9 @@ export default class FMStore {
             return;
         }
         this.post({
-            category: 'general',
+            plugin: 'General',
             alias: 'delete',
-            working_dir: this.data.working_dir,
+            working_dir: this.config.data.working_dir,
             payload: {items}
         })
             .then(({data}) => {

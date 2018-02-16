@@ -26,7 +26,7 @@ export default class FileInfo extends Component {
 
     getFileInfo = () => {
         this.props.store.Request({
-            file: this.props.store.plugin_data.file_info.file.basename
+            file: this.props.store.pluginData.file_info.file.basename
         })
             .then(({data}) => {
                 this.setState({info: data});

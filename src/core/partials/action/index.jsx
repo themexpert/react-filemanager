@@ -36,11 +36,11 @@ const FMAction = class FMAction extends Component {
     };
 
     onSearchInput = throttle(e => {
-        this.props.fm_store.plugin_data.search.query = e;
+        this.props.fm_store.pluginData.search.query = e;
         if (e === '')
             return;
         this.props.fm_store.post({
-            category: 'general',
+            plugin: 'General',
             alias: 'scan_dir',
             working_dir: this.props.fm_store.workingDir,
             payload: {query: e}
@@ -50,8 +50,8 @@ const FMAction = class FMAction extends Component {
                 for (let i = 0; i < data.length; i++) {
                     dataSource.push(data[i].basename);
                 }
-                this.props.fm_store.plugin_data.search.dataSet = data;
-                this.props.fm_store.plugin_data.search.dataSource = dataSource;
+                this.props.fm_store.pluginData.search.dataSet = data;
+                this.props.fm_store.pluginData.search.dataSource = dataSource;
             })
             .catch(err => {
                 console.log(err);
@@ -60,7 +60,7 @@ const FMAction = class FMAction extends Component {
     }, 300);
 
     onSearchSelect = e => {
-        const exists = this.props.fm_store.plugin_data.search.dataSet.find(x => x.basename === e);
+        const exists = this.props.fm_store.pluginData.search.dataSet.find(x => x.basename === e);
         if (!exists) {
             message.error('This directory does not exist');
             return;
@@ -72,8 +72,8 @@ const FMAction = class FMAction extends Component {
         })();
 
         this.props.fm_store.setWorkingDir(this.props.fm_store.workingDir + dir);
-        this.props.fm_store.plugin_data.search.dataSource = [];
-        this.props.fm_store.plugin_data.search.query = '';
+        this.props.fm_store.pluginData.search.dataSource = [];
+        this.props.fm_store.pluginData.search.query = '';
     };
 
     render = () => {
@@ -111,8 +111,8 @@ const FMAction = class FMAction extends Component {
                         </Button.Group>
                         <Button.Group style={{marginLeft: '10px', marginRight: '10px'}}>
                             <AutoComplete
-                                value={this.props.fm_store.plugin_data.search.query}
-                                dataSource={this.props.fm_store.plugin_data.search.dataSource}
+                                value={this.props.fm_store.pluginData.search.query}
+                                dataSource={this.props.fm_store.pluginData.search.dataSource}
                                 onSelect={this.onSearchSelect}
                                 onSearch={this.onSearchInput}
                                 placeholder="Search"
@@ -120,6 +120,13 @@ const FMAction = class FMAction extends Component {
                         </Button.Group>
                     </Col>
                 </Row>
+                {Object.keys(this.props.fm_store.actionMenu).length?<Row>
+                    <Col>
+                        {Object.keys(this.props.fm_store.actionMenu).map(key=>{
+                            return <Button onClick={this.props.fm_store.selectPlugin(key)} key={key}>{this.props.fm_store.actionMenu[key]}</Button>
+                        })}
+                    </Col>
+                </Row>:null}
                 <Row>
                     <Col className="working-dir">
                         <Button.Group>

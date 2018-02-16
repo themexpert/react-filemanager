@@ -5,10 +5,13 @@ import FMStore from "./store";
 import {Provider, observer} from 'mobx-react'
 
 import Modal from "antd/lib/modal";
+
 require("antd/lib/modal/style");
 import Button from "antd/lib/button";
+
 require("antd/lib/button/style");
 import Spin from "antd/lib/spin";
+
 require("antd/lib/spin/style");
 import Col from "antd/lib/grid/col";
 import Row from "antd/lib/grid/row";
@@ -24,6 +27,7 @@ const FileManager = class FileManager extends Component {
         this.store = stores.fm_store;
 
         this.store.setServer(props.server);
+        this.store.loadPlugins();
     }
 
     openFileManager = cb => {
@@ -60,7 +64,7 @@ const FileManager = class FileManager extends Component {
                     ]}
                     width={window.innerWidth - 50}
                 >
-                    <Spin spinning={store.data.loading}>
+                    <Spin spinning={store.isLoading}>
                         <Col>
                             <Row><FMAction/></Row>
                             <Row><FMContent/></Row>

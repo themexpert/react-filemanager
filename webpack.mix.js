@@ -1,7 +1,7 @@
 let mix = require('laravel-mix');
 
 mix
-    .setPublicPath('dist')
+    .setPublicPath('./')
     .webpackConfig({
         module: {
             rules: [
@@ -13,11 +13,11 @@ mix
                         "presets": ["es2015", "stage-1", "react"],
                         "plugins": [[
                             "import",
-                            {
-                                "libraryName": "antd",
-                                "style": true
-                            }
-                        ]]
+                                {
+                                    "libraryName": "antd",
+                                    "style": true
+                                }
+                            ]]
                     }
                 }
             ]
