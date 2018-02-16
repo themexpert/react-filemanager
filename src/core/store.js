@@ -3,9 +3,8 @@ import {observable, computed, action} from 'mobx'
 
 import message from 'antd/lib/message'
 
-require('antd/lib/message/style');
-
 import NewDirectory from "./general/new_dir/index";
+
 import axios from 'axios'
 import NewFile from "./general/new_file/index";
 import Uploader from "./general/upload/index";
@@ -14,9 +13,9 @@ import Move from "./general/move/index";
 import Rename from "./general/rename/index";
 import FileInfo from "./general/file-info/index";
 
-import PluginRegistry from './../plugins';
+require('antd/lib/message/style');
 
-window.PluginRegistry = PluginRegistry;
+let PluginRegistry;
 
 export default class FMStore {
     config = observable({
@@ -115,23 +114,38 @@ export default class FMStore {
     };
 
     loadPlugins = action(() => {
+        if (PROC === 'pro') {
+            System.import(/* webpackChunkName: "dist/PluginRegistry" */ '../plugins/PluginRegistryPro').then(pluginRegistry => {
+                PluginRegistry = pluginRegistry.PluginRegistry;
+                this.loadPluginsFromServer();
+            }).catch(err => console.log(err));
+        }
+        else {
+            System.import(/* webpackChunkName: "dist/PluginRegistry" */ '../plugins/PluginRegistry').then(pluginRegistry => {
+                PluginRegistry = pluginRegistry.PluginRegistry;
+                this.loadPluginsFromServer();
+            }).catch(err => console.log(err));
+        }
+    });
+
+    loadPluginsFromServer = () => {
         this.post({plugins: true}).then(({data}) => {
             const plugins = data;
-            Object.keys(plugins).forEach(plugin=>{
-                if(plugin==='General')
+            Object.keys(plugins).forEach(plugin => {
+                if (plugin === 'General')
                     return;
-                Object.keys(plugins[plugin].methods).forEach(hook=>{
+                Object.keys(plugins[plugin].methods).forEach(hook => {
                     this.config.plugins[hook] = {
                         plugin: plugin,
-                        component: PluginRegistry[plugins[plugin].methods[hook]](hook, this.attachComponent)
+                        component: PluginRegistry.load(plugins[plugin].methods[hook], hook, this.attachComponent)
                     };
                 });
-                Object.keys(plugins[plugin].actions).forEach(hook=>{
+                Object.keys(plugins[plugin].actions).forEach(hook => {
                     this.config.action_menu[hook] = plugins[plugin].actions[hook];
                 });
             });
         });
-    });
+    };
 
     attachComponent = (hook, component) => {
         this.config.plugins[hook].component = component;

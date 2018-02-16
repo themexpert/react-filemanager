@@ -8,6 +8,12 @@ import Modal from 'antd/lib/modal'
 import AutoComplete from 'antd/lib/auto-complete'
 import message from 'antd/lib/message'
 
+require('antd/lib/grid/style');
+require("antd/lib/button/style");
+require('antd/lib/modal/style');
+require('antd/lib/auto-complete/style');
+require('antd/lib/message/style');
+
 import throttle from 'debounce'
 
 const {confirm} = Modal;

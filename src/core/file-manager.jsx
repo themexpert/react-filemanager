@@ -5,17 +5,15 @@ import FMStore from "./store";
 import {Provider, observer} from 'mobx-react'
 
 import Modal from "antd/lib/modal";
-
-require("antd/lib/modal/style");
 import Button from "antd/lib/button";
-
-require("antd/lib/button/style");
 import Spin from "antd/lib/spin";
-
-require("antd/lib/spin/style");
 import Col from "antd/lib/grid/col";
 import Row from "antd/lib/grid/row";
 
+require("antd/lib/modal/style");
+require("antd/lib/button/style");
+require("antd/lib/spin/style");
+require('antd/lib/grid/style');
 require('../style.css');
 
 const stores = {fm_store: new FMStore()};

@@ -1,12 +1,14 @@
 import React, {Component} from 'react'
 
 import message from 'antd/lib/message'
-require('antd/lib/message/style');
 import Modal from 'antd/lib/modal'
-require('antd/lib/modal/style');
 import Col from 'antd/lib/grid/col'
 import Row from 'antd/lib/grid/row'
 import Input from 'antd/lib/input'
+
+require('antd/lib/message/style');
+require('antd/lib/modal/style');
+require('antd/lib/grid/style');
 require('antd/lib/input/style');
 
 export default class Rename extends Component {

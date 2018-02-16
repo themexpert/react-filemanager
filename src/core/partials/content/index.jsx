@@ -5,9 +5,11 @@ import PluginContainer from "../../PluginContainer";
 import throttle from 'debounce';
 
 import Card from 'antd/lib/card'
-require('antd/lib/card/style');
 import Col from 'antd/lib/grid/col'
 import Row from 'antd/lib/grid/row'
+
+require('antd/lib/card/style');
+require('antd/lib/grid/style');
 
 const {Meta} = Card;
 

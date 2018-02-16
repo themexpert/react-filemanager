@@ -2,10 +2,11 @@ import React, {Component} from 'react'
 import throttle from 'debounce'
 
 import message from 'antd/lib/message'
-require('antd/lib/message/style');
 import Modal from 'antd/lib/modal'
-require('antd/lib/modal/style');
 import AutoComplete from "antd/lib/auto-complete"
+
+require('antd/lib/message/style');
+require('antd/lib/modal/style');
 require('antd/lib/auto-complete/style');
 
 export default class Move extends Component {

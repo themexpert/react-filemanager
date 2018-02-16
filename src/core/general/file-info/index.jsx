@@ -1,10 +1,12 @@
 import React, {Component} from 'react'
 
 import message from 'antd/lib/message'
-require('antd/lib/message/style');
 import Modal from 'antd/lib/modal'
-require('antd/lib/modal/style');
 import Row from 'antd/lib/grid/row'
+
+require('antd/lib/message/style');
+require('antd/lib/modal/style');
+require('antd/lib/grid/style');
 
 export default class FileInfo extends Component {
     constructor(props) {

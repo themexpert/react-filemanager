@@ -1,8 +1,9 @@
 import React, {Component} from 'react'
 
 import Card from 'antd/lib/card'
-require('antd/lib/card/style');
 import Tooltip from 'antd/lib/tooltip'
+
+require('antd/lib/card/style');
 require('antd/lib/tooltip/style');
 
 const {Meta} = Card;

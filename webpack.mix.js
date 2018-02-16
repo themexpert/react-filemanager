@@ -1,5 +1,6 @@
 let mix = require('laravel-mix');
-
+const webpack = require('webpack');
+const proc = process.env.PROC;
 mix
     .setPublicPath('./')
     .webpackConfig({
@@ -21,6 +22,11 @@ mix
                     }
                 }
             ]
-        }
+        },
+        plugins: [
+            new webpack.DefinePlugin({
+                PROC: JSON.stringify(proc)
+            })
+        ]
     })
     .react('build.js', 'dist');
