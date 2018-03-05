@@ -16,13 +16,10 @@ Webpack rules
             rules: [
                 {
                     test: /\.jsx?$/,
-                    // exclude: /node_modules/, //do not exclude or you'll run into errors, if you have a fix, contact us
-                    loader: 'babel-loader',
-                    query: {
-                        "presets": ["react", "env", "stage-0"],
-                        "plugins": ["transform-decorators-legacy"]
-                    }
+                    loader: 'babel?stage=0',
+                    include: [].concat(your_project_dirs, [fs.realpathSync(path.resolve(__dirname, './node_modules/@themexpert/react-filemanager/'))])
                 }
+
             ]
         }
  ```
