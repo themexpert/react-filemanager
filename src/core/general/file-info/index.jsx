@@ -1,5 +1,12 @@
 import React, {Component} from 'react'
-import {message, Modal, Row} from "antd";
+
+import message from 'antd/lib/message'
+import Modal from 'antd/lib/modal'
+import Row from 'antd/lib/grid/row'
+
+require('antd/lib/message/style');
+require('antd/lib/modal/style');
+require('antd/lib/grid/style');
 
 export default class FileInfo extends Component {
     constructor(props) {
@@ -21,7 +28,7 @@ export default class FileInfo extends Component {
 
     getFileInfo = () => {
         this.props.store.Request({
-            file: this.props.store.plugin_data.file_info.file.basename
+            file: this.props.store.pluginData.file_info.file.basename
         })
             .then(({data}) => {
                 this.setState({info: data});

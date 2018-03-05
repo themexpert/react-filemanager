@@ -1,6 +1,13 @@
 import React, {Component} from 'react'
-import {AutoComplete, Modal, message} from "antd";
 import throttle from 'debounce'
+
+import AutoComplete from 'antd/lib/auto-complete'
+import Modal from 'antd/lib/modal'
+import message from 'antd/lib/message'
+
+require('antd/lib/auto-complete/style');
+require('antd/lib/modal/style');
+require('antd/lib/message/style');
 
 export default class Copy extends Component {
     constructor(props) {
@@ -49,7 +56,7 @@ export default class Copy extends Component {
         if (e === '')
             e = '/';
         this.props.store.post({
-            category: 'general',
+            plugin: 'General',
             alias: 'scan_dir',
             working_dir: '/',
             payload: {query: e}

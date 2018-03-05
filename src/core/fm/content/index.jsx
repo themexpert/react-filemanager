@@ -1,15 +1,21 @@
 import React, {Component} from 'react'
-import {Card, Col, Icon, Row, Spin} from "antd";
 import {inject, observer} from 'mobx-react'
-import Item from "./item";
-import PluginContainer from "../plugins";
+import Item from "./item/index";
+import PluginContainer from "../../PluginContainer";
 import throttle from 'debounce';
 
-const {Meta} = Card;
+import Card from 'antd/lib/card'
+import Col from 'antd/lib/grid/col'
+import Row from 'antd/lib/grid/row'
+import {viewport} from "../../Helper";
 
-@inject("fm_store")
-@observer
-export default class FMContent extends Component {
+require('antd/lib/card/style');
+require('antd/lib/grid/style');
+
+const {Meta} = Card;
+const view_size = viewport();
+
+const FMContent = class FMContent extends Component {
     constructor(props) {
         super(props);
 
@@ -44,7 +50,7 @@ export default class FMContent extends Component {
     }, 100);
 
     hasMore = () => {
-        return this.props.fm_store.list.length < this.props.fm_store.data.total;
+        return this.props.fm_store.list.length < this.props.fm_store.Data.total;
     };
 
     onClickLoadMore = () => {
@@ -54,12 +60,13 @@ export default class FMContent extends Component {
     render = () => {
         return (
             <Col>
-                <Row id="fm-content-holder" style={{
-                    height: (window.innerHeight - 200) + 'px',
-                    marginTop: '10px',
-                    borderTop: '1px solid #ccc',
-                    overflowY: 'scroll'
-                }}
+                <Row id="fm-content-holder"
+                     style={{
+                         height: (view_size.height * 0.4) + 'px',
+                         marginTop: '10px',
+                         borderTop: '1px solid #ccc',
+                         overflowY: 'scroll'
+                     }}
                      onContextMenu={this.onContextMenu}
                 >
                     <div id="fm-content">
@@ -70,7 +77,7 @@ export default class FMContent extends Component {
                         {this.hasMore() ? <Card
                             hoverable
                             className="item"
-                            style={{width: 120}}
+                            style={{width: 120, padding: 10}}
                             cover={<img src={this.props.fm_store.server + '?icon=plus'} alt="icon" height="96"/>}
                             onClick={this.onClickLoadMore}
                         >
@@ -83,4 +90,6 @@ export default class FMContent extends Component {
             </Col>
         );
     };
-}
+};
+
+export default inject("fm_store")(observer(FMContent));

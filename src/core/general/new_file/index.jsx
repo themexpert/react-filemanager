@@ -1,14 +1,22 @@
 import React, {Component} from 'react'
-import {Input, Modal, message} from "antd";
 
-export default class NewDirectory extends Component {
+import message from 'antd/lib/message'
+import Modal from 'antd/lib/modal'
+import Input from 'antd/lib/input'
+
+require('antd/lib/message/style');
+require('antd/lib/modal/style');
+require('antd/lib/input/style');
+
+export default class NewFile extends Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            visible: false,
-            dirname: ''
-        };
+            filename: '',
+            content: '',
+            visible: false
+        }
     }
 
     componentWillMount = () => {
@@ -20,7 +28,7 @@ export default class NewDirectory extends Component {
     };
 
     handleOk = () => {
-        this.props.store.Request({dir: this.state.dirname})
+        this.props.store.Request({filename: this.state.filename, content: this.state.content})
             .then(({data})=>{
                 message.success(data.message);
                 this.setState({visible: false});
@@ -36,22 +44,27 @@ export default class NewDirectory extends Component {
         this.setState({visible: false});
     };
 
-    handleTyping = e => {
-        this.setState({dirname: e.target.value});
+    handleFilenameTyping = e => {
+        this.setState({filename: e.target.value});
+    };
+
+    handleContentTyping = e => {
+        this.setState({content: e.target.value});
     };
 
     render = () => {
         return (
             <Modal
-                title="New Directory"
+                title="New File"
                 onOk={this.handleOk}
                 onCancel={this.handleCancel}
                 visible={this.state.visible}
                 cancelText="Cancel"
                 closable={false}
-                okText="Create"
+                okText="Save"
             >
-                <Input defaultValue={this.state.dirname} placeholder="Folder Name" onChange={this.handleTyping} onPressEnter={this.handleOk}/>
+                <Input placeholder="File Name" defaultValue={this.state.filename} onChange={this.handleFilenameTyping}/>
+                <Input.TextArea placeholder="File Content" defaultValue={this.state.content} onChange={this.handleContentTyping}/>
             </Modal>
         );
     };

@@ -27,3 +27,9 @@
     padding: 4px;
     margin: 0;
 }
+
+.ant-card-meta-title {
+    overflow: hidden;
+    -ms-text-overflow: ellipsis;
+    text-overflow: ellipsis;
+}

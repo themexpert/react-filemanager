@@ -1,5 +1,15 @@
 import React, {Component} from 'react'
-import {Col, Input, Modal, Row, message} from "antd";
+
+import message from 'antd/lib/message'
+import Modal from 'antd/lib/modal'
+import Col from 'antd/lib/grid/col'
+import Row from 'antd/lib/grid/row'
+import Input from 'antd/lib/input'
+
+require('antd/lib/message/style');
+require('antd/lib/modal/style');
+require('antd/lib/grid/style');
+require('antd/lib/input/style');
 
 export default class Rename extends Component {
     constructor(props) {
@@ -86,7 +96,7 @@ export default class Rename extends Component {
                         </Row>
                         <Row>
                             <Col md={24}>
-                                <Input value={this.state.new} onChange={this.handleTyping}/>
+                                <Input value={this.state.new} onChange={this.handleTyping} onPressEnter={this.handleOk}/>
                             </Col>
                         </Row>
                     </Col>

@@ -1,19 +1,19 @@
 import React, {Component} from 'react'
 import {inject, observer} from "mobx-react";
 
-@inject('fm_store')
-@observer
-export default class PluginContainer extends Component {
+const PluginContainer =  class PluginContainer extends Component {
     constructor(props) {
         super(props);
     }
 
     render = () => {
         const store = this.props.fm_store;
-        if(!store.plugin.component)
+        if(!store.Plugin.component)
             return null;
         return (
-            <store.plugin.component key={store.plugin.key} store={store}/>
+            <store.Plugin.component key={store.Plugin.key} store={store}/>
         );
     };
-}
+};
+
+export default inject("fm_store")(observer(PluginContainer))
