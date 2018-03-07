@@ -7,7 +7,6 @@ require('antd/lib/card/style');
 require('antd/lib/tooltip/style');
 
 const {Meta} = Card;
-require('./style.css');
 
 export default class Item extends Component {
     constructor(props) {
@@ -62,10 +61,10 @@ export default class Item extends Component {
 
     tooltip = () => {
         return [
-            <p key="name">Name: {this.props.item.basename}</p>,
-            <p key="permission">Permission: {this.props.item.permission}</p>,
-            <p key="size">Size: {this.props.item.size}</p>,
-            <p key="last-mod">Last Mod: {this.props.item.last_modification_time}</p>
+            <p key="name">
+                {this.props.item.basename} - <strong>{this.props.item.size}</strong> <br/>
+                <strong>{this.props.item.last_modification_time}</strong>
+            </p>
         ];
     };
 

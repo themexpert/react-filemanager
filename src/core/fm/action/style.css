@@ -1,8 +1,12 @@
-.action-root {
-    margin: 10px;
+.ant-breadcrumb{
+  background: #fff;
+  height: 32px;
+  line-height: 32px;
+  padding: 0 10px;
+  border-radius: 3px;
+  margin: 10px 0;
+  box-shadow: 0 2px 4px #eee;
 }
-
-.working-dir .ant-input-group-addon {
-    border: none;
-    padding: 0;
+.ant-breadcrumb-link{
+  cursor: pointer;
 }

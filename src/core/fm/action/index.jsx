@@ -1,8 +1,6 @@
 import React, {Component} from 'react'
 import {inject, observer} from 'mobx-react'
 
-import Col from 'antd/lib/grid/col'
-import Row from 'antd/lib/grid/row'
 import Button from 'antd/lib/button'
 import Modal from 'antd/lib/modal'
 import Tooltip from 'antd/lib/tooltip'
@@ -12,7 +10,6 @@ import Icon from 'antd/lib/icon'
 import Input from 'antd/lib/input'
 import Breadcrumb from 'antd/lib/breadcrumb'
 
-require('antd/lib/grid/style');
 require('antd/lib/auto-complete/style');
 require('antd/lib/message/style');
 require('antd/lib/input/style');
@@ -152,7 +149,7 @@ const FMAction = class FMAction extends Component {
               </div> : null }
           </div>
 
-          <div className="qx-col-4">
+          <div className="qx-col-4 qx-text-right">
             <AutoComplete
               value={this.props.fm_store.pluginData.search.query}
               dataSource={this.props.fm_store.pluginData.search.dataSource}
