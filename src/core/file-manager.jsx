@@ -80,10 +80,7 @@ const FileManager = class FileManager extends Component {
                 return (
                   <TabPane
                     tab={tab.title}
-                    key={tab.hook}
-                    style={{
-                    height: view_size.height * 0.55 + 'px'
-                  }}>
+                    key={tab.hook}>
                     <Spin spinning={this.store.isLoading}>
                       <tab.component store={this.store}/>
                     </Spin>
