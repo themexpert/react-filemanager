@@ -57,8 +57,7 @@ const FMContent = class FMContent extends Component {
 
   render = () => {
     return (
-        <div id="fm-content-holder" style={{ height: (view_size.height * 0.4) + 'px', overflowY: 'scroll'}}
-          onContextMenu={this.onContextMenu}>
+        <div id="fm-content-holder" onContextMenu={this.onContextMenu}>
           <div className="qx-row">
             <div id="fm-content">
               {this.props.fm_store.list
