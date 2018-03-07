@@ -138,10 +138,11 @@ export default class FMStore {
     };
 
     loadPlugins = action(() => {
-        System.import(/* webpackChunkName: "dist/PluginRegistry" */ '../plugins/PluginRegistry').then(pluginRegistry => {
-            PluginRegistry = pluginRegistry.PluginRegistry;
-            this.loadPluginsFromServer();
-        }).catch(err => console.log(err));
+        const that = this;
+        require.ensure(['../plugins/PluginRegistry'], function(require) {
+            PluginRegistry = require("../plugins/PluginRegistry").PluginRegistry;
+            that.loadPluginsFromServer();
+        });
     });
 
     loadPluginsFromServer = () => {
