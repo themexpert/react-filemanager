@@ -38,7 +38,7 @@ export default class Item extends Component {
     };
 
     img = () => {
-        const path = this.props.store.server + '?';
+        const path = this.props.store.server;
         const query = ['working_dir=' + this.props.store.workingDir];
         if (this.props.item.is_dir) {
             query.push('icon=folder');
@@ -55,8 +55,9 @@ export default class Item extends Component {
                 query.push('icon=' + ext);
             }
         }
-
-        return path + query.join('&');
+        if(path.indexOf('?') > -1)
+            return path + '&' + query.join('&');
+        return path + '?' + query.join(('&'));
     };
 
     tooltip = () => {
