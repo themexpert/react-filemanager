@@ -17,10 +17,10 @@ import Move from "./general/move/index";
 import Rename from "./general/rename/index";
 import FileInfo from "./general/file-info/index";
 import FM from "./fm";
+import { PluginRegistry } from "../plugins/PluginRegistry";
 
 require('antd/lib/message/style');
 
-let PluginRegistry;
 
 export default class FMStore {
     config = observable({
@@ -138,11 +138,7 @@ export default class FMStore {
     };
 
     loadPlugins = action(() => {
-        const that = this;
-        require.ensure(['../plugins/PluginRegistry'], function(require) {
-            PluginRegistry = require("../plugins/PluginRegistry").PluginRegistry;
-            that.loadPluginsFromServer();
-        });
+        this.loadPluginsFromServer();
     });
 
     loadPluginsFromServer = () => {
