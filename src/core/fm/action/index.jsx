@@ -16,6 +16,7 @@ require('antd/lib/input/style');
 require('antd/lib/breadcrumb/style');
 
 import throttle from 'debounce'
+import ButtonGroup from 'antd/lib/button/button-group';
 
 const {confirm} = Modal;
 require('./style.css');
@@ -105,8 +106,8 @@ const FMAction = class FMAction extends Component {
     const selected = this.props.fm_store.selectedItems.length;
     return (
       <div className="fm-action-btns">
-        <div className="qx-row">
-          <div className="qx-col-8">
+        <div className="qx-row qx-justify-content-between">
+          <div className="qx-col">
             <Button icon="upload" type="primary" onClick={this.props.fm_store.selectPlugin('upload')}>Upload</Button>
             <Button.Group prefixCls="qxui-btn-group" style={{marginLeft: '10px',marginRight: '10px' }}>
               <Tooltip title="New Folder">
@@ -149,7 +150,13 @@ const FMAction = class FMAction extends Component {
               </div> : null }
           </div>
 
-          <div className="qx-col-4 qx-text-right">
+          <div className="qx-col qx-text-right">
+            <ButtonGroup prefixCls="qxui-btn-group" style={{marginLeft: '10px',marginRight: '10px' }}>
+              <Button prefixCls="qxui-btn" selected>All</Button>
+              <Button icon="picture" prefixCls="qxui-btn"/>
+              <Button icon="video-camera" prefixCls="qxui-btn"/>
+            </ButtonGroup>
+
             <AutoComplete
               value={this.props.fm_store.pluginData.search.query}
               dataSource={this.props.fm_store.pluginData.search.dataSource}
