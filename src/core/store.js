@@ -166,15 +166,16 @@ export default class FMStore {
                         this.config.action_menu[hook] = plugins[plugin].actions[hook];
                     });
 
+                    //TODO: Allow when ready
                     //load tabs
-                    Object.keys(plugins[plugin].tabs).forEach(hook => {
-                        this.config.tabs.push({
-                            title: [<span key="title">{plugins[plugin].tabs[hook]}</span>,
-                                <Badge key="badge" status="processing"/>],
-                            component: 'Loading...',
-                            hook
-                        });
-                    });
+                    // Object.keys(plugins[plugin].tabs).forEach(hook => {
+                    //     this.config.tabs.push({
+                    //         title: [<span key="title">{plugins[plugin].tabs[hook]}</span>,
+                    //             <Badge key="badge" status="processing"/>],
+                    //         component: 'Loading...',
+                    //         hook
+                    //     });
+                    // });
                 });
             })
             .catch(err => {
