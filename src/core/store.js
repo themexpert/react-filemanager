@@ -138,67 +138,81 @@ export default class FMStore {
 
     };
 
-    //region load plugins
-    loadPlugins = action(() => {
-        this.loadPluginsFromServer();
-    });
-
-    loadPluginsFromServer = () => {
-        this.httpPost({plugins: true})
-            .then(({data}) => {
-                const plugins = data;
-                Object.keys(plugins).forEach(plugin => {
-                    if (plugin === 'General')
-                        return;
-
-                    //load plugins
-                    Object.keys(plugins[plugin].methods).forEach(hook => {
-                        const plugin_config = plugins[plugin].methods[hook];
-                        if (plugin_config.component === undefined)
-                            return;
-                        this.config.plugins[hook] = {
-                            plugin: plugin,
-                            component: PluginRegistry.load(plugin_config.component, hook, this.attachComponent),
-                            config: plugin_config.config || {}
-                        };
-                    });
-
-                    //load buttons
-                    Object.keys(plugins[plugin].actions).forEach(hook => {
-                        this.config.action_menu[hook] = plugins[plugin].actions[hook];
-                    });
-
-                    //TODO: Allow when ready
-                    //load tabs
-                    // Object.keys(plugins[plugin].tabs).forEach(hook => {
-                    //     this.config.tabs.push({
-                    //         title: [<span key="title">{plugins[plugin].tabs[hook]}</span>,
-                    //             <Badge key="badge" status="processing"/>],
-                    //         component: 'Loading...',
-                    //         hook
-                    //     });
-                    // });
-                });
-            })
-            .catch(err => {
-                try {
-                    message.error(err.response.data.message);
-                } catch (e) {
-                    console.log(e, err);
-                }
-            });
-    };
-
-    attachComponent = (hook, component) => {
-        this.config.plugins[hook].component = component;
-        this.config.tabs.forEach(tab => {
-            if (hook === tab.hook)
-                tab.component = component;
-        });
-    };
+    // //region load plugins
+    // loadPlugins = action(() => {
+    //     this.loadPluginsFromServer();
+    // });
+    //
+    // loadPluginsFromServer = () => {
+    //     this.httpPost({plugins: true})
+    //         .then(({data}) => {
+    //             const plugins = data;
+    //             Object.keys(plugins).forEach(plugin => {
+    //                 if (plugin === 'General')
+    //                     return;
+    //
+    //                 //load plugins
+    //                 Object.keys(plugins[plugin].methods).forEach(hook => {
+    //                     const plugin_config = plugins[plugin].methods[hook];
+    //                     if (plugin_config.component === undefined)
+    //                         return;
+    //                     this.config.plugins[hook] = {
+    //                         plugin,
+    //                         component: PluginRegistry.load(plugin_config.component, hook, this.attachComponent),
+    //                         config: plugin_config.config || {}
+    //                     };
+    //                 });
+    //
+    //                 //load buttons
+    //                 Object.keys(plugins[plugin].actions).forEach(hook => {
+    //                     this.config.action_menu[hook] = plugins[plugin].actions[hook];
+    //                 });
+    //
+    //                 //TODO: Allow when ready
+    //                 //load tabs
+    //                 // Object.keys(plugins[plugin].tabs).forEach(hook => {
+    //                 //     this.config.tabs.push({
+    //                 //         title: [<span key="title">{plugins[plugin].tabs[hook]}</span>,
+    //                 //             <Badge key="badge" status="processing"/>],
+    //                 //         component: 'Loading...',
+    //                 //         hook
+    //                 //     });
+    //                 // });
+    //             });
+    //         })
+    //         .catch(err => {
+    //             try {
+    //                 message.error(err.response.data.message);
+    //             } catch (e) {
+    //                 console.log(e, err);
+    //             }
+    //         });
+    // };
+    //
+    // attachComponent = (hook, component) => {
+    //     this.config.plugins[hook].component = component;
+    //     this.config.tabs.forEach(tab => {
+    //         if (hook === tab.hook)
+    //             tab.component = component;
+    //     });
+    // };
 
     registerPlugin = action(plugin =>{
-        console.log(plugin);
+        Object.keys(plugin).forEach(hook=>{
+            this.config.plugins[hook] = {
+                component: plugin[hook].component,
+                config: plugin[hook].config || {}
+            };
+
+            plugin[hook].action_menu && (this.config.action_menu[hook] = plugin[hook].action_menu);
+
+            plugin[hook].tab && this.config.tabs.push({
+                        title: [<span key="title">{plugin[hook].tab}</span>,
+                            <Badge key="badge" status="processing"/>],
+                        component: plugin[hook].component,
+                        hook
+                });
+        });
     });
     //endregion
 

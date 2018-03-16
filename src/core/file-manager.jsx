@@ -27,9 +27,9 @@ const FileManager = class FileManager extends Component {
     this
       .store
       .setServer(props.server);
-    this
-      .store
-      .loadPlugins();
+    // this
+    //   .store
+    //   .loadPlugins();
   }
 
   openFileManager = cb => {

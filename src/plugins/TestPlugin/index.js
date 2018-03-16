@@ -1,14 +1,12 @@
 import TestPluginComponent from "./TestPlugin";
 
 export default {
-    component: TestPluginComponent,
-    action_menu: {
-
-    },
-    tabs: {
-
-    },
-    config: {
-
+    "test": {
+        component: TestPluginComponent,
+        action_menu: "Test",
+        tab: "Test",
+        config: {
+            hello: "world"
+        }
     }
 }
