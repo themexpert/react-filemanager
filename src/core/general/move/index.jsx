@@ -9,6 +9,8 @@ require('antd/lib/message/style');
 require('antd/lib/modal/style');
 require('antd/lib/auto-complete/style');
 
+const PLUGIN = "General";
+
 export default class Move extends Component {
     constructor(props) {
         super(props);
@@ -35,7 +37,7 @@ export default class Move extends Component {
             if(item.selected)
                 sources.push(item.basename);
         });
-        this.props.store.Request({destination: this.state.query, sources})
+        this.props.store.Request(PLUGIN, "move", {destination: this.state.query, sources})
             .then(({data}) => {
                 message.success(data.message);
                 this.props.store.refresh();
@@ -55,7 +57,7 @@ export default class Move extends Component {
         this.setState({query: e});
         if (e === '')
             e = '/';
-        this.props.store.post({
+        this.props.store.httpPost({
             plugin: 'General',
             alias: 'scan_dir',
             working_dir: '/',

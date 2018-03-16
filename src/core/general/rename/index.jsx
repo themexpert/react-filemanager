@@ -11,6 +11,8 @@ require('antd/lib/modal/style');
 require('antd/lib/grid/style');
 require('antd/lib/input/style');
 
+const PLUGIN = "General";
+
 export default class Rename extends Component {
     constructor(props) {
         super(props);
@@ -56,7 +58,7 @@ export default class Rename extends Component {
             return;
         }
 
-        this.props.store.Request({old: this.state.old, new: this.state.new})
+        this.props.store.Request(PLUGIN, "rename", {old: this.state.old, new: this.state.new})
             .then(({data}) => {
                 message.success(data.message);
                 this.setState({visible: false});

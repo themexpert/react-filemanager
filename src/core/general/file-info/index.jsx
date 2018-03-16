@@ -8,6 +8,8 @@ require('antd/lib/message/style');
 require('antd/lib/modal/style');
 require('antd/lib/grid/style');
 
+const PLUGIN = "General";
+
 export default class FileInfo extends Component {
     constructor(props) {
         super(props);
@@ -27,7 +29,7 @@ export default class FileInfo extends Component {
     };
 
     getFileInfo = () => {
-        this.props.store.Request({
+        this.props.store.Request(PLUGIN, "file_info", {
             file: this.props.store.pluginData.file_info.file.basename
         })
             .then(({data}) => {

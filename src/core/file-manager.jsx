@@ -41,6 +41,12 @@ const FileManager = class FileManager extends Component {
       .setCallback(cb);
   };
 
+  registerPlugin = plugin => {
+    this
+        .store
+        .registerPlugin(plugin);
+  };
+
   handleOk = e => {
     this
       .store

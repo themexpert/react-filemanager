@@ -24,6 +24,7 @@ require('antd/lib/message/style');
 
 export default class FMStore {
     config = observable({
+        components: {},
         plugins: {
             new_dir: {
                 plugin: 'General',
@@ -137,12 +138,13 @@ export default class FMStore {
 
     };
 
+    //region load plugins
     loadPlugins = action(() => {
         this.loadPluginsFromServer();
     });
 
     loadPluginsFromServer = () => {
-        this.post({plugins: true})
+        this.httpPost({plugins: true})
             .then(({data}) => {
                 const plugins = data;
                 Object.keys(plugins).forEach(plugin => {
@@ -195,6 +197,11 @@ export default class FMStore {
         });
     };
 
+    registerPlugin = action(plugin =>{
+        console.log(plugin);
+    });
+    //endregion
+
     selectPlugin = action(alias => {
         return () => {
             if (this.config.plugins[alias] == null) {
@@ -217,10 +224,10 @@ export default class FMStore {
         }, 1000);
     });
 
-    Request = action((payload, alias) => {
-        return this.post({
-            plugin: alias ? this.Plugins[alias].plugin : this.Plugin.plugin,
-            alias: alias ? alias : this.Plugin.alias,
+    Request = action((plugin, alias, payload) => {
+        return this.httpPost({
+            plugin: plugin,
+            alias: alias,
             working_dir: this.config.data.working_dir,
             payload
         });
@@ -337,7 +344,7 @@ export default class FMStore {
             this.config.data.current_page = 1;
         }
         this.config.data.loading = true;
-        this.post({
+        this.httpPost({
             plugin: 'General',
             alias: 'fetch_list',
             working_dir: this.config.data.working_dir,
@@ -377,7 +384,7 @@ export default class FMStore {
     };
     //endregion
 
-    post = data => {
+    httpPost = data => {
         return axios.post(this.config.data.server, data,
             {
                 headers: {
@@ -452,7 +459,7 @@ export default class FMStore {
             message.info('No file selected');
             return;
         }
-        this.post({
+        this.httpPost({
             plugin: 'General',
             alias: 'delete',
             working_dir: this.config.data.working_dir,

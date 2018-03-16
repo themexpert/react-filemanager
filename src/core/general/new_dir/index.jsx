@@ -8,13 +8,15 @@ require('antd/lib/message/style');
 require('antd/lib/modal/style');
 require('antd/lib/input/style');
 
+const PLUGIN = "General";
+
 export default class NewDirectory extends Component {
     constructor(props) {
         super(props);
 
         this.state = {
             visible: false,
-            dirname: ''
+            dirname: 'New Folder'
         };
     }
 
@@ -27,7 +29,7 @@ export default class NewDirectory extends Component {
     };
 
     handleOk = () => {
-        this.props.store.Request({dir: this.state.dirname})
+        this.props.store.Request(PLUGIN, "new_dir", {dir: this.state.dirname})
             .then(({data})=>{
                 message.success(data.message);
                 this.setState({visible: false});

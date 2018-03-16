@@ -50,7 +50,7 @@ const FMAction = class FMAction extends Component {
     this
       .props
       .fm_store
-      .post({
+      .httpPost({
         plugin: 'General',
         alias: 'scan_dir',
         working_dir: this.props.fm_store.workingDir,
