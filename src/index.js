@@ -1,16 +1,21 @@
 import React from 'react'
-import ReactDOM from 'react-dom'
+import {render} from 'react-dom'
 import FileManager from './core/file-manager'
-import TestPlugin from "./plugins/TestPlugin";
+
+window.ReactFileManager = {};
+window.ReactFileManager.React = React;
+window.ReactFileManager.Component = React.Component;
 
 export default function (server) {
-    const FMElement = React.createElement(FileManager, {server: server});
+    const FMElement = window.ReactFileManager.React.createElement(FileManager, {server: server});
 
     const fm_div = document.createElement("div");
     document.body.appendChild(fm_div);
 
-    const file_manager = ReactDOM.render(FMElement, fm_div);
-    file_manager.registerPlugin(TestPlugin);
+    const file_manager = render(FMElement, fm_div);
+
+    window.ReactFileManager.registerPlugin = file_manager.registerPlugin;
+    window.ReactFileManager.openFileManager = file_manager.openFileManager;
 
     return file_manager.openFileManager;
 }

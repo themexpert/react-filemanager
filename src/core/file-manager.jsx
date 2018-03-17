@@ -3,9 +3,17 @@ import FMStore from "./store";
 import {Provider, observer} from 'mobx-react'
 
 import Modal from "antd/lib/modal";
+window.ReactFileManager.Modal = Modal;
+
 import Button from "antd/lib/button";
+window.ReactFileManager.Button = Button;
+
 import Spin from "antd/lib/spin";
+window.ReactFileManager.Spin = Spin;
+
 import Tabs from "antd/lib/tabs";
+window.ReactFileManager.Tabs = Tabs;
+
 import {viewport} from "./Helper";
 
 require("antd/lib/spin/style");
@@ -41,10 +49,10 @@ const FileManager = class FileManager extends Component {
       .setCallback(cb);
   };
 
-  registerPlugin = plugin => {
+  registerPlugin = (plugin, config) => {
     this
         .store
-        .registerPlugin(plugin);
+        .registerPlugin(plugin, config);
   };
 
   handleOk = e => {

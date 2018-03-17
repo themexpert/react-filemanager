@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, {Component} from 'react'
 import FMAction from './action'
 import FMContent from './content'
 

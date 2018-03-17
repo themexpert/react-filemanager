@@ -1,4 +1,3 @@
-import React from 'react'
 import {observable, computed, action} from 'mobx'
 
 import message from 'antd/lib/message'
@@ -17,14 +16,13 @@ import Move from "./general/move/index";
 import Rename from "./general/rename/index";
 import FileInfo from "./general/file-info/index";
 import FM from "./fm";
-import { PluginRegistry } from "../plugins/PluginRegistry";
 
 require('antd/lib/message/style');
 
 
 export default class FMStore {
     config = observable({
-        components: {},
+        //hcomponents and hard coded core data
         plugins: {
             new_dir: {
                 plugin: 'General',
@@ -55,12 +53,14 @@ export default class FMStore {
                 component: FileInfo
             }
         },
+        //current plugin on modal
         plugin: {
             component: null,
             alias: null,
             plugin: null,
             key: Math.random()
         },
+        //core plugins data
         plugin_data: {
             search: {
                 dataSet: [],
@@ -71,6 +71,7 @@ export default class FMStore {
                 file: null
             }
         },
+        //all the core information
         data: {
             total: 0,
             current_page: 1,
@@ -84,7 +85,9 @@ export default class FMStore {
             is_uploading: false,
             callback: e => console.log(e)
         },
+        //action menu buttons
         action_menu: {},
+        //tab panels
         tabs: [
             {
                 title: 'Local Files',
@@ -94,39 +97,46 @@ export default class FMStore {
         ]
     });
 
+    //currently executing modal plugin data
     get pluginData() {
         return this.config.plugin_data;
     }
 
+    //all the plugins
     get Plugins() {
         return this.config.plugins;
     }
 
+    //currently executing modal plugin
     get Plugin() {
         return this.config.plugin;
     }
 
-    PluginConfig = action(plugin => {
-        if (!plugin)
+    //get plugin config
+    PluginConfig = action(hook => {
+        if (!hook)
             return {};
-        if (!this.config.plugins[plugin])
+        if (!this.config.plugins[hook])
             return {};
-        return this.config.plugins[plugin].config;
+        return this.config.plugins[hook].config;
     });
 
+    //get all core information
     get Data() {
         return this.config.data;
     }
 
+    //get action menu buttons
     get actionMenu() {
         return this.config.action_menu;
     }
 
+    //get tabs list
     get Tabs() {
         return this.config.tabs;
     }
 
-
+    //context menu for directory scope
     get contextMenu() {
         return (<ul>
             <li>Hello</li>
@@ -134,78 +144,32 @@ export default class FMStore {
         </ul>);
     };
 
+    //context menu for item scope
     get itemContextMenu() {
 
     };
 
-    // //region load plugins
-    // loadPlugins = action(() => {
-    //     this.loadPluginsFromServer();
-    // });
-    //
-    // loadPluginsFromServer = () => {
-    //     this.httpPost({plugins: true})
-    //         .then(({data}) => {
-    //             const plugins = data;
-    //             Object.keys(plugins).forEach(plugin => {
-    //                 if (plugin === 'General')
-    //                     return;
-    //
-    //                 //load plugins
-    //                 Object.keys(plugins[plugin].methods).forEach(hook => {
-    //                     const plugin_config = plugins[plugin].methods[hook];
-    //                     if (plugin_config.component === undefined)
-    //                         return;
-    //                     this.config.plugins[hook] = {
-    //                         plugin,
-    //                         component: PluginRegistry.load(plugin_config.component, hook, this.attachComponent),
-    //                         config: plugin_config.config || {}
-    //                     };
-    //                 });
-    //
-    //                 //load buttons
-    //                 Object.keys(plugins[plugin].actions).forEach(hook => {
-    //                     this.config.action_menu[hook] = plugins[plugin].actions[hook];
-    //                 });
-    //
-    //                 //TODO: Allow when ready
-    //                 //load tabs
-    //                 // Object.keys(plugins[plugin].tabs).forEach(hook => {
-    //                 //     this.config.tabs.push({
-    //                 //         title: [<span key="title">{plugins[plugin].tabs[hook]}</span>,
-    //                 //             <Badge key="badge" status="processing"/>],
-    //                 //         component: 'Loading...',
-    //                 //         hook
-    //                 //     });
-    //                 // });
-    //             });
-    //         })
-    //         .catch(err => {
-    //             try {
-    //                 message.error(err.response.data.message);
-    //             } catch (e) {
-    //                 console.log(e, err);
-    //             }
-    //         });
-    // };
-    //
-    // attachComponent = (hook, component) => {
-    //     this.config.plugins[hook].component = component;
-    //     this.config.tabs.forEach(tab => {
-    //         if (hook === tab.hook)
-    //             tab.component = component;
-    //     });
-    // };
-
-    registerPlugin = action(plugin =>{
+    //register a plugin to the core
+    registerPlugin = action((plugin, config) =>{
         Object.keys(plugin).forEach(hook=>{
+
+            //check if we have a component under the hook
+            if(!plugin[hook].component)
+            {
+                console.log(`No valid component found in the registered plugin for hook ${hook}`);
+                return;
+            }
+
+            //add the component entry to the plugins list
             this.config.plugins[hook] = {
                 component: plugin[hook].component,
-                config: plugin[hook].config || {}
+                config: config || {}
             };
 
+            //add the action menu
             plugin[hook].action_menu && (this.config.action_menu[hook] = plugin[hook].action_menu);
 
+            //add the tab entry
             plugin[hook].tab && this.config.tabs.push({
                         title: [<span key="title">{plugin[hook].tab}</span>,
                             <Badge key="badge" status="processing"/>],
@@ -216,6 +180,7 @@ export default class FMStore {
     });
     //endregion
 
+    //select plugin for modal plugin
     selectPlugin = action(alias => {
         return () => {
             if (this.config.plugins[alias] == null) {
@@ -230,6 +195,7 @@ export default class FMStore {
         };
     });
 
+    //removes the modal data
     clearPlugin = action(() => {
         setTimeout(() => {
             this.config.plugin.component = null;
@@ -238,6 +204,7 @@ export default class FMStore {
         }, 1000);
     });
 
+    //make a request to the server
     Request = action((plugin, alias, payload) => {
         return this.httpPost({
             plugin: plugin,
@@ -247,10 +214,12 @@ export default class FMStore {
         });
     });
 
+    //show error message for 4 seconds
     showErrorMessage = msg => {
         message.info(msg, 4);
     };
 
+    //get all items list
     get list() {
         return this.config.data.folders.concat(this.config.data.files);
     };
@@ -263,7 +232,6 @@ export default class FMStore {
     get server() {
         return this.config.data.server;
     };
-
     //endregion
 
     //region callback { setCallback, callback }
@@ -271,6 +239,7 @@ export default class FMStore {
         this.config.data.callback = callback;
     });
 
+    //run the callback with the result
     runCallback = action(e => {
         const selection = this.list.filter(item => item.selected);
         const has_dir = selection.filter(item => item.is_dir);
@@ -288,6 +257,8 @@ export default class FMStore {
     //endregion
 
     //region working_dir { workingDir, setWorkingDir }
+
+    //set currently working directory
     setWorkingDir = action(dir => {
         this.config.data.folders = [];
         this.config.data.files = [];
@@ -300,10 +271,12 @@ export default class FMStore {
         this.fetch();
     });
 
+    //get currently working directory
     get workingDir() {
         return this.config.data.working_dir;
     };
 
+    //remove duplicate slashes from the directory
     remove_duplicate_slash = str => {
         let clean = '';
         let ls = false;
@@ -345,6 +318,8 @@ export default class FMStore {
     //endregion
 
     //region fetch, refresh
+
+    //fetch the list of files and folders for current directory
     fetch = more => {
         if (this.config.data.loading)
             return;
@@ -393,11 +368,13 @@ export default class FMStore {
             });
     };
 
+    //reload files and folders
     refresh = () => {
         this.fetch()
     };
     //endregion
 
+    //sends a POST request to the server
     httpPost = data => {
         return axios.post(this.config.data.server, data,
             {
@@ -407,11 +384,13 @@ export default class FMStore {
             });
     };
 
+    //sends a GET request to the server
     httpGet = (url, headers) => {
         if (!headers) headers = {};
         return axios.get(url, {headers});
     };
 
+    //select a directory from the list
     selectDir = action(index => {
         const new_dir = [];
         this.workingDir.split('/').forEach((x, i) => {
@@ -422,6 +401,7 @@ export default class FMStore {
         this.fetch();
     });
 
+    //select an item
     select = action((item, e) => {
         if (!e.ctrlKey) {
             let i;
@@ -442,10 +422,12 @@ export default class FMStore {
         item.selected = e.ctrlKey ? !item.selected : true;
     });
 
+    //get selected items
     get selectedItems() {
         return this.list.filter(item => item.selected);
     };
 
+    //what happens on double click on an item
     clickAction = action(item => {
         if (item.is_dir) {
             this.setWorkingDir(this.config.data.working_dir + item.basename + '/');
@@ -459,6 +441,7 @@ export default class FMStore {
         }
     });
 
+    //delete selected items
     trash = action(() => {
         const items = [];
         this.config.data.folders.forEach(folder => {
