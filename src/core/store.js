@@ -22,7 +22,7 @@ require('antd/lib/message/style');
 
 export default class FMStore {
     config = observable({
-        //hcomponents and hard coded core data
+        //components and hard coded core data
         plugins: {
             new_dir: {
                 plugin: 'General',
@@ -240,19 +240,25 @@ export default class FMStore {
     });
 
     //run the callback with the result
-    runCallback = action(e => {
-        const selection = this.list.filter(item => item.selected);
+    runCallback = action(item => {
+      let selection = [];
+      if (item && !item.is_dir) {
+        selection.push(item);
+      }
+      else {
+        selection = this.list.filter(item => item.selected);
         const has_dir = selection.filter(item => item.is_dir);
         if (has_dir.length) {
-            message.warning("You can select files only.");
-            return;
+          message.warning("You can select files only.");
+          return;
         }
-        const result = selection.map(item => {
-            return this.remove_duplicate_slash(this.workingDir + '/' + item.basename);
-        });
-        if (this.config.data.callback.call(this, result)) {
-            this.setVisible(false);
-        }
+      }
+      const result = selection.map(item => {
+        return this.remove_duplicate_slash(this.workingDir + '/' + item.basename);
+      });
+      if (this.config.data.callback.call(this, result)) {
+        this.setVisible(false);
+      }
     });
     //endregion
 
@@ -434,6 +440,8 @@ export default class FMStore {
             this.fetch();
         }
         else {
+          return this.runCallback(item);
+          //TODO: preview
             this.config.plugin.plugin = 'General';
             this.config.plugin.alias = 'file_info';
             this.config.plugin.component = this.config.plugins.file_info.component;

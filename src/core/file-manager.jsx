@@ -50,7 +50,7 @@ const FileManager = class FileManager extends Component {
   handleOk = e => {
     this
       .store
-      .runCallback(e);
+      .runCallback();
   };
 
   handleCancel = () => {
