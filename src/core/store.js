@@ -19,6 +19,7 @@ import FM from "./fm";
 
 require('antd/lib/message/style');
 
+const FILTERS = ["image", "video", "dir", "icon"];
 
 export default class FMStore {
   config = observable({
@@ -77,6 +78,7 @@ export default class FMStore {
       current_page: 1,
       files: [],
       folders: [],
+      filters: [],
       server: "",
       working_dir: "/",
       loading: false,
@@ -91,9 +93,21 @@ export default class FMStore {
       {
         title: 'Local Files',
         component: FM,
-        hook: 'local'
+        hook: 'local',
+        categories: ['image', 'video', 'dir']
       }
     ]
+  });
+
+  openFileManager = action((cb, config) => {
+    this.setCallback(cb);
+    this.setConfig(config);
+    this.visible = true;
+  });
+
+  closeFileManager = action(() => {
+    this.setCallback(e=>{console.log(e)});
+    this.visible = false;
   });
 
   //region Plugins
@@ -123,6 +137,7 @@ export default class FMStore {
         title: [<span key="title">{plugin[hook].tab}</span>,
           <Badge key="badge" status="processing"/>],
         component: plugin[hook].component,
+        categories: plugin[hook].categories,
         hook
       });
     });
@@ -168,10 +183,16 @@ export default class FMStore {
     this.config.data.server = server;
   };
 
-  setCallback = action((callback, config = {}) => {
+  setCallback = callback => {
     this.config.data.callback = callback;
-    //TODO: setup
-  });
+  };
+
+  setConfig = (config) => {
+    if(!config)
+      this.config.data.filters = FILTERS.filter(filter=>filter!=="icon");
+    else
+      this.config.data.filters = config.filters.split(',').filter(filter=>FILTERS.indexOf(filter)>=0);
+  };
 
   //set currently working directory
   set working_dir(dir){
@@ -206,7 +227,9 @@ export default class FMStore {
 
   //tabs list
   get tabs() {
-    return this.config.tabs;
+    return this.config.tabs.filter(tab=>{
+      return this.config.data.filters.find(filter=> tab.categories.indexOf(filter) >= 0);
+    });
   }
 
   //currently executing modal plugin data

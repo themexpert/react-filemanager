@@ -27,8 +27,7 @@ const FileManager = class FileManager extends Component {
   }
 
   openFileManager = (cb, config) => {
-    this.store.visible = true;
-    this.store.setCallback(cb, config);
+    this.store.openFileManager(cb, config);
   };
 
   registerPlugin = (plugin, config) => {
@@ -40,8 +39,7 @@ const FileManager = class FileManager extends Component {
   };
 
   handleCancel = () => {
-    this.store.visible = false;
-    this.store.setCallback(e => console.log(e));
+    this.store.closeFileManager();
   };
 
   render = () => {
@@ -62,7 +60,7 @@ const FileManager = class FileManager extends Component {
           ]}
           width={window.innerWidth - 400}
         >
-          <Tabs defaultActiveKey={this.store.tabs[0].hook} prefixCls="qxui-tabs">
+          {this.store.tabs.length ? <Tabs defaultActiveKey={this.store.tabs[0].hook} prefixCls="qxui-tabs">
             {this.store.tabs
               .map(tab => {
                 return (
@@ -75,7 +73,7 @@ const FileManager = class FileManager extends Component {
                   </TabPane>
                 );
               })}
-          </Tabs>
+          </Tabs> : "The filters you've applied stripped of all the plugins we have" }
         </Modal>
       </Provider>
     );

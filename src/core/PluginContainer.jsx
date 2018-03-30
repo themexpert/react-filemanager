@@ -11,7 +11,7 @@ const PluginContainer =  class PluginContainer extends Component {
         if(!store.plugin.component)
             return null;
         return (
-            <store.Plugin.component key={store.plugin.key} store={store}/>
+            <store.plugin.component key={store.plugin.key} store={store}/>
         );
     };
 };
