@@ -235,8 +235,9 @@ export default class FMStore {
     //endregion
 
     //region callback { setCallback, callback }
-    setCallback = action(callback => {
+    setCallback = action((callback, config = {}) => {
         this.config.data.callback = callback;
+        //TODO: setup
     });
 
     //run the callback with the result
