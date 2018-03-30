@@ -6,5 +6,5 @@ window.openFileManager = initFM('/react-filemanager-server/');
   const link = document.createElement("link");
   link.rel = "stylesheet";
   link.href = href;
-  document.head.appendChild(link);
+  document.head.insertBefore(link, document.head.firstChild);
 });

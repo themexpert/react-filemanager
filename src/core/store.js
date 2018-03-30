@@ -396,7 +396,7 @@ export default class FMStore {
         return axios.get(url, {headers});
     };
 
-    //select a directory from the list
+    //select a directory from the breadcrumb
     selectDir = action(index => {
         const new_dir = [];
         this.workingDir.split('/').forEach((x, i) => {
