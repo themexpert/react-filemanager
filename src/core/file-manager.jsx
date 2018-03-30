@@ -65,26 +65,26 @@ const FileManager = class FileManager extends Component {
         <Modal
           wrapClassName="fm-modal qxui-modal--with-tab"
           title="Media Manager"
-          visible={this.store.isVisible}
+          visible={this.store.is_visible}
           maskClosable={false}
           onOk={this.handleOk}
           onCancel={this.handleCancel}
           prefixCls="qxui-modal"
           footer={[
-              <Button key="submit" type="primary" loading={this.store.isLoading} onClick={this.handleOk} prefixCls="qxui-btn">
+              <Button key="submit" type="primary" loading={this.store.is_loading} onClick={this.handleOk} prefixCls="qxui-btn">
                   Select
               </Button>
           ]}
           width={window.innerWidth - 400}
         >
-          <Tabs defaultActiveKey={this.store.Tabs[0].hook} prefixCls="qxui-tabs">
-            {this.store.Tabs
+          <Tabs defaultActiveKey={this.store.tabs[0].hook} prefixCls="qxui-tabs">
+            {this.store.tabs
               .map(tab => {
                 return (
                   <TabPane
                     tab={tab.title}
                     key={tab.hook}>
-                    <Spin spinning={this.store.isLoading}>
+                    <Spin spinning={this.store.is_loading}>
                       <tab.component store={this.store}/>
                     </Spin>
                   </TabPane>

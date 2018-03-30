@@ -43,7 +43,7 @@ export default class Item extends Component {
 
   img = () => {
     const path = this.props.store.server;
-    const query = ['working_dir=' + this.props.store.workingDir];
+    const query = ['working_dir=' + this.props.store.working_dir];
     if (this.props.item.is_dir) {
       query.push('icon=folder');
     }

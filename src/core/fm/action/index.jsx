@@ -44,7 +44,7 @@ const FMAction = class FMAction extends Component {
   };
 
   onSearchInput = throttle(e => {
-    this.props.fm_store.pluginData.search.query = e;
+    this.props.fm_store.plugin_data.search.query = e;
     if (e === '') 
       return;
     this
@@ -53,7 +53,7 @@ const FMAction = class FMAction extends Component {
       .httpPost({
         plugin: 'General',
         alias: 'scan_dir',
-        working_dir: this.props.fm_store.workingDir,
+        working_dir: this.props.fm_store.working_dir,
         payload: {
           query: e
         }
@@ -63,8 +63,8 @@ const FMAction = class FMAction extends Component {
         for (let i = 0; i < data.length; i++) {
           dataSource.push(data[i].basename);
         }
-        this.props.fm_store.pluginData.search.dataSet = data;
-        this.props.fm_store.pluginData.search.dataSource = dataSource;
+        this.props.fm_store.plugin_data.search.dataSet = data;
+        this.props.fm_store.plugin_data.search.dataSource = dataSource;
       })
       .catch(err => {
         console.log(err);
@@ -76,7 +76,7 @@ const FMAction = class FMAction extends Component {
     const exists = this
       .props
       .fm_store
-      .pluginData
+      .plugin_data
       .search
       .dataSet
       .find(x => x.basename === e);
@@ -97,13 +97,13 @@ const FMAction = class FMAction extends Component {
     this
       .props
       .fm_store
-      .setWorkingDir(this.props.fm_store.workingDir + dir);
-    this.props.fm_store.pluginData.search.dataSource = [];
-    this.props.fm_store.pluginData.search.query = '';
+      .setWorkingDir(this.props.fm_store.working_dir + dir);
+    this.props.fm_store.plugin_data.search.dataSource = [];
+    this.props.fm_store.plugin_data.search.query = '';
   };
 
   render = () => {
-    const selected = this.props.fm_store.selectedItems.length;
+    const selected = this.props.fm_store.selected_items.length;
     return (
       <div className="fm-action-btns">
         <div className="qx-row qx-justify-content-between">
@@ -141,11 +141,11 @@ const FMAction = class FMAction extends Component {
               </Tooltip>
             </Button.Group>
 
-             { Object.keys(this.props.fm_store.actionMenu).length ? 
+             { Object.keys(this.props.fm_store.action_menu).length ?
               <div>
-                {Object.keys(this.props.fm_store.actionMenu)
+                {Object.keys(this.props.fm_store.action_menu)
                   .map(key => { return <Button onClick={this.props.fm_store.selectPlugin(key)} 
-                                  key={key}>{this.props.fm_store.actionMenu[key]}</Button>
+                                  key={key}>{this.props.fm_store.action_menu[key]}</Button>
                 })}
               </div> : null }
           </div>
@@ -158,8 +158,8 @@ const FMAction = class FMAction extends Component {
             </ButtonGroup>
 
             <AutoComplete
-              value={this.props.fm_store.pluginData.search.query}
-              dataSource={this.props.fm_store.pluginData.search.dataSource}
+              value={this.props.fm_store.plugin_data.search.query}
+              dataSource={this.props.fm_store.plugin_data.search.dataSource}
               onSelect={this.onSearchSelect}
               onSearch={this.onSearchInput}
               placeholder="Search">
@@ -174,7 +174,7 @@ const FMAction = class FMAction extends Component {
               <Breadcrumb.Item onClick={() => this.props.fm_store.setWorkingDir('/')}>
                 <Icon type="home"/>
               </Breadcrumb.Item>
-              {this.props.fm_store.workingDir.split('/')
+              {this.props.fm_store.working_dir.split('/')
                 .map((x, i) => {
                   if (x !== '') 
                     return <Breadcrumb.Item

@@ -57,7 +57,7 @@ export default class Uploader extends Component {
                 return {
                     plugin: 'General',
                     alias: 'upload',
-                    working_dir: this.props.store.workingDir
+                    working_dir: this.props.store.working_dir
                 }
             }
         };
