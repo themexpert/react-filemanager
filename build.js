@@ -1,5 +1,4 @@
 import initFM from './src';
-import Icons from './src/plugins/Icons'
 
 window.openFileManager = initFM('/react-filemanager-server/');
 
@@ -9,5 +8,3 @@ window.openFileManager = initFM('/react-filemanager-server/');
   link.href = href;
   document.head.insertBefore(link, document.head.firstChild);
 });
-
-window.ReactFileManager.registerPlugin(Icons);

@@ -1,6 +1,7 @@
 import React from 'react'
 import {render} from 'react-dom'
 import FileManager from './core/file-manager'
+import Icons from './plugins/Icons'
 
 window.ReactFileManager = {};
 window.ReactFileManager.React = React;
@@ -16,6 +17,8 @@ export default function (server) {
 
     window.ReactFileManager.registerPlugin = file_manager.registerPlugin;
     window.ReactFileManager.openFileManager = file_manager.openFileManager;
+
+    window.ReactFileManager.registerPlugin(Icons);
 
     return file_manager.openFileManager;
 }

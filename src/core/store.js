@@ -214,6 +214,11 @@ export default class FMStore {
 
   //endregion
 
+  //callback
+  get callback() {
+    return this.config.data.callback;
+  }
+
   //region Config getters
 
   //all core information
