@@ -1,3 +1,4 @@
+import React from 'react'
 import {observable, computed, action} from 'mobx'
 
 import message from 'antd/lib/message'
