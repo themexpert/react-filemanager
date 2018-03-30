@@ -23,40 +23,25 @@ const FileManager = class FileManager extends Component {
     super(props);
 
     this.store = stores.fm_store;
-
-    this
-      .store
-      .setServer(props.server);
+    this.store.server = props.server;
   }
 
   openFileManager = (cb, config) => {
-    this
-      .store
-      .setVisible(true);
-    this
-      .store
-      .setCallback(cb, config);
+    this.store.visible = true;
+    this.store.setCallback(cb, config);
   };
 
   registerPlugin = (plugin, config) => {
-    this
-        .store
-        .registerPlugin(plugin, config);
+    this.store.registerPlugin(plugin, config);
   };
 
   handleOk = e => {
-    this
-      .store
-      .runCallback();
+    this.store.runCallback();
   };
 
   handleCancel = () => {
-    this
-      .store
-      .setVisible(false);
-    this
-      .store
-      .setCallback(e => console.log(e));
+    this.store.visible = false;
+    this.store.setCallback(e => console.log(e));
   };
 
   render = () => {

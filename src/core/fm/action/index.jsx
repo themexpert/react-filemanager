@@ -94,10 +94,7 @@ const FMAction = class FMAction extends Component {
         return parts.join('/');
       })();
 
-    this
-      .props
-      .fm_store
-      .setWorkingDir(this.props.fm_store.working_dir + dir);
+    this.props.fm_store.working_dir = this.props.fm_store.working_dir + dir;
     this.props.fm_store.plugin_data.search.dataSource = [];
     this.props.fm_store.plugin_data.search.query = '';
   };
@@ -171,7 +168,7 @@ const FMAction = class FMAction extends Component {
         <div className="qx-row">
           <div className="qx-col">
             <Breadcrumb>
-              <Breadcrumb.Item onClick={() => this.props.fm_store.setWorkingDir('/')}>
+              <Breadcrumb.Item onClick={() => this.props.fm_store.working_dir = '/'}>
                 <Icon type="home"/>
               </Breadcrumb.Item>
               {this.props.fm_store.working_dir.split('/')

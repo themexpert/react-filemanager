@@ -17,7 +17,7 @@ const FMContent = class FMContent extends Component {
     constructor(props) {
         super(props);
 
-        this.props.fm_store.setWorkingDir('/');
+        this.props.fm_store.working_dir = '/';
     }
 
     componentDidMount = () => {

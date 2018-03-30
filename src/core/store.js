@@ -81,7 +81,6 @@ export default class FMStore {
       working_dir: "/",
       loading: false,
       visible: false,
-      show_upload_dialog: false,
       is_uploading: false,
       callback: e => console.log(e)
     },
@@ -165,9 +164,9 @@ export default class FMStore {
 
   //region Config Setter
 
-  setServer = action(server => {
+  set server(server) {
     this.config.data.server = server;
-  });
+  };
 
   setCallback = action((callback, config = {}) => {
     this.config.data.callback = callback;
@@ -175,7 +174,7 @@ export default class FMStore {
   });
 
   //set currently working directory
-  setWorkingDir = action(dir => {
+  set working_dir(dir){
     this.config.data.folders = [];
     this.config.data.files = [];
     this.config.data.total = 0;
@@ -185,16 +184,11 @@ export default class FMStore {
     this.config.plugin_data.search.query = '';
     this.config.plugin_data.search.dataSource = [];
     this.fetch();
-  });
+  };
 
-  setVisible = action(state => {
+  set visible(state) {
     this.config.data.visible = state;
-  });
-
-
-  setShowUploadDialog = action(state => {
-    this.config.data.show_upload_dialog = state;
-  });
+  };
 
   //endregion
 
@@ -253,11 +247,6 @@ export default class FMStore {
   //if network functions working
   get is_loading() {
     return this.config.data.loading;
-  };
-
-  //is upload dialog shown
-  get show_upload_dialog() {
-    return this.config.data.show_upload_dialog;
   };
 
   //is uploading something
@@ -445,7 +434,7 @@ export default class FMStore {
       return this.remove_duplicate_slash(this.working_dir + '/' + item.basename);
     });
     if (this.config.data.callback.call(this, result)) {
-      this.setVisible(false);
+      this.visible = false;
     }
   });
   //select a directory from the breadcrumb
@@ -455,7 +444,7 @@ export default class FMStore {
       if (i <= index)
         new_dir.push(x);
     });
-    this.setWorkingDir(new_dir.join('/') + '/');
+    this.working_dir = new_dir.join('/');
     this.fetch();
   });
 
@@ -483,7 +472,7 @@ export default class FMStore {
   //what happens on double click on an item
   clickAction = action(item => {
     if (item.is_dir) {
-      this.setWorkingDir(this.config.data.working_dir + item.basename + '/');
+      this.working_dir = this.config.data.working_dir + item.basename + '/';
       this.fetch();
     }
     else {
