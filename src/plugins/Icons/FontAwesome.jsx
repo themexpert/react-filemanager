@@ -73,8 +73,9 @@ export default class FontAwesome extends Component {
   };
 
   selectSVG = svg => {
-    this.props.store.callback.call(this, {type: 'svg', svg});
-    this.props.store.closeFileManager();
+    if(this.props.store.callback.call(this, {type: 'svg', svg})) {
+      this.props.store.closeFileManager();
+    }
   };
 
   render = () => {

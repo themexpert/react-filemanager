@@ -80,6 +80,8 @@ export default class FMStore {
       files: [],
       folders: [],
       filters: [],
+      headers: {},
+      http_params: {},
       server: "",
       working_dir: "/",
       loading: false,
@@ -190,9 +192,14 @@ export default class FMStore {
 
   setConfig = (config) => {
     if(!config)
+    {
       this.config.data.filters = FILTERS.filter(filter=>filter!=="icon");
-    else
-      this.config.data.filters = config.filters.split(',').filter(filter=>FILTERS.indexOf(filter)>=0);
+    }
+    else {
+      this.config.data.filters = config.filters.split(',').filter(filter => FILTERS.indexOf(filter) >= 0);
+      this.config.data.headers = config.headers || {};
+      this.config.data.http_params = config.http_params || {};
+    }
   };
 
   //set currently working directory
@@ -214,12 +221,12 @@ export default class FMStore {
 
   //endregion
 
+  //region Config getters
+
   //callback
   get callback() {
     return this.config.data.callback;
   }
-
-  //region Config getters
 
   //all core information
   get data() {
@@ -375,20 +382,14 @@ export default class FMStore {
 
   //sends a POST request to the server
   httpPost = data => {
-    return axios.post(this.config.data.server, data,
-      {
-        headers: {
-          'Content-Type': 'application/x-www-form-urlencoded'
-        }
-      });
-  };
+    const headers = Object.assign({
+      'Content-Type': 'application/x-www-form-urlencoded'
+    }, this.config.data.headers);
 
-  //sends a GET request to the server
-  httpGet = (url, headers) => {
-    if (!headers) headers = {};
-    return axios.get(url, {headers});
+    data = Object.assign(data, this.config.data.http_params);
+    console.log(data, this.config.data, headers);
+    return axios.post(this.config.data.server, data, {headers});
   };
-
 
   //delete selected items
   trash = action(() => {
@@ -463,7 +464,7 @@ export default class FMStore {
       return this.remove_duplicate_slash(this.working_dir + '/' + item.basename);
     });
     if (this.config.data.callback.call(this, result)) {
-      this.visible = false;
+      this.closeFileManager();
     }
   });
   //select a directory from the breadcrumb

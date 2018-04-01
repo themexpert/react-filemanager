@@ -25,17 +25,47 @@ Webpack rules
  ```
 
 ```JS
-import initFM from 'react-filemanager'
+import initFM from 'react-filemanager';
 
 const openFileManager = initFM('server_endpoint');
 ```
 
-The returned callback `openFileManager` accepts a `callback` as a parameter to show the file manager modal
+The returned callback `openFileManager` accepts a `callback` as first parameter to show the file manager modal and an object config as second parameter.
+
+In this way, you won't have to instantiate FileManager seperately for different config
 
 ```html
-<button onclick="openFileManager(fileSelectCallback)">Open File Manager</button> 
+
+const config  = {
+                    //add filters, valid filters are [icon,image,video,dir]
+                    //currently filters only filters the plugins, not the items
+                    filters: "image,icon",
+
+                    //add additional http get/post parameters
+                    http_params: {
+                        foo: "bar"
+                    },
+
+                    //add additional headers
+                    headers: {
+                        foo: "bar"
+                    }
+                };
+
+<button onclick="openFileManager(fileSelectCallback, config)">Open File Manager</button> 
 ```
 ```JS
+/*
+ * if selection is an icon, the return value will be as following
+ * **********************
+ * {
+ *  type: 'svg',
+ *  svg: 'raw svg markup'
+ * }
+ * **********************
+ * The return value is different from file/directory selection is because icon picker is a plugin
+ * Try it and I believe you'll figure out how it works
+ */
 function fileSelectCallback(selected_list) {
     console.log(selected_list);
     //do whatever
@@ -55,7 +85,7 @@ function fileSelectCallback(selected_list) {
         return 'Only file can be selected';
     }
     
-    //we got one file selected her
+    //we got one file selected here
     // //do whatever
     
     return true; //close the modal
@@ -69,7 +99,7 @@ File: `wrapper.js`
 
 Content: 
 ```JS
-import initFM from 'react-filemanager-client'
+import initFM from 'react-filemanager'
 
 export default initFM('server-endpoint');
 ```
@@ -79,6 +109,21 @@ Use the wrapper in any React component
 ```JS
 import React, {Component} from 'react'
 import openFileManager from './wrapper' //wherever it is
+
+const config  = {
+                    //add filters, valid filters are [icon,image,video,dir]
+                    filters: "image,icon",
+
+                    //add additional http get/post parameters
+                    http_params: {
+                        foo: "bar"
+                    },
+
+                    //add additional headers
+                    headers: {
+                        foo: "bar"
+                    }
+                };
 
 export default class FilePicker extends Component {
     constructor(props) {
@@ -109,8 +154,10 @@ export default class FilePicker extends Component {
     
     render = () => {
         return (
-            <button onClick={openFileManager(this.onFileSelect)}>Pick File</button>
+            <button onClick={openFileManager(this.onFileSelect, config)}>Pick File</button>
         );
     };
 }
+
+
 ```
