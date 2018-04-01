@@ -17,7 +17,7 @@ const FMContent = class FMContent extends Component {
     constructor(props) {
         super(props);
 
-        this.props.fm_store.setWorkingDir('/');
+        this.props.fm_store.working_dir = '/';
     }
 
     componentDidMount = () => {
@@ -48,7 +48,7 @@ const FMContent = class FMContent extends Component {
     }, 100);
 
     hasMore = () => {
-        return this.props.fm_store.list.length < this.props.fm_store.Data.total;
+        return this.props.fm_store.list.length < this.props.fm_store.data.total;
     };
 
     onClickLoadMore = () => {

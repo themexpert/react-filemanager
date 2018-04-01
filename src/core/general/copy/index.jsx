@@ -24,7 +24,7 @@ export default class Copy extends Component {
     }
 
     componentDidMount = () => {
-        this.setState({visible: true, query: this.props.store.workingDir});
+        this.setState({visible: true, query: this.props.store.working_dir});
     };
 
     componentWillUnmount = () => {

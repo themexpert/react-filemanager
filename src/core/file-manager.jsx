@@ -23,43 +23,23 @@ const FileManager = class FileManager extends Component {
     super(props);
 
     this.store = stores.fm_store;
-
-    this
-      .store
-      .setServer(props.server);
-    // this
-    //   .store
-    //   .loadPlugins();
+    this.store.server = props.server;
   }
 
-  openFileManager = cb => {
-    this
-      .store
-      .setVisible(true);
-    this
-      .store
-      .setCallback(cb);
+  openFileManager = (cb, config) => {
+    this.store.openFileManager(cb, config);
   };
 
   registerPlugin = (plugin, config) => {
-    this
-        .store
-        .registerPlugin(plugin, config);
+    this.store.registerPlugin(plugin, config);
   };
 
   handleOk = e => {
-    this
-      .store
-      .runCallback(e);
+    this.store.runCallback();
   };
 
   handleCancel = () => {
-    this
-      .store
-      .setVisible(false);
-    this
-      .store
-      .setCallback(e => console.log(e));
+    this.store.closeFileManager();
   };
 
   render = () => {
@@ -68,32 +48,32 @@ const FileManager = class FileManager extends Component {
         <Modal
           wrapClassName="fm-modal qxui-modal--with-tab"
           title="Media Manager"
-          visible={this.store.isVisible}
+          visible={this.store.is_visible}
           maskClosable={false}
           onOk={this.handleOk}
           onCancel={this.handleCancel}
           prefixCls="qxui-modal"
           footer={[
-              <Button key="submit" type="primary" loading={this.store.isLoading} onClick={this.handleOk} prefixCls="qxui-btn">
+              <Button key="submit" type="primary" loading={this.store.is_loading} onClick={this.handleOk} prefixCls="qxui-btn">
                   Select
               </Button>
           ]}
           width={window.innerWidth - 400}
         >
-          <Tabs defaultActiveKey={this.store.Tabs[0].hook} prefixCls="qxui-tabs">
-            {this.store.Tabs
+          {this.store.tabs.length ? <Tabs defaultActiveKey={this.store.tabs[0].hook} prefixCls="qxui-tabs">
+            {this.store.tabs
               .map(tab => {
                 return (
                   <TabPane
                     tab={tab.title}
                     key={tab.hook}>
-                    <Spin spinning={this.store.isLoading}>
+                    <Spin spinning={this.store.is_loading}>
                       <tab.component store={this.store}/>
                     </Spin>
                   </TabPane>
                 );
               })}
-          </Tabs>
+          </Tabs> : "The filters you've applied stripped of all the plugins we have" }
         </Modal>
       </Provider>
     );
