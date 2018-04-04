@@ -1,11 +1,9 @@
 import React from 'react'
 import {observable, computed, action} from 'mobx'
 
-import message from 'antd/lib/message'
-import Badge from "antd/lib/badge";
+import message from 'antd/lib/message';
 
 require("antd/lib/message/style");
-require("antd/lib/badge/style");
 
 import NewDirectory from "./general/new_dir/index";
 
@@ -137,8 +135,7 @@ export default class FMStore {
 
       //add the tab entry
       plugin[hook].tab && this.config.tabs.push({
-        title: [<span key="title">{plugin[hook].tab}</span>,
-          <Badge key="badge" status="processing"/>],
+        title: [<span key="title">{plugin[hook].tab}</span>],
         component: plugin[hook].component,
         categories: plugin[hook].categories,
         hook

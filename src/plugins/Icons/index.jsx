@@ -1,9 +1,9 @@
-import FontAwesome from "./FontAwesome";
+import Icons from "./TxIcons";
 
 export default {
-  fontAwesome: {
-    component: FontAwesome,
+  icons: {
+    component: Icons,
     categories: ["icon"],
-    tab: "FontAwesome"
+    tab: "Icons"
   }
 }

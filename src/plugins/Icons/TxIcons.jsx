@@ -3,20 +3,16 @@ import throttle from 'debounce'
 
 import message from 'antd/lib/message'
 import Spin from 'antd/lib/spin'
-import Col from 'antd/lib/grid/col'
-import Row from 'antd/lib/grid/row'
 import Input from "antd/lib/input";
 
 require('antd/lib/message/style');
 require('antd/lib/spin/style');
-require('antd/lib/grid/style');
 require('antd/lib/input/style');
-require('./style.less');
 
-const PLUGIN = "FontAwesome";
+const PLUGIN = "TxIcons";
 const ALIAS = "icons";
 
-export default class FontAwesome extends Component {
+export default class TxIcons extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -83,42 +79,33 @@ export default class FontAwesome extends Component {
       return icon.search.terms.find(term => this.fuzzySearch(this.state.query, term));
     });
     return (
-      <Col>
-        <Row>
-          <Col>
-            <Input defaultValue={this.state.query} onChange={this.handleQuery}/>
-          </Col>
-        </Row>
-        <Row>
-          <Col>
-            <div id="fm-content-holder">
-              <div className="qx-row">
-                <Spin spinning={this.state.loading}>
-                  <div id="fm-content">
-                    {icons.map((icon, i) => {
-                      return Object.values(icon.svg).map((svg, j) => {
-                        return (<div key={`${i}-${j}`} className="svg-holder" onDoubleClick={() => this.selectSVG(svg.raw)}>
-                          <Col>
-                            <Row>
-                              <svg style={{width: 60, height: 50}} xmlns="http://www.w3.org/2000/svg"
-                                   viewBox={svg.viewBox.join(' ')}>
-                                <path d={svg.path}/>
-                              </svg>
-                            </Row>
-                            <Row>
-                              <p>{icon.label}</p>
-                            </Row>
-                          </Col>
-                        </div>)
-                      });
-                    })}
+    <Spin spinning={this.state.loading}>
+      <div className="fm-toolbar">
+        <Input defaultValue={this.state.query} onChange={this.handleQuery} placeholder="Search icons for..."/>
+      </div>
+     
+     <div id="fm-content-holder">
+      <div id="fm-content">
+        <div className="qx-row">
+          {icons.map((icon, i) => {
+            return Object.values(icon.svg).map((svg, j) => {
+              return (<div key={`${i}-${j}`} className="fm-grid-sm" onDoubleClick={() => this.selectSVG(svg.raw)}>
+                <div className="fm-media">
+                  <div className="fm-media__thumb">
+                    <svg style={{width: 32, height: 38}} xmlns="http://www.w3.org/2000/svg"
+                          viewBox={svg.viewBox.join(' ')}>
+                      <path d={svg.path}/>
+                    </svg>
                   </div>
-                </Spin>
-              </div>
-            </div>
-          </Col>
-        </Row>
-      </Col>
+                  <div className="fm-media__caption"><span>{icon.label}</span></div>
+                </div>
+              </div>)
+            });
+          })}
+        </div>
+      </div>
+      </div>
+    </Spin>
     );
   };
 }

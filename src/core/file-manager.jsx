@@ -58,7 +58,7 @@ const FileManager = class FileManager extends Component {
                   Select
               </Button>
           ]}
-          width={window.innerWidth - 400}
+          width={window.innerWidth/1.5}
         >
           {this.store.tabs.length ? <Tabs defaultActiveKey={this.store.tabs[0].hook} prefixCls="qxui-tabs">
             {this.store.tabs

@@ -4,15 +4,9 @@ import Item from "./item/index";
 import PluginContainer from "../../PluginContainer";
 import throttle from 'debounce';
 
-import Card from 'antd/lib/card'
 import {viewport} from "../../Helper";
-
-require('antd/lib/card/style');
-
-const {Meta} = Card;
 const view_size = viewport();
 
-require('./style.css');
 const FMContent = class FMContent extends Component {
     constructor(props) {
         super(props);
@@ -65,20 +59,13 @@ const FMContent = class FMContent extends Component {
         return (
             <div id="fm-content-holder" onContextMenu={this.onContextMenu}>
                 <div className="qx-row">
-                    <div id="fm-content">
+                    <div id="fm-content" class="qx-col">
                         {this.props.fm_store.list
                             .map(item => {
                                 return <Item key={item.basename} item={item} className={item.selected ? 'selected' : ''}
                                              store={this.props.fm_store}/>
                             })}
-                        {this.hasMore() ?
-                            <Card hoverable className="item"
-                                  style={{width: 120, padding: 10}}
-                                  cover={< img src={this.loadMoreIcon()} alt="icon" height="96"/>}
-                                  onClick={this.onClickLoadMore}>
-                                <Meta title="Load More"/>
-                            </Card>
-                            : null}
+                        {this.hasMore() ? <a className="item" onClick={this.onClickLoadMore}>Load More</a> : null}
                     </div>
                     <PluginContainer/>
                 </div>

@@ -2,6 +2,7 @@ import React from 'react'
 import {render} from 'react-dom'
 import FileManager from './core/file-manager'
 import Icons from './plugins/Icons'
+import './style.less';
 
 window.ReactFileManager = {};
 window.ReactFileManager.React = React;

@@ -1,0 +1,73 @@
+// Modal
+.fm-modal{
+  z-index: 9991 !important;
+  .qxui-modal-body{
+    height: 450px;
+  }
+}
+.ant-modal{z-index: 9992 !important; }
+#fm-content{width: 100%;}
+.fm-toolbar{
+  background: #fff;
+  padding: 10px 26px;
+  margin: -11px -29px 15px;
+  .ant-input{
+    height: 32px;
+    width: 100%;
+    border-radius: 3px;
+    border-color: #ddd;
+    box-shadow: none;
+  }
+}
+.fm-grid-m{
+  width: calc(100%/7);
+  float: left;
+}
+.fm-grid-sm{
+  width: 11.11111%;
+  float: left;
+}
+.fm-media{
+  background: #fff;
+  margin: 5px;
+  box-shadow: 0 3px 4px #eee;
+  text-align: center;
+  border-radius: 3px;
+  cursor: pointer;
+
+  &:hover,
+  &.active{
+    .fm-media__thumb{
+      background: #0c9;
+      border-radius: 3px 3px 0 0;
+    }
+    svg{ fill: #fff; }
+  }
+}
+.fm-media--folder{
+  img{ width: 52px; height: 52px; }
+}
+.fm-media--file{
+  img{ 
+    width: 100%;
+    max-height: 100%;
+    // position: absolute;
+    // top: 0;
+    // left: 0;
+  }
+}
+.fm-media--folder,
+.fm-media--file{
+  .fm-media__thumb{
+    height: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+  }
+}
+.fm-media__thumb{ padding: 10px; }
+.fm-media__caption{
+  padding: 6px 3px;
+  font-size: 10px;
+}

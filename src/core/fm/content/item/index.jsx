@@ -1,14 +1,6 @@
 import React, {Component} from 'react'
-
-import Card from 'antd/lib/card'
 import Tooltip from 'antd/lib/tooltip'
-
-require('antd/lib/card/style');
 require('antd/lib/tooltip/style');
-
-require('./style.less')
-
-const {Meta} = Card;
 
 export default class Item extends Component {
   constructor(props) {
@@ -74,21 +66,21 @@ export default class Item extends Component {
   };
 
   render = () => {
+    let mediaType = this.props.item.is_dir ? 'folder' : 'file';
+    let mediaTypeClass = 'fm-media fm-media--' + mediaType;
     return (
       <Tooltip title={this.tooltip()} overlayClassName="info-tooltip">
-        <Card
-          hoverable
-          className={this.getClass()}
-          style={{width: 120}}
-          cover={<img src={this.img()} alt="icon" height="96"/>}
-          onClick={this.onClick}
-          onDoubleClick={this.onDoubleClick}
-          onContextMenu={this.onContextMenu}
-        >
-          {this.props.item.is_dir ?
-            <Meta title={<a className="dir-navigator" onClick={this.onDoubleClick}>{this.props.item.basename}</a>}/> :
-            <Meta title={this.props.item.basename}/>}
-        </Card>
+        <div className="fm-grid-m">
+          <div className={mediaTypeClass} onClick={this.onClick} onDoubleClick={this.onDoubleClick} onContextMenu={this.onContextMenu}>
+            <div className="fm-media__thumb">
+              <img src={this.img()} alt="icon"/>
+            </div>
+            <div className="fm-media__caption">
+            {this.props.item.is_dir ? <span onClick={this.onDoubleClick}>{this.props.item.basename}</span> :
+              <span>{this.props.item.basename}</span>}
+            </div>
+          </div>
+        </div>
       </Tooltip>
     );
   };
