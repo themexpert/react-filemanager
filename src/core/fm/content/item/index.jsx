@@ -70,16 +70,7 @@ export default class Item extends Component {
     //   return this.remove_duplicate_slash(this.working_dir + '/' + item.basename);
     // });
 
-    let type = "unknown";
-    if (IMAGE.indexOf(item.extension.toLowerCase()) >= 0) {
-      type = "image";
-    }
-    else if(VIDEO.indexOf(item.extension.toLowerCase()) >= 0) {
-      type = "video";
-    }
-    else if(AUDIO.indexOf(item.extension.toLowerCase()) >= 0) {
-      type = "audio";
-    }
+    let type = item.extension.toLowerCase();
 
     const result = {
       type
