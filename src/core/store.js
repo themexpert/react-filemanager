@@ -15,6 +15,7 @@ import Move from "./general/move/index";
 import Rename from "./general/rename/index";
 import FileInfo from "./general/file-info/index";
 import FM from "./fm";
+import {remove_duplicate_slash} from "./Helper";
 
 require('antd/lib/message/style');
 
@@ -205,7 +206,7 @@ export default class FMStore {
     this.config.data.files = [];
     this.config.data.total = 0;
     this.config.data.current_page = 1;
-    this.config.data.working_dir = this.remove_duplicate_slash('/' + dir);
+    this.config.data.working_dir = remove_duplicate_slash('/' + dir);
     //TODO: Attach event to clear up plugin data
     this.config.plugin_data.search.query = '';
     this.config.plugin_data.search.dataSource = [];
@@ -417,63 +418,6 @@ export default class FMStore {
         message.error(err.response.data.message);
       });
   });
-
-  //endregion
-
-  //region Helper functions
-
-  //show error message for 4 seconds
-  showErrorMessage = msg => {
-    message.info(msg, 4);
-  };
-
-  //remove duplicate slashes from the directory
-  remove_duplicate_slash = str => {
-    let clean = '';
-    let ls = false;
-    for (let i = 0; i < str.length; i++) {
-      if ((str[i] === '/' && !ls) || str[i] !== '/')
-        clean += str[i];
-      ls = str[i] === '/';
-    }
-    return clean;
-  };
-
-  //endregion
-
-  //region Action
-  //select a directory from the breadcrumb
-  selectDir = action(index => {
-    const new_dir = [];
-    this.working_dir.split('/').forEach((x, i) => {
-      if (i <= index)
-        new_dir.push(x);
-    });
-    this.working_dir = new_dir.join('/');
-    this.fetch();
-  });
-
-  //select an item
-  select = action((item, e) => {
-    if (!e.ctrlKey) {
-      let i;
-      for (i = this.config.data.folders.length - 1; i >= 0; i--) {
-        this.config.data.folders[i].selected = false;
-      }
-      for (i = this.config.data.files.length - 1; i >= 0; i--) {
-        this.config.data.files[i].selected = false;
-      }
-    }
-
-    if (item.is_dir) {
-      item = this.config.data.folders.find(x => x === item);
-    } else {
-      item = this.config.data.files.find(x => x === item);
-    }
-
-    item.selected = e.ctrlKey ? !item.selected : true;
-  });
-
 
   //endregion
 }

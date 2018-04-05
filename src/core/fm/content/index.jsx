@@ -49,12 +49,6 @@ const FMContent = class FMContent extends Component {
         this.props.fm_store.fetch(true);
     };
 
-    loadMoreIcon = () => {
-        if (this.props.fm_store.server.indexOf('?') > -1)
-            return this.props.fm_store.server + '&icon=plus';
-        return this.props.fm_store.server + '?icon=plus';
-    };
-
     render = () => {
         return (
             <div id="fm-content-holder" onContextMenu={this.onContextMenu}>

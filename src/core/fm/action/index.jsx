@@ -17,6 +17,7 @@ require('antd/lib/breadcrumb/style');
 
 import throttle from 'debounce'
 import ButtonGroup from 'antd/lib/button/button-group';
+import {action} from "mobx/lib/mobx";
 
 const {confirm} = Modal;
 require('./style.css');
@@ -99,6 +100,16 @@ const FMAction = class FMAction extends Component {
     this.props.fm_store.plugin_data.search.query = '';
   };
 
+  selectDir = index => {
+    const new_dir = [];
+    this.props.fm_store.working_dir.split('/').forEach((x, i) => {
+      if (i <= index)
+        new_dir.push(x);
+    });
+    this.props.fm_store.working_dir = new_dir.join('/');
+    this.props.fm_store.fetch();
+  };
+
   render = () => {
     const selected = this.props.fm_store.selected_items.length;
     return (
@@ -176,7 +187,7 @@ const FMAction = class FMAction extends Component {
                   if (x !== '') 
                     return <Breadcrumb.Item
                       key={`${x}_${i}`}
-                      onClick={() => this.props.fm_store.selectDir(i)}>{x}</Breadcrumb.Item>;
+                      onClick={() => this.selectDir(i)}>{x}</Breadcrumb.Item>;
                   }
                 )}
             </Breadcrumb>

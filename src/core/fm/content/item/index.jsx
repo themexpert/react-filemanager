@@ -2,6 +2,7 @@ import React, {Component} from 'react'
 import Tooltip from 'antd/lib/tooltip'
 import {action} from "mobx/lib/mobx";
 import message from "antd/lib/message/index";
+import {remove_duplicate_slash} from "../../../Helper";
 require('antd/lib/tooltip/style');
 
 const IMAGE = ["jpg", "jpeg", "png", "svg"];
@@ -26,7 +27,7 @@ export default class Item extends Component {
     if(this.props.item.is_dir)
       this.onDoubleClick(e);
     else
-      this.props.store.select(this.props.item, e);
+      this.select(this.props.item, e);
   };
 
   onDoubleClick = e => {
@@ -50,6 +51,25 @@ export default class Item extends Component {
       }
   };
 
+  select = action((item, e) => {
+    if (!e.ctrlKey) {
+      let i;
+      for (i = this.props.store.config.data.folders.length - 1; i >= 0; i--) {
+        this.props.store.config.data.folders[i].selected = false;
+      }
+      for (i = this.props.store.config.data.files.length - 1; i >= 0; i--) {
+        this.props.store.config.data.files[i].selected = false;
+      }
+    }
+
+    if (item.is_dir) {
+      item = this.props.store.config.data.folders.find(x => x === item);
+    } else {
+      item = this.props.store.config.data.files.find(x => x === item);
+    }
+
+    item.selected = e.ctrlKey ? !item.selected : true;
+  });
 
   //run the callback with the result
   runCallback = item => {
@@ -85,7 +105,7 @@ export default class Item extends Component {
       type
     };
 
-    result[`${type}`] = this.props.store.remove_duplicate_slash(this.props.store.working_dir + '/' + item.basename);
+    result[`${type}`] = remove_duplicate_slash(this.props.store.working_dir + '/' + item.basename);
 
     if (this.props.store.callback.call(this, result)) {
       this.props.store.closeFileManager();

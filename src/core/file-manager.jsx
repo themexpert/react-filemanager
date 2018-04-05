@@ -34,10 +34,6 @@ const FileManager = class FileManager extends Component {
     this.store.registerPlugin(plugin, config);
   };
 
-  handleOk = e => {
-    this.store.runCallback();
-  };
-
   handleCancel = () => {
     this.store.closeFileManager();
   };
