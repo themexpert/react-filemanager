@@ -1,7 +1,5 @@
 import React, {Component} from 'react'
 import Tooltip from 'antd/lib/tooltip'
-import {action} from "mobx/lib/mobx";
-import message from "antd/lib/message/index";
 import {remove_duplicate_slash} from "../../../Helper";
 require('antd/lib/tooltip/style');
 
@@ -51,7 +49,7 @@ export default class Item extends Component {
       }
   };
 
-  select = action((item, e) => {
+  select = (item, e) => {
     if (!e.ctrlKey) {
       let i;
       for (i = this.props.store.config.data.folders.length - 1; i >= 0; i--) {
@@ -69,7 +67,9 @@ export default class Item extends Component {
     }
 
     item.selected = e.ctrlKey ? !item.selected : true;
-  });
+
+    this.forceUpdate();
+  };
 
   //run the callback with the result
   runCallback = item => {
@@ -151,12 +151,19 @@ export default class Item extends Component {
     ];
   };
 
+  getWrapperClass = () => {
+    const classes = ["fm-grid-m"];
+    if(this.props.item.selected)
+      classes.push("selected");
+    return classes.join(" ");
+  };
+
   render = () => {
     let mediaType = this.props.item.is_dir ? 'folder' : 'file';
     let mediaTypeClass = 'fm-media fm-media--' + mediaType;
     return (
       <Tooltip title={this.tooltip()} overlayClassName="info-tooltip">
-        <div className={"fm-grid-m" + (this.props.item.selected ? ' selected' : '')}>
+        <div className={this.getWrapperClass()}>
           <div className={mediaTypeClass} onClick={this.onClick} onDoubleClick={this.onDoubleClick} onContextMenu={this.onContextMenu}>
             <div className="fm-media__thumb">
               <img src={this.img()} alt="icon"/>

@@ -17,7 +17,6 @@ require('antd/lib/breadcrumb/style');
 
 import throttle from 'debounce'
 import ButtonGroup from 'antd/lib/button/button-group';
-import {action} from "mobx/lib/mobx";
 
 const {confirm} = Modal;
 require('./style.css');
