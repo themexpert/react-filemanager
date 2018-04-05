@@ -50,14 +50,9 @@ const FileManager = class FileManager extends Component {
           title="Media Manager"
           visible={this.store.is_visible}
           maskClosable={false}
-          onOk={this.handleOk}
-          onCancel={this.handleCancel}
           prefixCls="qxui-modal"
-          footer={[
-              <Button key="submit" type="primary" loading={this.store.is_loading} onClick={this.handleOk} prefixCls="qxui-btn">
-                  Select
-              </Button>
-          ]}
+          footer={null}
+          onCancel={this.handleCancel}
           width={window.innerWidth/1.5}
         >
           {this.store.tabs.length ? <Tabs defaultActiveKey={this.store.tabs[0].hook} prefixCls="qxui-tabs">

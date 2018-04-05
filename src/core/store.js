@@ -384,7 +384,7 @@ export default class FMStore {
     }, this.config.data.headers);
 
     data = Object.assign(data, this.config.data.http_params);
-    console.log(data, this.config.data, headers);
+
     return axios.post(this.config.data.server, data, {headers});
   };
 
@@ -442,28 +442,6 @@ export default class FMStore {
   //endregion
 
   //region Action
-
-  //run the callback with the result
-  runCallback = action(item => {
-    let selection = [];
-    if (item && !item.is_dir) {
-      selection.push(item);
-    }
-    else {
-      selection = this.list.filter(item => item.selected);
-      const has_dir = selection.filter(item => item.is_dir);
-      if (has_dir.length) {
-        message.warning("You can select files only.");
-        return;
-      }
-    }
-    const result = selection.map(item => {
-      return this.remove_duplicate_slash(this.working_dir + '/' + item.basename);
-    });
-    if (this.config.data.callback.call(this, result)) {
-      this.closeFileManager();
-    }
-  });
   //select a directory from the breadcrumb
   selectDir = action(index => {
     const new_dir = [];
@@ -496,21 +474,6 @@ export default class FMStore {
     item.selected = e.ctrlKey ? !item.selected : true;
   });
 
-  //what happens on double click on an item
-  clickAction = action(item => {
-    if (item.is_dir) {
-      this.working_dir = this.config.data.working_dir + item.basename + '/';
-      this.fetch();
-    }
-    else {
-      return this.runCallback(item);
-      //TODO: preview
-      this.config.plugin.plugin = 'General';
-      this.config.plugin.alias = 'file_info';
-      this.config.plugin.component = this.config.plugins.file_info.component;
-      this.config.plugin_data.file_info.file = item;
-    }
-  });
 
   //endregion
 }
