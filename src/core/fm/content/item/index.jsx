@@ -50,15 +50,16 @@ export default class Item extends Component {
   };
 
   select = (item, e) => {
-    if (!e.ctrlKey) {
-      let i;
-      for (i = this.props.store.config.data.folders.length - 1; i >= 0; i--) {
-        this.props.store.config.data.folders[i].selected = false;
-      }
-      for (i = this.props.store.config.data.files.length - 1; i >= 0; i--) {
-        this.props.store.config.data.files[i].selected = false;
-      }
-    }
+    // if (!e.ctrlKey) {
+    //   this.props.store.config.data.folders = this.props.store.config.data.folders.map(folder => {
+    //     folder.selected = false;
+    //     return folder;
+    //   });
+    //   this.props.store.config.data.files = this.props.store.config.data.files.map(file => {
+    //     file.selected = false;
+    //     return file;
+    //   });
+    // }
 
     if (item.is_dir) {
       item = this.props.store.config.data.folders.find(x => x === item);
@@ -66,7 +67,8 @@ export default class Item extends Component {
       item = this.props.store.config.data.files.find(x => x === item);
     }
 
-    item.selected = e.ctrlKey ? !item.selected : true;
+    //item.selected = e.ctrlKey ? !item.selected : true;
+    item.selected = e.target.checked === true;
 
     this.forceUpdate();
   };
@@ -151,20 +153,25 @@ export default class Item extends Component {
     ];
   };
 
-  getWrapperClass = () => {
-    const classes = ["fm-grid-m"];
+  getMediaClass = () => {
+    const classes = ["fm-media"];
+    if(this.props.item.is_dir)
+      classes.push("fm-media--folder");
+    else
+      classes.push("fm-media--file");
     if(this.props.item.selected)
-      classes.push("selected");
+      classes.push("active");
     return classes.join(" ");
   };
 
   render = () => {
     let mediaType = this.props.item.is_dir ? 'folder' : 'file';
-    let mediaTypeClass = 'fm-media fm-media--' + mediaType;
+    let mediaTypeClass = ' ' + mediaType;
     return (
       <Tooltip title={this.tooltip()} overlayClassName="info-tooltip">
-        <div className={this.getWrapperClass()}>
-          <div className={mediaTypeClass} onClick={this.onClick} onDoubleClick={this.onDoubleClick} onContextMenu={this.onContextMenu}>
+        <div className="fm-grid-m">
+          <input type="checkbox" checked={this.props.item.selected} onChange={this.onClick} style={{position: "relative",top:0,right:0}}/>
+          <div className={this.getMediaClass()} onDoubleClick={this.onDoubleClick} onContextMenu={this.onContextMenu}>
             <div className="fm-media__thumb">
               <img src={this.img()} alt="icon"/>
             </div>
