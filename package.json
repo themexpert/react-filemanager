@@ -52,6 +52,7 @@
     "mobx": "^3.4.1",
     "mobx-react": "^4.3.5",
     "react": "^16.2.0",
-    "react-dom": "^16.2.0"
+    "react-dom": "^16.2.0",
+    "react-filemanager-icons-plugin": "^1.0.0"
   }
 }
