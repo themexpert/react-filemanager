@@ -170,7 +170,9 @@ export default class Item extends Component {
     return (
       <Tooltip title={this.tooltip()} overlayClassName="info-tooltip">
         <div className="fm-grid-m">
-          <input type="checkbox" checked={this.props.item.selected} onChange={this.onClick} style={{position: "relative",top:0,right:0}}/>
+          <div className="fm-checkbox-wrap">
+            <input type="checkbox" checked={this.props.item.selected} onChange={this.onClick} style={{position: "relative",top:0,right:0}}/>
+          </div>
           <div className={this.getMediaClass()} onDoubleClick={this.onDoubleClick} onContextMenu={this.onContextMenu}>
             <div className="fm-media__thumb">
               <img src={this.img()} alt="icon"/>

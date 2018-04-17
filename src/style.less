@@ -1,11 +1,10 @@
 // Modal
 .fm-modal{
-  z-index: 9991 !important;
+  // z-index: 9991 !important;
   .qxui-modal-body{
     height: 450px;
   }
 }
-.ant-modal{z-index: 9992 !important; }
 #fm-content{width: 100%;}
 .fm-toolbar{
   background: #fff;
@@ -22,10 +21,12 @@
 .fm-grid-m{
   width: calc(100%/7);
   float: left;
+  position: relative;
 }
 .fm-grid-sm{
   width: 11.11111%;
   float: left;
+  position: relative;
 }
 .fm-media{
   background: #fff;
@@ -70,4 +71,14 @@
 .fm-media__caption{
   padding: 6px 3px;
   font-size: 10px;
+}
+// Checkbox style
+.fm-checkbox-wrap{
+  position: absolute; top: 5px; right: 5px;
+  background: #f5f5f5;
+  padding: 3px 7px;
+  border-left: 1px solid #eee;
+  border-bottom: 1px solid #eee;
+  border-radius: 2px;
+  z-index: 9;
 }

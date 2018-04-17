@@ -46,6 +46,7 @@ const FileManager = class FileManager extends Component {
           title="Media Manager"
           visible={this.store.is_visible}
           maskClosable={false}
+          mask={false}
           prefixCls="qxui-modal"
           footer={null}
           onCancel={this.handleCancel}
