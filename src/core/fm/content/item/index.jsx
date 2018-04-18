@@ -56,7 +56,7 @@ export default class Item extends Component {
   //run the callback with the result
   runCallback = item => {
     let type = "unknown";
-    if(RAW.indexOf(item.extension.toLowerCase() >= 0)) {
+    if(RAW.indexOf(item.extension.toLowerCase()) >= 0) {
       return this.sendRawResult(item);
     }
     else if (IMAGE.indexOf(item.extension.toLowerCase()) >= 0) {
@@ -153,7 +153,7 @@ export default class Item extends Component {
     let mediaTypeClass = ' ' + mediaType;
     return (
       <Tooltip title={this.tooltip()} overlayClassName="info-tooltip">
-        <div className="fm-grid-m" onClick={this.onClick}>
+        <div className="fm-grid-m">
           <div className="fm-checkbox-wrap">
             <input type="checkbox" checked={this.props.item.selected} onChange={this.onClick} />
           </div>
