@@ -17,6 +17,7 @@ require('antd/lib/breadcrumb/style');
 
 import throttle from 'debounce'
 import ButtonGroup from 'antd/lib/button/button-group';
+import FMStore from "../../store";
 
 const {confirm} = Modal;
 require('./style.css');
@@ -45,7 +46,7 @@ const FMAction = class FMAction extends Component {
 
   onSearchInput = throttle(e => {
     this.props.fm_store.plugin_data.search.query = e;
-    if (e === '') 
+    if (e === '')
       return;
     this
       .props
@@ -116,7 +117,7 @@ const FMAction = class FMAction extends Component {
         <div className="qx-row qx-justify-content-between">
           <div className="qx-col">
             <Button icon="upload" type="primary" onClick={this.props.fm_store.selectPlugin('upload')}>Upload</Button>
-            <Button.Group prefixCls="qxui-btn-group" style={{marginLeft: '10px',marginRight: '10px' }}>
+            <Button.Group prefixCls="qxui-btn-group" style={{marginLeft: '10px', marginRight: '10px'}}>
               <Tooltip title="New Folder">
                 <Button icon="folder-add" onClick={this.props.fm_store.selectPlugin('new_dir')}/>
               </Tooltip>
@@ -130,7 +131,7 @@ const FMAction = class FMAction extends Component {
               </Tooltip>
 
               <Tooltip title="Duplciate">
-                <Button icon="copy" onClick={this.props.fm_store.selectPlugin('copy')}disabled={!selected}/>
+                <Button icon="copy" onClick={this.props.fm_store.selectPlugin('copy')} disabled={!selected}/>
               </Tooltip>
 
               <Tooltip title="Move">
@@ -142,26 +143,34 @@ const FMAction = class FMAction extends Component {
               </Tooltip>
             </Button.Group>
 
-            <Button.Group style={{ marginLeft: '10px', marginRight: '10px'}}>
+            <Button.Group style={{marginLeft: '10px', marginRight: '10px'}}>
               <Tooltip title="Reload">
                 <Button icon="reload" onClick={this.props.fm_store.refresh}/>
               </Tooltip>
             </Button.Group>
 
-             { Object.keys(this.props.fm_store.action_menu).length ?
+            {Object.keys(this.props.fm_store.action_menu).length ?
               <div>
                 {Object.keys(this.props.fm_store.action_menu)
-                  .map(key => { return <Button onClick={this.props.fm_store.selectPlugin(key)} 
-                                  key={key}>{this.props.fm_store.action_menu[key]}</Button>
-                })}
-              </div> : null }
+                  .map(key => {
+                    return <Button onClick={this.props.fm_store.selectPlugin(key)}
+                                   key={key}>{this.props.fm_store.action_menu[key]}</Button>
+                  })}
+              </div> : null}
           </div>
 
           <div className="qx-col qx-text-right">
-            <ButtonGroup prefixCls="qxui-btn-group" style={{marginLeft: '10px',marginRight: '10px' }}>
-              <Button prefixCls="qxui-btn" selected>All</Button>
-              <Button icon="picture" prefixCls="qxui-btn"/>
-              <Button icon="video-camera" prefixCls="qxui-btn"/>
+            <ButtonGroup prefixCls="qxui-btn-group" style={{marginLeft: '10px', marginRight: '10px'}}>
+              {Object.keys(this.props.fm_store.filter_types).map(filter_type=> {
+                return (<Button
+                  key={`filter-${filter_type}`}
+                  prefixCls="qxui-btn"
+                  icon={this.props.fm_store.filter_types[filter_type].icon}
+                  className={this.props.fm_store.filter_type === filter_type ? 'active' : ''}
+                  onClick={() => this.props.fm_store.filter_type = filter_type}>
+                  {this.props.fm_store.filter_types[filter_type].title !== "" ? this.props.fm_store.filter_types[filter_type].title : ""}
+                </Button>)
+              })}
             </ButtonGroup>
 
             <AutoComplete
@@ -170,7 +179,7 @@ const FMAction = class FMAction extends Component {
               onSelect={this.onSearchSelect}
               onSearch={this.onSearchInput}
               placeholder="Search">
-              <Input suffix={< Icon type = "search" className = "certain-category-icon" />} prefixCls="qxui-input"/>
+              <Input suffix={< Icon type="search" className="certain-category-icon"/>} prefixCls="qxui-input"/>
             </AutoComplete>
           </div>
         </div>
@@ -183,10 +192,10 @@ const FMAction = class FMAction extends Component {
               </Breadcrumb.Item>
               {this.props.fm_store.working_dir.split('/')
                 .map((x, i) => {
-                  if (x !== '') 
-                    return <Breadcrumb.Item
-                      key={`${x}_${i}`}
-                      onClick={() => this.selectDir(i)}>{x}</Breadcrumb.Item>;
+                    if (x !== '')
+                      return <Breadcrumb.Item
+                        key={`${x}_${i}`}
+                        onClick={() => this.selectDir(i)}>{x}</Breadcrumb.Item>;
                   }
                 )}
             </Breadcrumb>

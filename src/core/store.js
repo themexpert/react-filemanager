@@ -86,6 +86,7 @@ export default class FMStore {
       loading: false,
       visible: false,
       is_uploading: false,
+      filter_type: null,
       callback: e => console.log(e)
     },
     //action menu buttons
@@ -98,7 +99,13 @@ export default class FMStore {
         hook: 'local',
         categories: ['image', 'video', 'dir']
       }
-    ]
+    ],
+    filter_types: {
+      null: {title: "All", types: []},
+      image: {title: null, icon: "picture", types: ['png', 'jpeg', 'svg', 'jpg', 'bmp', 'gif']},
+      audio: {title: null, icon: "sound", types: ['mp3', 'ogg', 'aac']},
+      video: {title: null, icon: "video-camera", types: ['mkv', 'flv', 'mp4', 'vob', '3gp']}
+    }
   });
 
   openFileManager = action((cb, config) => {
@@ -223,6 +230,10 @@ export default class FMStore {
     this.config.data.visible = state;
   };
 
+  set filter_type(filter_type) {
+    this.config.data.filter_type = filter_type;
+  }
+
   //endregion
 
   //region Config getters
@@ -264,9 +275,22 @@ export default class FMStore {
     return this.config.plugin;
   }
 
+  //get the filter types
+  get filter_types() {
+    return this.config.filter_types;
+  }
+
+  //get the filter identity
+  get filter_type() {
+    return this.config.data.filter_type;
+  }
+
   //all items list
   get list() {
-    return this.config.data.folders.concat(this.config.data.files);
+    const types = this.filter_types[this.filter_type].types;
+    return this.config.data.folders.concat(this.config.data.files.filter(file=>{
+      return !types.length || types.indexOf(file.extension.toLowerCase()) >= 0;
+    }));
   };
 
   //server URL
