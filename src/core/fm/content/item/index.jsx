@@ -3,7 +3,8 @@ import Tooltip from 'antd/lib/tooltip'
 import {remove_duplicate_slash} from "../../../Helper";
 require('antd/lib/tooltip/style');
 
-const IMAGE = ["jpg", "jpeg", "png", "svg"];
+const RAW = ["svg"];
+const IMAGE = ["jpg", "jpeg", "png"];
 const VIDEO = ["mkv", "mp4", "flv", "mpg"];
 const AUDIO = ["mp3", "aac", "ogg"];
 
@@ -93,7 +94,10 @@ export default class Item extends Component {
     // });
 
     let type = "unknown";
-    if (IMAGE.indexOf(item.extension.toLowerCase()) >= 0) {
+    if(RAW.indexOf(item.extension.toLowerCase() >= 0)) {
+      return this.sendRawResult(item);
+    }
+    else if (IMAGE.indexOf(item.extension.toLowerCase()) >= 0) {
       type = "image";
     }
     else if(VIDEO.indexOf(item.extension.toLowerCase()) >= 0) {
@@ -109,6 +113,24 @@ export default class Item extends Component {
 
     result[`${type}`] = remove_duplicate_slash(this.props.store.working_dir + '/' + item.basename);
 
+    this.sendResult(result);
+  };
+
+  //send raw data as result
+  sendRawResult = item => {
+    this.props.store.httpGet(this.img())
+    .then(({data})=>{
+      const type = item.extension.toLowerCase();
+      const result = {
+        type
+      };
+      result[`${type}`] = data;
+      this.sendResult(result);
+    })
+  };
+
+  //call the callback and send the result
+  sendResult = result => {
     if (this.props.store.callback.call(this, result)) {
       this.props.store.closeFileManager();
     }

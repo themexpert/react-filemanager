@@ -295,23 +295,6 @@ export default class FMStore {
 
   //endregion
 
-  //region Context Menu
-
-  //context menu for directory scope
-  get contextMenu() {
-    return (<ul>
-      <li>Hello</li>
-      <li>World</li>
-    </ul>);
-  };
-
-  //context menu for item scope
-  get itemContextMenu() {
-
-  };
-
-  //endregion
-
   //region Http
 
   //make a request to the server
@@ -387,6 +370,21 @@ export default class FMStore {
     data = Object.assign(data, this.config.data.http_params);
 
     return axios.post(this.config.data.server, data, {headers});
+  };
+
+  //sends a GET request to the server
+  httpGet = url => {
+    const headers = Object.assign({
+      'Content-Type': 'application/x-www-form-urlencoded'
+    }, this.config.data.headers);
+    if(url.indexOf("?") >= 0)
+      url += "&";
+    else
+      url+= "?";
+    url+= Object.keys(this.config.data.http_params).map(key=>{
+      return key + "=" + this.config.data.http_params[key];
+    }).join("&");
+    return axios.get(url, {headers});
   };
 
   //delete selected items
