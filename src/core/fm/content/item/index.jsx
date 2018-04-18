@@ -13,10 +13,6 @@ export default class Item extends Component {
     super(props);
   }
 
-  getIcon = () => {
-
-  };
-
   getClass = () => {
     return "item " + this.props.className;
   };
@@ -41,26 +37,10 @@ export default class Item extends Component {
       }
       else {
         return this.runCallback(item);
-        //TODO: preview
-        // this.config.plugin.plugin = 'General';
-        // this.config.plugin.alias = 'file_info';
-        // this.config.plugin.component = this.config.plugins.file_info.component;
-        // this.config.plugin_data.file_info.file = item;
       }
   };
 
   select = (item, e) => {
-    // if (!e.ctrlKey) {
-    //   this.props.store.config.data.folders = this.props.store.config.data.folders.map(folder => {
-    //     folder.selected = false;
-    //     return folder;
-    //   });
-    //   this.props.store.config.data.files = this.props.store.config.data.files.map(file => {
-    //     file.selected = false;
-    //     return file;
-    //   });
-    // }
-
     if (item.is_dir) {
       item = this.props.store.config.data.folders.find(x => x === item);
     } else {
@@ -75,23 +55,6 @@ export default class Item extends Component {
 
   //run the callback with the result
   runCallback = item => {
-    // let selection = [];
-    // if (item && !item.is_dir) {
-    //   selection.push(item);
-    // }
-    // else {
-    //   selection = this.props.store.list.filter(item => item.selected);
-    //   const has_dir = selection.filter(item => item.is_dir);
-    //   if (has_dir.length) {
-    //     message.warning("You can select files only.");
-    //     return;
-    //   }
-    // }
-    // const result = selection.map(item => {
-    //   console.log(item);
-    //   return this.remove_duplicate_slash(this.working_dir + '/' + item.basename);
-    // });
-
     let type = "unknown";
     if(RAW.indexOf(item.extension.toLowerCase() >= 0)) {
       return this.sendRawResult(item);
