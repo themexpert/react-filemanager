@@ -110,6 +110,12 @@ export default class FMStore {
   closeFileManager = action(() => {
     this.setCallback(e=>{console.log(e)});
     this.visible = false;
+    this.config.data.folders.forEach(folder=>{
+      folder.selected = false;
+    });
+    this.config.data.files.forEach(file=>{
+      file.selected = false;
+    });
   });
 
   //region Plugins
