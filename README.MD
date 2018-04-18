@@ -55,39 +55,8 @@ const config  = {
 <button onclick="openFileManager(fileSelectCallback, config)">Open File Manager</button> 
 ```
 ```JS
-/*
- * if selection is an icon, the return value will be as following
- * **********************
- * {
- *  type: 'svg',
- *  svg: 'raw svg markup'
- * }
- * **********************
- * The return value is different from file/directory selection is because icon picker is a plugin
- * Try it and I believe you'll figure out how it works
- */
-function fileSelectCallback(selected_list) {
-    console.log(selected_list);
-    //do whatever
-    
-    //path => the relative path to the root path set in `app/FM/config.php`
-    //selected_list => selected files and folders
-    
-    //return true to close the modal
-    //return string to show info/error after validation
-    
-    //let's say we want user to select only one file
-    if(selected_list.length !== 1) {
-        return 'Only one file has to be selected';
-    }
-    //let's say the user selected a folder which is not good for us
-    if(selected_list[0].is_dir) {
-        return 'Only file can be selected';
-    }
-    
-    //we got one file selected here
-    // //do whatever
-    
+function fileSelectCallback(selection) {
+    console.log(selection);
     return true; //close the modal
 }
 ```
@@ -128,26 +97,11 @@ const config  = {
 export default class FilePicker extends Component {
     constructor(props) {
         super(props);
-        
-        this.state = {
-            filename: null
-        };
     }
     
-    onFileSelect = (files) => {
-        //we want the user to select at least one file
-        if(!files.length)
-            return 'Please select a file';
-        
-        //we want the user to select less or equal to one file
-        if(files.length > 1) {
-            return 'Only one file can be selected';
-        }
-        
-        //which implies user selected one file by this line of code
-        
-        //relative path to the root of file manager set in the server side config
-        console.log(files);
+    onFileSelect = selection => {
+    
+        console.log(selection);
         
         return true; //closes the file manager modal
     };
