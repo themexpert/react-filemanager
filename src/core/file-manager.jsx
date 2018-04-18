@@ -65,7 +65,7 @@ const FileManager = class FileManager extends Component {
                   </TabPane>
                 );
               })}
-          </Tabs> : "The filters you've applied stripped of all the plugins we have" }
+          </Tabs> : "The filters you've applied stripped off all the plugins we have" }
         </Modal>
       </Provider>
     );

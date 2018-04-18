@@ -56,7 +56,7 @@ const FMContent = class FMContent extends Component {
                     <div id="fm-content" className="qx-col">
                         {this.props.fm_store.list
                             .map(item => {
-                                return <Item key={item.basename} item={item} store={this.props.fm_store}/>
+                                return <Item key={`${item.basename}-${item.selected}`} item={item} store={this.props.fm_store}/>
                             })}
                         {this.hasMore() ? <a className="item" onClick={this.onClickLoadMore}>Load More</a> : null}
                     </div>

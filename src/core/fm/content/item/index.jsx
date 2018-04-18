@@ -11,7 +11,6 @@ const AUDIO = ["mp3", "aac", "ogg"];
 export default class Item extends Component {
   constructor(props) {
     super(props);
-
   }
 
   getIcon = () => {
@@ -69,9 +68,9 @@ export default class Item extends Component {
     }
 
     //item.selected = e.ctrlKey ? !item.selected : true;
-    item.selected = e.target.checked === true;
+    item.selected = (e && e.target.checked === true) || !item.selected;
 
-    this.forceUpdate();
+    // this.forceUpdate();
   };
 
   //run the callback with the result
@@ -191,7 +190,7 @@ export default class Item extends Component {
     let mediaTypeClass = ' ' + mediaType;
     return (
       <Tooltip title={this.tooltip()} overlayClassName="info-tooltip">
-        <div className="fm-grid-m">
+        <div className="fm-grid-m" onClick={this.onClick}>
           <div className="fm-checkbox-wrap">
             <input type="checkbox" checked={this.props.item.selected} onChange={this.onClick} />
           </div>
