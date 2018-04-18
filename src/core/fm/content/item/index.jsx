@@ -1,10 +1,13 @@
 import React, {Component} from 'react'
+import throttle from 'debounce'
 import {remove_duplicate_slash} from "../../../Helper";
 
 const RAW = ["svg"];
 const IMAGE = ["jpg", "jpeg", "png"];
 const VIDEO = ["mkv", "mp4", "flv", "mpg"];
 const AUDIO = ["mp3", "aac", "ogg"];
+
+let TIMER = null;
 
 export default class Item extends Component {
   constructor(props) {
@@ -15,17 +18,28 @@ export default class Item extends Component {
     return "item " + this.props.className;
   };
 
-  onClick = e => {
-    if(this.props.item.is_dir)
-      this.onDoubleClick(e);
-    else
-      this.select(this.props.item, e);
+  onClick = () => {
+    if(TIMER !== null) {
+      return this.runDoubleClick();
+    }
+    TIMER = setTimeout(this.runSingleClick, 300);
   };
 
-  onDoubleClick = e => {
-    e.preventDefault();
-    e.stopPropagation();
+  runSingleClick = () => {
+    this.killTimer();
+    this.select();
+  };
 
+  runDoubleClick = () => {
+    this.killTimer();
+  };
+
+  killTimer = () => {
+    clearTimeout(TIMER);
+    TIMER = null;
+  };
+
+  onDoubleClick = () => {
     const item = this.props.item;
 
     //what happens on double click on an item
@@ -38,17 +52,16 @@ export default class Item extends Component {
       }
   };
 
-  select = (item, e) => {
+  select = () => {
+    let item = this.props.item;
+
     if (item.is_dir) {
       item = this.props.store.config.data.folders.find(x => x === item);
     } else {
       item = this.props.store.config.data.files.find(x => x === item);
     }
 
-    //item.selected = e.ctrlKey ? !item.selected : true;
-    item.selected = (e && e.target.checked === true) || !item.selected;
-
-    // this.forceUpdate();
+    item.selected = !item.selected;
   };
 
   //run the callback with the result
@@ -142,7 +155,7 @@ export default class Item extends Component {
     let mediaTypeClass = ' ' + mediaType;
     return (
       <div className="fm-grid-m">
-        <div className={this.getMediaClass()} onDoubleClick={this.onDoubleClick} onContextMenu={this.onContextMenu} onChange={this.onClick}>
+        <div className={this.getMediaClass()} onDoubleClick={this.onDoubleClick} onClick={this.onClick} onContextMenu={this.onContextMenu}>
           <div className="fm-media__thumb">
             <img src={this.img()} alt="icon"/>
           </div>
