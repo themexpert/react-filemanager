@@ -1,7 +1,5 @@
 import React, {Component} from 'react'
-import Tooltip from 'antd/lib/tooltip'
 import {remove_duplicate_slash} from "../../../Helper";
-require('antd/lib/tooltip/style');
 
 const RAW = ["svg"];
 const IMAGE = ["jpg", "jpeg", "png"];
@@ -128,15 +126,6 @@ export default class Item extends Component {
     return path + '?' + query.join(('&'));
   };
 
-  tooltip = () => {
-    return [
-      <p key="name">
-        {this.props.item.basename} - <strong>{this.props.item.size}</strong> <br/>
-        <strong>{this.props.item.last_modification_time}</strong>
-      </p>
-    ];
-  };
-
   getMediaClass = () => {
     const classes = ["fm-media"];
     if(this.props.item.is_dir)
@@ -152,21 +141,16 @@ export default class Item extends Component {
     let mediaType = this.props.item.is_dir ? 'folder' : 'file';
     let mediaTypeClass = ' ' + mediaType;
     return (
-      <Tooltip title={this.tooltip()} overlayClassName="info-tooltip">
-        <div className="fm-grid-m">
-          <div className="fm-checkbox-wrap">
-            <input type="checkbox" checked={this.props.item.selected} onChange={this.onClick} />
+      <div className="fm-grid-m">
+        <div className={this.getMediaClass()} onDoubleClick={this.onDoubleClick} onContextMenu={this.onContextMenu} onChange={this.onClick}>
+          <div className="fm-media__thumb">
+            <img src={this.img()} alt="icon"/>
           </div>
-          <div className={this.getMediaClass()} onDoubleClick={this.onDoubleClick} onContextMenu={this.onContextMenu}>
-            <div className="fm-media__thumb">
-              <img src={this.img()} alt="icon"/>
-            </div>
-            <div className="fm-media__caption">
-              <span>{this.props.item.basename}</span>
-            </div>
+          <div className="fm-media__caption">
+            <span>{this.props.item.basename}</span>
           </div>
         </div>
-      </Tooltip>
+      </div>
     );
   };
 }

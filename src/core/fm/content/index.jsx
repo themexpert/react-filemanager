@@ -3,6 +3,7 @@ import {inject, observer} from 'mobx-react'
 import Item from "./item/index";
 import PluginContainer from "../../PluginContainer";
 import throttle from 'debounce';
+import Button from 'antd/lib/button'
 
 import {viewport} from "../../Helper";
 const view_size = viewport();
@@ -58,7 +59,7 @@ const FMContent = class FMContent extends Component {
                             .map(item => {
                                 return <Item key={`${item.basename}-${item.selected}`} item={item} store={this.props.fm_store}/>
                             })}
-                        {this.hasMore() ? <a className="item" onClick={this.onClickLoadMore}>Load More</a> : null}
+                        {this.hasMore() ? <Button className="fm-loadmore" icon="appstore-o" type="primary" onClick={this.onClickLoadMore}>Load More</Button> : null}
                     </div>
                     <PluginContainer/>
                 </div>
