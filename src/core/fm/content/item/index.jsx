@@ -161,6 +161,12 @@ export default class Item extends Component {
     return classes.join(" ");
   };
 
+  excerpt = () => {
+    const title = this.props.item.filename;
+    const max = 15;
+    return title.split('').length > max ? title.substr(0, max) + '[...].' + this.props.item.extension : title;
+  };
+
   render = () => {
     let mediaType = this.props.item.is_dir ? 'folder' : 'file';
     let mediaTypeClass = ' ' + mediaType;
@@ -175,7 +181,7 @@ export default class Item extends Component {
               <img src={this.img()} alt="icon"/>
             </div>
             <div className="fm-media__caption">
-              <span>{this.props.item.basename}</span>
+              <span>{this.excerpt()}</span>
             </div>
           </div>
         </div>
