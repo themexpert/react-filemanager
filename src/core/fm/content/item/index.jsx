@@ -1,8 +1,5 @@
 import React, {Component} from 'react'
-import Tooltip from 'antd/lib/tooltip'
-import throttle from 'debounce'
 import {remove_duplicate_slash} from "../../../Helper";
-require('antd/lib/tooltip/style');
 
 const RAW = ["svg"];
 const IMAGE = ["jpg", "jpeg", "png"];
@@ -45,13 +42,13 @@ export default class Item extends Component {
     const item = this.props.item;
 
     //what happens on double click on an item
-      if (item.is_dir) {
-        this.props.store.working_dir = this.props.store.working_dir + item.basename + '/';
-        this.props.store.fetch();
-      }
-      else {
-        return this.runCallback(item);
-      }
+    if (item.is_dir) {
+      this.props.store.working_dir = this.props.store.working_dir + item.basename + '/';
+      this.props.store.fetch();
+    }
+    else {
+      return this.runCallback(item);
+    }
   };
 
   select = () => {
@@ -94,14 +91,14 @@ export default class Item extends Component {
   //send raw data as result
   sendRawResult = item => {
     this.props.store.httpGet(this.img())
-    .then(({data})=>{
-      const type = item.extension.toLowerCase();
-      const result = {
-        type
-      };
-      result[`${type}`] = data;
-      this.sendResult(result);
-    })
+      .then(({data})=>{
+        const type = item.extension.toLowerCase();
+        const result = {
+          type
+        };
+        result[`${type}`] = data;
+        this.sendResult(result);
+      })
   };
 
   //call the callback and send the result
@@ -141,15 +138,6 @@ export default class Item extends Component {
     return path + '?' + query.join(('&'));
   };
 
-  tooltip = () => {
-    return [
-      <p key="name">
-        {this.props.item.basename} - <strong>{this.props.item.size}</strong> <br/>
-        <strong>{this.props.item.last_modification_time}</strong>
-      </p>
-    ];
-  };
-
   getMediaClass = () => {
     const classes = ["fm-media"];
     if(this.props.item.is_dir)
@@ -171,21 +159,16 @@ export default class Item extends Component {
     let mediaType = this.props.item.is_dir ? 'folder' : 'file';
     let mediaTypeClass = ' ' + mediaType;
     return (
-      <Tooltip title={this.tooltip()} overlayClassName="info-tooltip">
-        <div className="fm-grid-m">
-          <div className="fm-checkbox-wrap">
-            <input type="checkbox" checked={this.props.item.selected} onChange={this.onClick} />
+      <div className="fm-grid-m">
+        <div className={this.getMediaClass()} onDoubleClick={this.onDoubleClick} onClick={this.onClick} onContextMenu={this.onContextMenu}>
+          <div className="fm-media__thumb">
+            <img src={this.img()} alt="icon"/>
           </div>
-          <div className={this.getMediaClass()} onDoubleClick={this.onDoubleClick} onClick={this.onClick} onContextMenu={this.onContextMenu}>
-            <div className="fm-media__thumb">
-              <img src={this.img()} alt="icon"/>
-            </div>
-            <div className="fm-media__caption">
-              <span>{this.excerpt()}</span>
-            </div>
+          <div className="fm-media__caption">
+            <span>{this.excerpt()}</span>
           </div>
         </div>
-      </Tooltip>
+      </div>
     );
   };
-}
+};

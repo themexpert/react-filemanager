@@ -52,7 +52,7 @@ export default class NewDirectory extends Component {
     render = () => {
         return (
             <Modal
-                title="New Directory"
+                title="Create a new folder"
                 onOk={this.handleOk}
                 onCancel={this.handleCancel}
                 visible={this.state.visible}
@@ -60,7 +60,13 @@ export default class NewDirectory extends Component {
                 closable={false}
                 okText="Create"
             >
-                <Input defaultValue={this.state.dirname} placeholder="Folder Name" onChange={this.handleTyping} onPressEnter={this.handleOk}/>
+                <Input 
+                    defaultValue={this.state.dirname} 
+                    placeholder="Enter a folder name" 
+                    onChange={this.handleTyping} 
+                    onPressEnter={this.handleOk}
+                    prefixCls="qxui-input"
+                    />
             </Modal>
         );
     };
