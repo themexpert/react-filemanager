@@ -152,7 +152,7 @@ export default class Item extends Component {
   excerpt = () => {
     const basename = this.props.item.basename;
     const max = 11;
-    return basename.split('').length > max ? this.props.item.filename.substr(0, max) + '...' + this.props.item.extension : basename;
+    return basename.split('').length > max ? this.props.item.filename.substr(0, max) + '...' + ( this.props.item.is_dir ? '' : this.props.item.extension ) : basename;
   };
 
   render = () => {
