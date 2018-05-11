@@ -151,8 +151,8 @@ export default class Item extends Component {
 
   excerpt = () => {
     const basename = this.props.item.basename;
-    const max = 15;
-    return basename.split('').length > max ? this.props.item.filename.substr(0, max) + '[...].' + this.props.item.extension : basename;
+    const max = 11;
+    return basename.split('').length > max ? this.props.item.filename.substr(0, max) + '...' + this.props.item.extension : basename;
   };
 
   render = () => {
