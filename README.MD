@@ -28,6 +28,8 @@ Webpack rules
 import initFM from 'react-filemanager';
 
 const openFileManager = initFM('server_endpoint');
+// or
+const openFileManager = initFM('server_endpoint', DOMElement);
 ```
 
 The returned callback `openFileManager` accepts a `callback` as first parameter to show the file manager modal and an object config as second parameter.

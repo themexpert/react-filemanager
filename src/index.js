@@ -7,11 +7,14 @@ window.ReactFileManager = {};
 window.ReactFileManager.React = React;
 window.ReactFileManager.Component = React.Component;
 
-export default function (server) {
+export default function (server, dom) {
     const FMElement = window.ReactFileManager.React.createElement(FileManager, {server: server});
 
-    const fm_div = document.createElement("div");
-    document.body.appendChild(fm_div);
+    let fm_div = dom;
+    if (fm_div === undefined) {
+      fm_div = document.createElement("div");
+      document.body.appendChild(fm_div);
+    }
 
     const file_manager = render(FMElement, fm_div);
 
