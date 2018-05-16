@@ -109,8 +109,13 @@ export default class Item extends Component {
 
   //call the callback and send the result
   sendResult = result => {
-    if (this.props.store.callback.call(this, result)) {
-      this.props.store.closeFileManager();
+    try {
+      if (this.props.store.callback.call(this, result)) {
+        this.props.store.closeFileManager();
+      }
+    }
+    catch(e) {
+      console.log(e);
     }
   };
 
