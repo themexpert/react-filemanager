@@ -17,16 +17,17 @@ export default class Item extends Component {
     return "item " + this.props.className;
   };
 
-  onClick = () => {
+  onClick = (e) => {
     if(TIMER !== null) {
       return this.runDoubleClick();
     }
-    TIMER = setTimeout(this.runSingleClick, 300);
+    const multi = e.ctrlKey;
+    TIMER = setTimeout(()=>this.runSingleClick(multi), 300);
   };
 
-  runSingleClick = () => {
+  runSingleClick = (multi) => {
     this.killTimer();
-    this.select();
+    this.select(multi);
   };
 
   runDoubleClick = () => {
@@ -51,8 +52,13 @@ export default class Item extends Component {
     }
   };
 
-  select = () => {
+  select = (multi) => {
     let item = this.props.item;
+
+    if(!multi) {
+      this.props.store.config.data.folders.forEach(folder=>{folder.selected=false;})
+      this.props.store.config.data.files.forEach(file=>{file.selected=false;})
+    }
 
     if (item.is_dir) {
       item = this.props.store.config.data.folders.find(x => x === item);
