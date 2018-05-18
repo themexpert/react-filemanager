@@ -44,7 +44,7 @@ export default class Item extends Component {
 
     //what happens on double click on an item
     if (item.is_dir) {
-      this.props.store.working_dir = this.props.store.working_dir + item.basename + '/';
+      this.props.store.working_dir = this.props.store.working_dir + '/' + item.basename;
       this.props.store.fetch();
     }
     else {

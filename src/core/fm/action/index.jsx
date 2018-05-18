@@ -128,7 +128,7 @@ const FMAction = class FMAction extends Component {
 
               <Button icon="swap" onClick={this.props.fm_store.selectPlugin('move')} disabled={!selected}>Move</Button>
 
-              <Button icon="delete" onClick={this.showDeleteConfirmation} disabled={!selected}></Button>
+              <Button icon="delete" onClick={this.showDeleteConfirmation} disabled={!selected}/>
 
               <Button icon="reload" onClick={this.props.fm_store.refresh}>Refresh</Button>
 

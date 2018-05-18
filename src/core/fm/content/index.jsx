@@ -36,7 +36,15 @@ const FMContent = class FMContent extends Component {
 
     const ext = item ? (item.is_dir ? 'dir' : item.extension) : 'screen';
 
-    this.setState({menu_items: this.getFilteredMenuItems(ext)});
+    const menu_items = this.getFilteredMenuItems(ext).map(menu_item => {
+      const {callback} = menu_item;
+      menu_item.callback = () => {
+        return callback.call(this, item);
+      };
+      return menu_item;
+    });
+
+    this.setState({menu_items});
   };
 
   getFilteredMenuItems = ext => {
@@ -44,37 +52,42 @@ const FMContent = class FMContent extends Component {
       {
         scopes: ['image'],
         label: 'Preview',
-        callback() {
-          console.log('Image Preview');
-        }
+        callback(item) {
+          console.log('Clicked Details', item);
+        },
+        category: ['preview']
       },
       {
         scopes: ['audio'],
         label: 'Play',
-        callback() {
-          console.log('Play this music');
-        }
+        callback(item) {
+          console.log('Clicked Details', item);
+        },
+        category: ['preview']
       },
       {
         scopes: ['dir', 'text'],
         label: 'Open',
-        callback() {
-          console.log('Clicked Open');
-        }
+        callback(item) {
+          console.log('Clicked Details', item);
+        },
+        category: ['preview']
       },
       {
         scopes: ['dir', 'screen'],
         label: 'New Folder',
-        callback() {
-          console.log("Create new folder");
-        }
+        callback(item) {
+          console.log('Clicked Details', item);
+        },
+        category: ['new-item']
       },
       {
         scopes: ['all'],
         label: 'Details',
-        callback() {
-          console.log('Clicked Details');
-        }
+        callback(item) {
+          console.log('Clicked Details', item);
+        },
+        category: ['general']
       },
     ];
     const type = ['screen', 'dir'].indexOf(ext) >= 0 ? ext : Object.keys(file_types).find(type => {
