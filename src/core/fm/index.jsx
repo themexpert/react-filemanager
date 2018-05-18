@@ -3,16 +3,16 @@ import FMAction from './action'
 import FMContent from './content'
 
 export default class FM extends Component {
-    constructor(props) {
-        super(props);
-    }
+  constructor(props) {
+    super(props);
+  }
 
-    render = () => {
-        return (
-            <div>
-                <FMAction/>
-                <FMContent/>
-            </div>
-        );
-    };
+  render = () => {
+    return (
+      <div>
+        <FMAction/>
+        <FMContent/>
+      </div>
+    );
+  };
 }
