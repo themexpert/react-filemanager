@@ -38,17 +38,20 @@ const FMContent = class FMContent extends Component {
 
     const menu_items = this.getFilteredMenuItems(ext).map(menu_item => {
       const {callback} = menu_item;
-      menu_item.callback = () => {
-        return callback.call(this, item);
+      const n_menu_item = Object.assign({}, menu_item);
+      n_menu_item.callback = () => {
+        console.log('Inside callback', item);
+        return callback.call(this, this.props.fm_store, item);
       };
-      return menu_item;
+      return n_menu_item;
     });
 
     this.setState({menu_items});
   };
 
   getFilteredMenuItems = ext => {
-    const menu = [
+    const menu = this.props.fm_store.context_menu;
+    /*[
       {
         scopes: ['image'],
         label: 'Preview',
@@ -89,7 +92,7 @@ const FMContent = class FMContent extends Component {
         },
         category: ['general']
       },
-    ];
+    ];*/
     const type = ['screen', 'dir'].indexOf(ext) >= 0 ? ext : Object.keys(file_types).find(type => {
       return file_types[type].indexOf(ext) >= 0;
     });

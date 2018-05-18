@@ -1,4 +1,5 @@
 import initFM from './src';
+import ImagePreview from "./src/plugins/ImagePreview";
 
 window.openFileManager = initFM('/react-filemanager-server/', document.querySelector('.app'));
 
@@ -8,3 +9,5 @@ window.openFileManager = initFM('/react-filemanager-server/', document.querySele
   link.href = href;
   document.head.insertBefore(link, document.head.firstChild);
 });
+
+window.ReactFileManager.registerPlugin(ImagePreview);
