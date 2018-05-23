@@ -26,6 +26,10 @@ const FileManager = class FileManager extends Component {
     this.store.server = props.server;
   }
 
+  setMountPoint = dom_el => {
+    this.store.mount_point = dom_el;
+  };
+
   openFileManager = (cb, config) => {
     this.store.openFileManager(cb, config);
   };
@@ -51,6 +55,7 @@ const FileManager = class FileManager extends Component {
           footer={null}
           onCancel={this.handleCancel}
           width={window.innerWidth/1.5}
+          getContainer={this.store.mount_point}
         >
           {this.store.tabs.length ? <Tabs defaultActiveKey={this.store.tabs[0].hook} prefixCls="qxui-tabs">
             {this.store.tabs

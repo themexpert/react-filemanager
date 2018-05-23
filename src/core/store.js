@@ -24,6 +24,7 @@ const FILTERS = ["image", "video", "dir", "icon"];
 
 export default class FMStore {
   config = observable({
+    mount_point: null,
     //components and hard coded core data
     plugins: {
       new_dir: {
@@ -206,6 +207,10 @@ export default class FMStore {
     this.config.data.server = server;
   };
 
+  set mount_point(dom_el) {
+    this.config.mount_point = dom_el;
+  };
+
   setCallback = callback => {
     this.config.data.callback = callback;
   };
@@ -254,6 +259,10 @@ export default class FMStore {
   //callback
   get callback() {
     return this.config.data.callback;
+  }
+
+  get mount_point() {
+    return () => this.config.mount_point;
   }
 
   //all core information
