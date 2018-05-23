@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-require('./style.scss');
+require('./style.css');
 
 export default class ContextMenu extends Component {
   componentDidMount() {
