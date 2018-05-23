@@ -11,3 +11,17 @@ window.openFileManager = initFM('/react-filemanager-server/', document.querySele
 });
 
 window.ReactFileManager.registerPlugin(ImagePreview);
+window.ReactFileManager.registerPlugin({
+  details: {
+    component: ImagePreview.image_preview.component,
+    categories: [],
+    context_menu: {
+      scopes: ['all'],
+      label: 'Details',
+      category: 'details',
+      callback(store, item) {
+        console.log(store, item);
+      }
+    }
+  }
+});

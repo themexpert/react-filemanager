@@ -22,14 +22,6 @@ const FMContent = class FMContent extends Component {
     this.props.fm_store.working_dir = '/';
   }
 
-  componentDidMount = () => {
-    document.getElementById('fm-content-holder').addEventListener('scroll', this.onScroll);
-  };
-
-  componentWillUnmount = () => {
-    document.getElementById('fm-content-holder').removeEventListener('scroll', this.onScroll);
-  };
-
   onContextMenu = (e, item) => {
     e.preventDefault();
     e.stopPropagation();
@@ -106,7 +98,7 @@ const FMContent = class FMContent extends Component {
   };
 
   onScroll = throttle(e => {
-    const el = document.getElementById('fm-content-holder');
+    const el = e.target;
     const content = el.querySelector('#fm-content');
     const scrollTop = el.scrollTop;
     const offsetHeight = el.offsetHeight;
@@ -127,7 +119,7 @@ const FMContent = class FMContent extends Component {
 
   render = () => {
     return (
-      <div id="fm-content-holder">
+      <div id="fm-content-holder" onScroll={this.onScroll}>
         <div className="qx-row">
           <div id="fm-content" className="qx-col" onContextMenu={this.onContextMenu}>
             {this.props.fm_store.list
@@ -142,7 +134,7 @@ const FMContent = class FMContent extends Component {
               <Button className="fm-loadmore" icon="appstore-o" type="primary" onClick={this.onClickLoadMore}>Load
                 More</Button> : null}
           </div>
-          <ContextMenu menu_items={this.state.menu_items} closeContextMenu={this.clearContextMenu}/>
+          <ContextMenu menu_items={this.state.menu_items} closeContextMenu={this.clearContextMenu} el={this.props.fm_store.mount_point()}/>
           <PluginContainer/>
         </div>
       </div>

@@ -3,17 +3,21 @@ require('./style.css');
 
 export default class ContextMenu extends Component {
   componentDidMount() {
-    document.addEventListener('contextmenu', this._handleContextMenu);
-    document.addEventListener('click', this._handleClick);
+    this.props.el.addEventListener('contextmenu', this._handleContextMenu);
+    this.props.el.addEventListener('click', this._handleClick);
   };
 
   componentWillUnmount() {
-    document.removeEventListener('contextmenu', this._handleContextMenu);
-    document.removeEventListener('click', this._handleClick);
+    this.props.el.removeEventListener('contextmenu', this._handleContextMenu);
+    this.props.el.removeEventListener('click', this._handleClick);
   }
 
   _handleContextMenu = (event) => {
     event.preventDefault();
+
+    if(this.props.menu_items.length === 0) {
+      return false;
+    }
 
     const clickX = event.clientX;
     const clickY = event.clientY;
@@ -45,20 +49,20 @@ export default class ContextMenu extends Component {
   };
 
   _handleClick = (event) => {
+    event.target.getAttribute('onclick').call(this);
     const menu_items = this.props.menu_items;
-    const visible = menu_items.length > 0;
     const wasOutside = !(event.target.contains === this.root);
 
-    if (wasOutside && visible) {
+    if (wasOutside) {
       this.props.closeContextMenu();
     }
   };
 
   render() {
     const menu_items = this.props.menu_items;
-    const visible = menu_items.length > 0;
-
-    return (visible || null) &&
+    if(!menu_items.length)
+      return null;
+    return (
       <div ref={ref => {
         this.root = ref
       }} className="contextMenu">
@@ -71,6 +75,6 @@ export default class ContextMenu extends Component {
         {/*<div className="contextMenu--option">Settings</div>*/}
         {/*<div className="contextMenu--separator"/>*/}
         {/*<div className="contextMenu--option">About this app</div>*/}
-      </div>
+      </div>)
   };
 }
