@@ -18,9 +18,10 @@ const PluginContainer =  class PluginContainer extends Component {
   }
 
   handleOk = () => {
-    if (!this.child.handleOk || this.child.handleOk()) {
-      this.setState({visible: false});
+    if(this.child.handleOk){
+      return this.child.handleOk();
     }
+    return this.handleCancel();
   };
 
   handleCancel = () => {
@@ -29,6 +30,10 @@ const PluginContainer =  class PluginContainer extends Component {
 
   setModalInfo = info => {
     this.setState({...info});
+  };
+
+  close = () => {
+    this.handleCancel();
   };
 
   render = () => {
@@ -46,7 +51,13 @@ const PluginContainer =  class PluginContainer extends Component {
         okText={this.state.okText}
         getContainer={store.mount_point}
       >
-        <store.plugin.component ref={instance => this.child = instance} key={store.plugin.key} setModalInfo={this.setModalInfo} store={store}/>
+        <store.plugin.component
+          ref={instance => this.child = instance}
+          key={store.plugin.key}
+          setModalInfo={this.setModalInfo}
+          store={store}
+          close={this.close}
+        />
       </Modal>
     );
   };
