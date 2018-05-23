@@ -16,6 +16,7 @@ import Rename from "./general/rename/index";
 import FileInfo from "./general/file-info/index";
 import FM from "./fm";
 import {remove_duplicate_slash} from "./Helper";
+import {audio, image, video} from "./file_types";
 
 require('antd/lib/message/style');
 
@@ -23,6 +24,7 @@ const FILTERS = ["image", "video", "dir", "icon"];
 
 export default class FMStore {
   config = observable({
+    mount_point: null,
     //components and hard coded core data
     plugins: {
       new_dir: {
@@ -70,7 +72,8 @@ export default class FMStore {
       },
       file_info: {
         file: null
-      }
+      },
+      item_in_action: null,
     },
     //all the core information
     data: {
@@ -91,6 +94,8 @@ export default class FMStore {
     },
     //action menu buttons
     action_menu: {},
+    //context menu items
+    context_menu: [],
     //tab panels
     tabs: [
       {
@@ -102,9 +107,9 @@ export default class FMStore {
     ],
     filter_types: {
       null: {title: "All", types: []},
-      image: {title: null, icon: "picture", types: ['png', 'jpeg', 'svg', 'jpg', 'bmp', 'gif']},
-      audio: {title: null, icon: "sound", types: ['mp3', 'ogg', 'aac']},
-      video: {title: null, icon: "video-camera", types: ['mkv', 'flv', 'mp4', 'vob', '3gp']}
+      image: {title: null, icon: "picture", types: image},
+      audio: {title: null, icon: "sound", types: audio},
+      video: {title: null, icon: "video-camera", types: video}
     }
   });
 
@@ -147,6 +152,9 @@ export default class FMStore {
       //add the action menu
       plugin[hook].action_menu && (this.config.action_menu[hook] = plugin[hook].action_menu);
 
+      //ad context menu
+      plugin[hook].context_menu && this.config.context_menu.push(plugin[hook].context_menu);
+
       //add the tab entry
       plugin[hook].tab && this.config.tabs.push({
         title: [<span key="title">{plugin[hook].tab}</span>],
@@ -164,11 +172,13 @@ export default class FMStore {
         message.error('The requested plugin is not installed.');
         return;
       }
-      const plugin = this.config.plugins[alias];
-      this.config.plugin.component = plugin.component;
-      this.config.plugin.alias = alias;
-      this.config.plugin.plugin = plugin.plugin;
-      this.config.plugin.key = Math.random();
+      try {
+        const plugin = this.config.plugins[alias];
+        this.config.plugin.component = plugin.component;
+        this.config.plugin.alias = alias;
+        this.config.plugin.plugin = plugin.plugin;
+        this.config.plugin.key = Math.random();
+      }catch(e) {console.log(e)}
     };
   });
 
@@ -195,6 +205,10 @@ export default class FMStore {
 
   set server(server) {
     this.config.data.server = server;
+  };
+
+  set mount_point(dom_el) {
+    this.config.mount_point = dom_el;
   };
 
   setCallback = callback => {
@@ -234,6 +248,10 @@ export default class FMStore {
     this.config.data.filter_type = filter_type;
   }
 
+  set item_in_action(item) {
+    this.config.plugin_data.item_in_action = item;
+  };
+
   //endregion
 
   //region Config getters
@@ -241,6 +259,10 @@ export default class FMStore {
   //callback
   get callback() {
     return this.config.data.callback;
+  }
+
+  get mount_point() {
+    return () => this.config.mount_point;
   }
 
   //all core information
@@ -251,6 +273,11 @@ export default class FMStore {
   //action menu buttons
   get action_menu() {
     return this.config.action_menu;
+  }
+
+  //context menu items
+  get context_menu() {
+    return this.config.context_menu;
   }
 
   //tabs list
@@ -322,6 +349,11 @@ export default class FMStore {
   get selected_items() {
     return this.list.filter(item => item.selected);
   };
+
+  // get the item selected for action
+  get item_in_action() {
+    return this.config.plugin_data.item_in_action;
+  }
 
   //endregion
 

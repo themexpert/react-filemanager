@@ -18,6 +18,8 @@ export default function (server, dom) {
 
     const file_manager = render(FMElement, fm_div);
 
+    file_manager.setMountPoint(fm_div);
+
     window.ReactFileManager.registerPlugin = file_manager.registerPlugin;
     window.ReactFileManager.openFileManager = file_manager.openFileManager;
 

@@ -44,7 +44,7 @@ export default class Item extends Component {
 
     //what happens on double click on an item
     if (item.is_dir) {
-      this.props.store.working_dir = this.props.store.working_dir + item.basename + '/';
+      this.props.store.working_dir = this.props.store.working_dir + '/' + item.basename;
       this.props.store.fetch();
     }
     else {
@@ -119,13 +119,6 @@ export default class Item extends Component {
     }
   };
 
-  onContextMenu = e => {
-    e.preventDefault();
-    e.stopPropagation();
-
-    console.log("Context Menu Item");
-  };
-
   img = () => {
     const path = this.props.store.server;
     const query = ['working_dir=' + this.props.store.working_dir];
@@ -171,7 +164,7 @@ export default class Item extends Component {
     let mediaTypeClass = ' ' + mediaType;
     return (
       <div className="fm-grid-m">
-        <div className={this.getMediaClass()} onDoubleClick={this.onDoubleClick} onClick={this.onClick} onContextMenu={this.onContextMenu}>
+        <div className={this.getMediaClass()} onDoubleClick={this.onDoubleClick} onClick={this.onClick} onContextMenu={this.props.onContextMenu}>
           <div className="fm-media__thumb">
             <img src={this.img()} alt="icon"/>
           </div>
