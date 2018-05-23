@@ -25,39 +25,40 @@ Webpack rules
  ```
 
 ```JS
-import initFM from 'react-filemanager'
+import initFM from 'react-filemanager';
 
 const openFileManager = initFM('server_endpoint');
+// or
+const openFileManager = initFM('server_endpoint', DOMElement);
 ```
 
-The returned callback `openFileManager` accepts a `callback` as a parameter to show the file manager modal
+The returned callback `openFileManager` accepts a `callback` as first parameter to show the file manager modal and an object config as second parameter.
+
+In this way, you won't have to instantiate FileManager seperately for different config
 
 ```html
-<button onclick="openFileManager(fileSelectCallback)">Open File Manager</button> 
+
+const config  = {
+                    //add filters, valid filters are [icon,image,video,dir]
+                    //currently filters only filters the plugins, not the items
+                    filters: "image,icon",
+
+                    //add additional http get/post parameters
+                    http_params: {
+                        foo: "bar"
+                    },
+
+                    //add additional headers
+                    headers: {
+                        foo: "bar"
+                    }
+                };
+
+<button onclick="openFileManager(fileSelectCallback, config)">Open File Manager</button> 
 ```
 ```JS
-function fileSelectCallback(selected_list) {
-    console.log(selected_list);
-    //do whatever
-    
-    //path => the relative path to the root path set in `app/FM/config.php`
-    //selected_list => selected files and folders
-    
-    //return true to close the modal
-    //return string to show info/error after validation
-    
-    //let's say we want user to select only one file
-    if(selected_list.length !== 1) {
-        return 'Only one file has to be selected';
-    }
-    //let's say the user selected a folder which is not good for us
-    if(selected_list[0].is_dir) {
-        return 'Only file can be selected';
-    }
-    
-    //we got one file selected her
-    // //do whatever
-    
+function fileSelectCallback(selection) {
+    console.log(selection);
     return true; //close the modal
 }
 ```
@@ -69,7 +70,7 @@ File: `wrapper.js`
 
 Content: 
 ```JS
-import initFM from 'react-filemanager-client'
+import initFM from 'react-filemanager'
 
 export default initFM('server-endpoint');
 ```
@@ -80,37 +81,39 @@ Use the wrapper in any React component
 import React, {Component} from 'react'
 import openFileManager from './wrapper' //wherever it is
 
+const config  = {
+                    //add filters, valid filters are [icon,image,video,dir]
+                    filters: "image,icon",
+
+                    //add additional http get/post parameters
+                    http_params: {
+                        foo: "bar"
+                    },
+
+                    //add additional headers
+                    headers: {
+                        foo: "bar"
+                    }
+                };
+
 export default class FilePicker extends Component {
     constructor(props) {
         super(props);
-        
-        this.state = {
-            filename: null
-        };
     }
     
-    onFileSelect = (files) => {
-        //we want the user to select at least one file
-        if(!files.length)
-            return 'Please select a file';
-        
-        //we want the user to select less or equal to one file
-        if(files.length > 1) {
-            return 'Only one file can be selected';
-        }
-        
-        //which implies user selected one file by this line of code
-        
-        //relative path to the root of file manager set in the server side config
-        console.log(files);
+    onFileSelect = selection => {
+    
+        console.log(selection);
         
         return true; //closes the file manager modal
     };
     
     render = () => {
         return (
-            <button onClick={openFileManager(this.onFileSelect)}>Pick File</button>
+            <button onClick={openFileManager(this.onFileSelect, config)}>Pick File</button>
         );
     };
 }
+
+
 ```

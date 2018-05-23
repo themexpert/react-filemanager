@@ -1,14 +1,27 @@
 import React from 'react'
-import ReactDOM from 'react-dom'
+import {render} from 'react-dom'
 import FileManager from './core/file-manager'
+import './style.less';
 
-export default function (server) {
-    const FMElement = React.createElement(FileManager, {server: server});
+window.ReactFileManager = {};
+window.ReactFileManager.React = React;
+window.ReactFileManager.Component = React.Component;
 
-    const fm_div = document.createElement("div");
-    document.body.appendChild(fm_div);
+export default function (server, dom) {
+    const FMElement = window.ReactFileManager.React.createElement(FileManager, {server: server});
 
-    const file_manager = ReactDOM.render(FMElement, fm_div);
+    let fm_div = dom;
+    if (fm_div === undefined) {
+      fm_div = document.createElement("div");
+      document.body.appendChild(fm_div);
+    }
+
+    const file_manager = render(FMElement, fm_div);
+
+    file_manager.setMountPoint(fm_div);
+
+    window.ReactFileManager.registerPlugin = file_manager.registerPlugin;
+    window.ReactFileManager.openFileManager = file_manager.openFileManager;
 
     return file_manager.openFileManager;
 }

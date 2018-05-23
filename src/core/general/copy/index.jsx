@@ -9,6 +9,8 @@ require('antd/lib/auto-complete/style');
 require('antd/lib/modal/style');
 require('antd/lib/message/style');
 
+const PLUGIN = "General";
+
 export default class Copy extends Component {
     constructor(props) {
         super(props);
@@ -22,7 +24,7 @@ export default class Copy extends Component {
     }
 
     componentDidMount = () => {
-        this.setState({visible: true, query: this.props.store.workingDir});
+        this.setState({visible: true, query: this.props.store.working_dir});
     };
 
     componentWillUnmount = () => {
@@ -35,7 +37,7 @@ export default class Copy extends Component {
             if(item.selected)
                 sources.push(item.basename);
         });
-        this.props.store.Request({destination: this.state.query, sources})
+        this.props.store.Request(PLUGIN, "copy", {destination: this.state.query, sources})
             .then(({data}) => {
                 message.success(data.message);
                 this.props.store.refresh();
@@ -55,8 +57,8 @@ export default class Copy extends Component {
         this.setState({query: e});
         if (e === '')
             e = '/';
-        this.props.store.post({
-            plugin: 'General',
+        this.props.store.httpPost({
+            plugin: PLUGIN,
             alias: 'scan_dir',
             working_dir: '/',
             payload: {query: e}

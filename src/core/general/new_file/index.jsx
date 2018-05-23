@@ -8,6 +8,8 @@ require('antd/lib/message/style');
 require('antd/lib/modal/style');
 require('antd/lib/input/style');
 
+const PLUGIN = "General";
+
 export default class NewFile extends Component {
     constructor(props) {
         super(props);
@@ -28,7 +30,7 @@ export default class NewFile extends Component {
     };
 
     handleOk = () => {
-        this.props.store.Request({filename: this.state.filename, content: this.state.content})
+        this.props.store.Request(PLUGIN, "new_file", {filename: this.state.filename, content: this.state.content})
             .then(({data})=>{
                 message.success(data.message);
                 this.setState({visible: false});

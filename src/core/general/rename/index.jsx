@@ -11,6 +11,8 @@ require('antd/lib/modal/style');
 require('antd/lib/grid/style');
 require('antd/lib/input/style');
 
+const PLUGIN = "General";
+
 export default class Rename extends Component {
     constructor(props) {
         super(props);
@@ -23,17 +25,17 @@ export default class Rename extends Component {
     }
 
     componentDidMount = () => {
-        const selectedItems = this.props.store.selectedItems;
-        if (selectedItems.length > 1) {
+        const selected_items = this.props.store.selected_items;
+        if (selected_items.length > 1) {
             message.info('Only one file can be renamed at a time');
             this.props.store.clearPlugin();
             return;
         }
-        else if (selectedItems.length < 1) {
+        else if (selected_items.length < 1) {
             message.info('Select a file or folder to rename');
             return;
         }
-        this.setState({old: selectedItems[0]['basename'], new: selectedItems[0]['basename']});
+        this.setState({old: selected_items[0]['basename'], new: selected_items[0]['basename']});
         this.setState({visible: true});
     };
 
@@ -56,7 +58,7 @@ export default class Rename extends Component {
             return;
         }
 
-        this.props.store.Request({old: this.state.old, new: this.state.new})
+        this.props.store.Request(PLUGIN, "rename", {old: this.state.old, new: this.state.new})
             .then(({data}) => {
                 message.success(data.message);
                 this.setState({visible: false});

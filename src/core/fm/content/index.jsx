@@ -3,93 +3,151 @@ import {inject, observer} from 'mobx-react'
 import Item from "./item/index";
 import PluginContainer from "../../PluginContainer";
 import throttle from 'debounce';
+import Button from 'antd/lib/button'
 
-import Card from 'antd/lib/card'
-import Col from 'antd/lib/grid/col'
-import Row from 'antd/lib/grid/row'
 import {viewport} from "../../Helper";
-
-require('antd/lib/card/style');
-require('antd/lib/grid/style');
-
-const {Meta} = Card;
+import ContextMenu from "../context_menu";
 const view_size = viewport();
 
+import file_types from '../../file_types';
+
 const FMContent = class FMContent extends Component {
-    constructor(props) {
-        super(props);
+  constructor(props) {
+    super(props);
 
-        this.props.fm_store.setWorkingDir('/');
+    this.state = {
+      menu_items: [],
+    };
+
+    this.props.fm_store.working_dir = '/';
+  }
+
+  componentDidMount = () => {
+    document.getElementById('fm-content-holder').addEventListener('scroll', this.onScroll);
+  };
+
+  componentWillUnmount = () => {
+    document.getElementById('fm-content-holder').removeEventListener('scroll', this.onScroll);
+  };
+
+  onContextMenu = (e, item) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    const ext = item ? (item.is_dir ? 'dir' : item.extension) : 'screen';
+
+    const menu_items = this.getFilteredMenuItems(ext).map(menu_item => {
+      const {callback} = menu_item;
+      const n_menu_item = Object.assign({}, menu_item);
+      n_menu_item.callback = () => {
+        console.log('Inside callback', item);
+        return callback.call(this, this.props.fm_store, item);
+      };
+      return n_menu_item;
+    });
+
+    this.setState({menu_items});
+  };
+
+  getFilteredMenuItems = ext => {
+    const menu = this.props.fm_store.context_menu;
+    /*[
+      {
+        scopes: ['image'],
+        label: 'Preview',
+        callback(item) {
+          console.log('Clicked Details', item);
+        },
+        category: ['preview']
+      },
+      {
+        scopes: ['audio'],
+        label: 'Play',
+        callback(item) {
+          console.log('Clicked Details', item);
+        },
+        category: ['preview']
+      },
+      {
+        scopes: ['dir', 'text'],
+        label: 'Open',
+        callback(item) {
+          console.log('Clicked Details', item);
+        },
+        category: ['preview']
+      },
+      {
+        scopes: ['dir', 'screen'],
+        label: 'New Folder',
+        callback(item) {
+          console.log('Clicked Details', item);
+        },
+        category: ['new-item']
+      },
+      {
+        scopes: ['all'],
+        label: 'Details',
+        callback(item) {
+          console.log('Clicked Details', item);
+        },
+        category: ['general']
+      },
+    ];*/
+    const type = ['screen', 'dir'].indexOf(ext) >= 0 ? ext : Object.keys(file_types).find(type => {
+      return file_types[type].indexOf(ext) >= 0;
+    });
+    return menu.filter(menu_item => {
+      return menu_item.scopes.indexOf('all') >= 0 || menu_item.scopes.indexOf(type) >= 0;
+    });
+  };
+
+  clearContextMenu = () => {
+    this.setState({menu_items: []});
+  };
+
+  onScroll = throttle(e => {
+    const el = document.getElementById('fm-content-holder');
+    const content = el.querySelector('#fm-content');
+    const scrollTop = el.scrollTop;
+    const offsetHeight = el.offsetHeight;
+    const scrollHeight = content.scrollHeight;
+
+    if (scrollHeight - offsetHeight < scrollTop + 10) {
+      this.props.fm_store.fetch(true);
     }
+  }, 100);
 
-    componentDidMount = () => {
-        document.getElementById('fm-content-holder').addEventListener('scroll', this.onScroll);
-    };
+  hasMore = () => {
+    return this.props.fm_store.list.length < this.props.fm_store.data.total;
+  };
 
-    componentWillUnmount = () => {
-        document.getElementById('fm-content-holder').removeEventListener('scroll', this.onScroll);
-    };
+  onClickLoadMore = () => {
+    this.props.fm_store.fetch(true);
+  };
 
-    onContextMenu = e => {
-        e.preventDefault();
-        e.stopPropagation();
-
-        console.log("Context Menu Content");
-    };
-
-    onScroll = throttle(e => {
-        const el = document.getElementById('fm-content-holder');
-        const content = el.querySelector('#fm-content');
-        const scrollTop = el.scrollTop;
-        const offsetHeight = el.offsetHeight;
-        const scrollHeight = content.scrollHeight;
-
-        if (scrollHeight - offsetHeight < scrollTop + 10) {
-            this.props.fm_store.fetch(true);
-        }
-    }, 100);
-
-    hasMore = () => {
-        return this.props.fm_store.list.length < this.props.fm_store.Data.total;
-    };
-
-    onClickLoadMore = () => {
-        this.props.fm_store.fetch(true);
-    };
-
-    render = () => {
-        return (
-            <Col>
-                <Row id="fm-content-holder"
-                     style={{
-                         height: (view_size.height * 0.4) + 'px',
-                         marginTop: '10px',
-                         borderTop: '1px solid #ccc',
-                         overflowY: 'scroll'
-                     }}
-                     onContextMenu={this.onContextMenu}
-                >
-                    <div id="fm-content">
-                        {this.props.fm_store.list.map(item => {
-                            return <Item key={item.basename} item={item} className={item.selected ? 'selected' : ''}
-                                         store={this.props.fm_store}/>
-                        })}
-                        {this.hasMore() ? <Card
-                            hoverable
-                            className="item"
-                            style={{width: 120, padding: 10}}
-                            cover={<img src={this.props.fm_store.server + '?icon=plus'} alt="icon" height="96"/>}
-                            onClick={this.onClickLoadMore}
-                        >
-                            <Meta title="Load More"/>
-                        </Card> : null}
-                        <div style={{clear: 'both'}}/>
-                    </div>
-                </Row>
-                <PluginContainer/>
-            </Col>
-        );
-    };
+  render = () => {
+    return (
+      <div id="fm-content-holder">
+        <div className="qx-row">
+          <div id="fm-content" className="qx-col" onContextMenu={this.onContextMenu}>
+            {this.props.fm_store.list
+              .map(item => {
+                return <Item
+                  key={`${item.basename}-${item.selected}`}
+                  item={item}
+                  onContextMenu={e=>this.onContextMenu(e, item)}
+                  store={this.props.fm_store}/>
+              })}
+            {this.hasMore() ?
+              <Button className="fm-loadmore" icon="appstore-o" type="primary" onClick={this.onClickLoadMore}>Load
+                More</Button> : null}
+          </div>
+          <ContextMenu menu_items={this.state.menu_items} closeContextMenu={this.clearContextMenu}/>
+          <PluginContainer/>
+        </div>
+      </div>
+    );
+  };
 };
 
 export default inject("fm_store")(observer(FMContent));

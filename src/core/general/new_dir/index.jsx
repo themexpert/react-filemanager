@@ -8,13 +8,15 @@ require('antd/lib/message/style');
 require('antd/lib/modal/style');
 require('antd/lib/input/style');
 
+const PLUGIN = "General";
+
 export default class NewDirectory extends Component {
     constructor(props) {
         super(props);
 
         this.state = {
             visible: false,
-            dirname: ''
+            dirname: 'New Folder'
         };
     }
 
@@ -27,7 +29,7 @@ export default class NewDirectory extends Component {
     };
 
     handleOk = () => {
-        this.props.store.Request({dir: this.state.dirname})
+        this.props.store.Request(PLUGIN, "new_dir", {dir: this.state.dirname})
             .then(({data})=>{
                 message.success(data.message);
                 this.setState({visible: false});
@@ -50,7 +52,7 @@ export default class NewDirectory extends Component {
     render = () => {
         return (
             <Modal
-                title="New Directory"
+                title="Create a new folder"
                 onOk={this.handleOk}
                 onCancel={this.handleCancel}
                 visible={this.state.visible}
@@ -58,7 +60,13 @@ export default class NewDirectory extends Component {
                 closable={false}
                 okText="Create"
             >
-                <Input defaultValue={this.state.dirname} placeholder="Folder Name" onChange={this.handleTyping} onPressEnter={this.handleOk}/>
+                <Input 
+                    defaultValue={this.state.dirname} 
+                    placeholder="Enter a folder name" 
+                    onChange={this.handleTyping} 
+                    onPressEnter={this.handleOk}
+                    prefixCls="qxui-input"
+                    />
             </Modal>
         );
     };
