@@ -1,8 +1,8 @@
 import initFM from './src';
 import ImagePreview from "./src/plugins/ImagePreview";
 
-const doc = window.parent.document;
-// const doc = window.document;
+// const doc = window.parent.document;
+const doc = window.document;
 
 const div = doc.createElement('div');
 doc.body.appendChild(div);

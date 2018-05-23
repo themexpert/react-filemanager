@@ -1,7 +1,6 @@
 import React, {Component} from 'react'
 import {inject, observer} from 'mobx-react'
 import Item from "./item/index";
-import PluginContainer from "../../PluginContainer";
 import throttle from 'debounce';
 import Button from 'antd/lib/button'
 
@@ -30,7 +29,6 @@ const FMContent = class FMContent extends Component {
       const {callback} = menu_item;
       const n_menu_item = Object.assign({}, menu_item);
       n_menu_item.callback = () => {
-        console.log('Inside callback', item);
         return callback.call(this, this.props.fm_store, item);
       };
       return n_menu_item;
@@ -133,7 +131,6 @@ const FMContent = class FMContent extends Component {
                 More</Button> : null}
           </div>
           <ContextMenu menu_items={this.state.menu_items} closeContextMenu={this.clearContextMenu} el={this.props.fm_store.mount_point()}/>
-          <PluginContainer/>
         </div>
       </div>
     );

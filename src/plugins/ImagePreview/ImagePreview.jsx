@@ -1,24 +1,14 @@
 import React, {Component} from 'react'
-import Modal from "antd/lib/modal/Modal";
 import Card from "antd/lib/card";
 
 export default class ImagePreview extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      visible: false,
-    };
+  componentDidMount() {
+    this.props.setModalInfo({
+      title: this.props.store.item_in_action.basename,
+      okText: 'Close',
+      cancelText: 'Close',
+    });
   }
-
-  componentWillMount = () => {
-    this.setState({visible: true});
-    console.log(this.props.store.item_in_action);
-  };
-
-  componentWillUnmount = () => {
-    this.setState({visible: false});
-  };
 
   img = () => {
     const path = this.props.store.server;
@@ -28,23 +18,8 @@ export default class ImagePreview extends Component {
     return path + '?' + query.join(('&'));
   };
 
-  handleOk = () => {
-    this.handleCancel();
-    this.props.store.clearPlugin();
-  };
-
-  handleCancel = () => {
-    this.setState({visible: false});
-  };
-
   render = () => {
     return (
-      <Modal
-        title={this.props.store.item_in_action.basename}
-        visible={this.state.visible}
-        onOk={this.handleOk}
-        onCancel={this.handleCancel}
-      >
         <Card
           hoverable
           style={{width: 240}}
@@ -55,7 +30,6 @@ export default class ImagePreview extends Component {
             description={"www.instagram.com"}
           />
         </Card>
-      </Modal>
     );
   };
 };

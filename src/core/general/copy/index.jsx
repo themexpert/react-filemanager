@@ -45,10 +45,6 @@ export default class Copy extends Component {
             })
     };
 
-    handleCancel = () => {
-        this.setState({visible: false});
-    };
-
     onSearchInput = throttle(e => {
         this.setState({query: e});
         if (e === '')
