@@ -4,10 +4,6 @@ import message from 'antd/lib/message'
 import Modal from 'antd/lib/modal'
 import Input from 'antd/lib/input'
 
-require('antd/lib/message/style');
-require('antd/lib/modal/style');
-require('antd/lib/input/style');
-
 const PLUGIN = "General";
 
 export default class NewDirectory extends Component {

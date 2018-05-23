@@ -1,7 +1,6 @@
 import React, {Component} from 'react'
 import Modal from "antd/lib/modal/Modal";
 import Card from "antd/lib/card";
-require('antd/lib/card/style');
 
 export default class ImagePreview extends Component {
   constructor(props) {

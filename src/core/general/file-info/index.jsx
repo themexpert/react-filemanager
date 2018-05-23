@@ -4,10 +4,6 @@ import message from 'antd/lib/message'
 import Modal from 'antd/lib/modal'
 import Row from 'antd/lib/grid/row'
 
-require('antd/lib/message/style');
-require('antd/lib/modal/style');
-require('antd/lib/grid/style');
-
 const PLUGIN = "General";
 
 export default class FileInfo extends Component {

@@ -6,11 +6,6 @@ import Col from 'antd/lib/grid/col'
 import Row from 'antd/lib/grid/row'
 import Input from 'antd/lib/input'
 
-require('antd/lib/message/style');
-require('antd/lib/modal/style');
-require('antd/lib/grid/style');
-require('antd/lib/input/style');
-
 const PLUGIN = "General";
 
 export default class Rename extends Component {

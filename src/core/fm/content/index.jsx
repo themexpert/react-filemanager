@@ -5,9 +5,7 @@ import PluginContainer from "../../PluginContainer";
 import throttle from 'debounce';
 import Button from 'antd/lib/button'
 
-import {viewport} from "../../Helper";
 import ContextMenu from "../context_menu";
-const view_size = viewport();
 
 import file_types from '../../file_types';
 

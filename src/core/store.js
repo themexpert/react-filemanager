@@ -3,8 +3,6 @@ import {observable, computed, action} from 'mobx'
 
 import message from 'antd/lib/message';
 
-require("antd/lib/message/style");
-
 import NewDirectory from "./general/new_dir/index";
 
 import axios from 'axios'
@@ -17,8 +15,6 @@ import FileInfo from "./general/file-info/index";
 import FM from "./fm";
 import {remove_duplicate_slash} from "./Helper";
 import {audio, image, video} from "./file_types";
-
-require('antd/lib/message/style');
 
 const FILTERS = ["image", "video", "dir", "icon"];
 
@@ -263,6 +259,10 @@ export default class FMStore {
 
   get mount_point() {
     return () => this.config.mount_point;
+  }
+
+  get document() {
+    return this.mount_point() ? this.mount_point().ownerDocument : window.document;
   }
 
   //all core information

@@ -5,10 +5,6 @@ import message from 'antd/lib/message'
 import Modal from 'antd/lib/modal'
 import AutoComplete from "antd/lib/auto-complete"
 
-require('antd/lib/message/style');
-require('antd/lib/modal/style');
-require('antd/lib/auto-complete/style');
-
 const PLUGIN = "General";
 
 export default class Move extends Component {

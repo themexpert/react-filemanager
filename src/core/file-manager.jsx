@@ -3,17 +3,11 @@ import FMStore from "./store";
 import {Provider, observer} from 'mobx-react'
 
 import Modal from "antd/lib/modal";
-import Button from "antd/lib/button";
 import Spin from "antd/lib/spin";
 import Tabs from "antd/lib/tabs";
 import {viewport} from "./Helper";
 
-require("antd/lib/spin/style");
-require('../style.css');
-
 const TabPane = Tabs.TabPane;
-const view_size = viewport();
-
 const stores = {
   fm_store: new FMStore()
 };
@@ -43,6 +37,7 @@ const FileManager = class FileManager extends Component {
   };
 
   render = () => {
+    const view_size = viewport(stores.fm_store.document);
     return (
       <Provider {...stores}>
         <Modal
@@ -54,7 +49,7 @@ const FileManager = class FileManager extends Component {
           prefixCls="qxui-modal"
           footer={null}
           onCancel={this.handleCancel}
-          width={window.innerWidth/1.5}
+          width={view_size.width/1.5}
           getContainer={this.store.mount_point}
         >
           {this.store.tabs.length ? <Tabs defaultActiveKey={this.store.tabs[0].hook} prefixCls="qxui-tabs">

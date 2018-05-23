@@ -9,17 +9,10 @@ import Icon from 'antd/lib/icon'
 import Input from 'antd/lib/input'
 import Breadcrumb from 'antd/lib/breadcrumb'
 
-require('antd/lib/auto-complete/style');
-require('antd/lib/message/style');
-require('antd/lib/input/style');
-require('antd/lib/breadcrumb/style');
-
 import throttle from 'debounce'
 import ButtonGroup from 'antd/lib/button/button-group';
-import FMStore from "../../store";
 
 const {confirm} = Modal;
-require('./style.css');
 
 const FMAction = class FMAction extends Component {
   constructor(props) {

@@ -5,10 +5,6 @@ import AutoComplete from 'antd/lib/auto-complete'
 import Modal from 'antd/lib/modal'
 import message from 'antd/lib/message'
 
-require('antd/lib/auto-complete/style');
-require('antd/lib/modal/style');
-require('antd/lib/message/style');
-
 const PLUGIN = "General";
 
 export default class Copy extends Component {

@@ -5,11 +5,6 @@ import Modal from 'antd/lib/modal'
 import Icon from 'antd/lib/icon'
 import Upload from 'antd/lib/upload'
 
-require('antd/lib/message/style');
-require('antd/lib/modal/style');
-require('antd/lib/icon/style');
-require('antd/lib/upload/style');
-
 const {Dragger} = Upload;
 
 export default class Uploader extends Component {

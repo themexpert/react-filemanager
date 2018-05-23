@@ -1,15 +1,14 @@
 import React, { Component } from 'react';
-require('./style.css');
 
 export default class ContextMenu extends Component {
   componentDidMount() {
-    this.props.el.addEventListener('contextmenu', this._handleContextMenu);
-    this.props.el.addEventListener('click', this._handleClick);
+    this.props.el.ownerDocument.addEventListener('contextmenu', this._handleContextMenu);
+    this.props.el.ownerDocument.addEventListener('click', this._handleClick);
   };
 
   componentWillUnmount() {
-    this.props.el.removeEventListener('contextmenu', this._handleContextMenu);
-    this.props.el.removeEventListener('click', this._handleClick);
+    this.props.el.ownerDocument.removeEventListener('contextmenu', this._handleContextMenu);
+    this.props.el.ownerDocument.removeEventListener('click', this._handleClick);
   }
 
   _handleContextMenu = (event) => {
@@ -49,7 +48,6 @@ export default class ContextMenu extends Component {
   };
 
   _handleClick = (event) => {
-    event.target.getAttribute('onclick').call(this);
     const menu_items = this.props.menu_items;
     const wasOutside = !(event.target.contains === this.root);
 
