@@ -86,6 +86,7 @@ export default class Copy extends Component {
         onSelect={this.onSearchSelect}
         onSearch={this.onSearchInput}
         placeholder="Copy To"
+        prefixCls="qxui-select"
       />
     );
   };

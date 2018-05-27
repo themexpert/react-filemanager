@@ -2,7 +2,7 @@ import React, {Component} from 'react'
 import {inject, observer} from 'mobx-react'
 import Item from "./item/index";
 import throttle from 'debounce';
-import Button from 'antd/lib/button'
+import Button from 'components/button'
 
 import ContextMenu from "../context_menu";
 

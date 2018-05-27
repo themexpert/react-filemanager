@@ -50,6 +50,7 @@ const PluginContainer =  class PluginContainer extends Component {
         closable={false}
         okText={this.state.okText}
         getContainer={store.mount_point}
+        prefixCls="qxui-modal"
       >
         <store.plugin.component
           ref={instance => this.child = instance}

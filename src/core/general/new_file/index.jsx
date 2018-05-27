@@ -2,8 +2,6 @@ import React, {Component} from 'react'
 
 import message from 'antd/lib/message'
 import Input from 'antd/lib/input'
-import Row from "antd/lib/grid/row";
-
 
 const PLUGIN = "General";
 
@@ -47,10 +45,10 @@ export default class NewFile extends Component {
 
   render = () => {
     return (
-      <Row>
-        <Input placeholder="File Name" defaultValue={this.state.filename} onChange={this.handleFilenameTyping}/>
-        <Input.TextArea placeholder="File Content" defaultValue={this.state.content} onChange={this.handleContentTyping}/>
-      </Row>
+      <div>
+        <Input placeholder="File Name" defaultValue={this.state.filename} onChange={this.handleFilenameTyping} prefixCls="qxui-input"/>
+        <Input.TextArea placeholder="File Content" defaultValue={this.state.content} onChange={this.handleContentTyping} prefixCls="qxui-input" className="qx-mt-2" />
+      </div>
     );
   };
 }
