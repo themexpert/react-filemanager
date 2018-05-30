@@ -12,8 +12,6 @@ import Breadcrumb from 'antd/lib/breadcrumb'
 import throttle from 'debounce'
 import ButtonGroup from 'antd/lib/button/button-group';
 
-const {confirm} = Modal;
-
 const FMAction = class FMAction extends Component {
   constructor(props) {
     super(props);
@@ -21,19 +19,9 @@ const FMAction = class FMAction extends Component {
 
   showDeleteConfirmation = () => {
     const store = this.props.fm_store;
-    confirm({
-      title: 'Sure you want to proceed to delete?',
-      content: 'This action can not be reverted',
-      okText: 'Yes',
-      okType: 'danger',
-      cancelText: 'No',
-      onOk() {
-        store.trash();
-      },
-      onCancel() {
-        console.log('Cancel');
-      }
-    });
+    if (window.confirm('Are you sure you want to delete selected files/folders? You can not undo this action.')) {
+      store.trash();
+    }
   };
 
   onSearchInput = throttle(e => {
