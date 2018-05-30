@@ -1,8 +1,6 @@
 import React, {Component} from 'react'
 
 import message from 'antd/lib/message'
-import Col from 'antd/lib/grid/col'
-import Row from 'antd/lib/grid/row'
 import Input from 'antd/lib/input'
 
 const PLUGIN = "General";
@@ -67,20 +65,10 @@ export default class Rename extends Component {
 
   render = () => {
     return (
-      <Row>
-        <Col md={24}>
-          <Row>
-            <Col md={24}>
-              <Input disabled={true} value={this.state.old}/>
-            </Col>
-          </Row>
-          <Row>
-            <Col md={24}>
-              <Input value={this.state.new} onChange={this.handleTyping} onPressEnter={this.handleOk}/>
-            </Col>
-          </Row>
-        </Col>
-      </Row>
+      <div>
+        <Input disabled={true} value={this.state.old} prefixCls="qxui-input"/>
+        <Input value={this.state.new} onChange={this.handleTyping} onPressEnter={this.handleOk} prefixCls="qxui-input" className="qx-mt-2"/>
+      </div>
     );
   };
 }

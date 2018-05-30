@@ -1,13 +1,13 @@
 import React, {Component} from 'react'
 import {inject, observer} from 'mobx-react'
 
-import Button from 'antd/lib/button'
 import Modal from 'antd/lib/modal'
 import AutoComplete from 'antd/lib/auto-complete'
 import message from 'antd/lib/message'
-import Icon from 'antd/lib/icon'
-import Input from 'antd/lib/input'
 import Breadcrumb from 'antd/lib/breadcrumb'
+
+import Button from 'components/button'
+import Input from 'components/text'
 
 import throttle from 'debounce'
 import ButtonGroup from 'antd/lib/button/button-group';
@@ -128,9 +128,9 @@ const FMAction = class FMAction extends Component {
         <div className="fm-scope">
           <div className="qx-row qx-justify-content-between">
             <div className="qx-col">
-              <Breadcrumb>
+              <Breadcrumb className="qxui-breadcrumb">
                 <Breadcrumb.Item onClick={() => this.props.fm_store.working_dir = '/'}>
-                  <Icon type="home"/>
+                  <i className="qxicon-neuter"></i>
                 </Breadcrumb.Item>
                 {this.props.fm_store.working_dir.split('/')
                   .map((x, i) => {
@@ -156,14 +156,15 @@ const FMAction = class FMAction extends Component {
                 })}
               </ButtonGroup>
 
-              <AutoComplete
+              {/* <AutoComplete
                 value={this.props.fm_store.plugin_data.search.query}
                 dataSource={this.props.fm_store.plugin_data.search.dataSource}
                 onSelect={this.onSearchSelect}
                 onSearch={this.onSearchInput}
-                placeholder="Search">
-                <Input suffix={< Icon type="search" className="certain-category-icon"/>} prefixCls="qxui-input"/>
-              </AutoComplete>
+                placeholder="Search"
+                prefixCls="qxui-select">
+                <Input suffix={<i className="qxicon-folder-open certain-category-icon"></i>} prefixCls="qxui-input"/>
+              </AutoComplete> */}
             </div>
           </div>
         </div>

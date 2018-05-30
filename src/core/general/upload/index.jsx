@@ -51,14 +51,14 @@ export default class Uploader extends Component {
   render = () => {
     const props = this.getProps();
     return (
-      <Dragger {...props}>
-        <p className="ant-upload-drag-icon">
-          <Icon type="inbox"/>
-        </p>
-        <p className="ant-upload-text">Click or drag file to this area to upload</p>
-        <p className="ant-upload-hint">Support for a single or bulk upload. Strictly prohibit from uploading
-          company data or other band files</p>
-      </Dragger>
+      <div className="qx-fb-infobox qx-text-center">
+        <Dragger prefixCls="qxui-upload" {...props}>
+          <div className="qx-p-5">
+            <i className="qxicon-inbox-in qx-fb-title-icon"></i>
+            <p className="qx-mt-3">Click or drag file to this area to upload. You can upload multiple files.</p>
+          </div>
+        </Dragger>
+      </div>
     );
   };
 }

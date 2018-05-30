@@ -86,6 +86,7 @@ export default class Move extends Component {
         onSelect={this.onSearchSelect}
         onSearch={this.onSearchInput}
         placeholder="Move To"
+        prefixCls="qxui-select"
       />
     );
   };
