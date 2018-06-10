@@ -132,10 +132,13 @@ export default class FMStore {
   registerPlugin = action((plugin, config) =>{
     Object.keys(plugin).forEach(hook=>{
 
+      //ad context menu
+      plugin[hook].context_menu && this.config.context_menu.push(plugin[hook].context_menu);
+
       //check if we have a component under the hook
       if(!plugin[hook].component)
       {
-        console.log(`No valid component found in the registered plugin for hook ${hook}`);
+        // console.log(`No valid component found in the registered plugin for hook ${hook}`);
         return;
       }
 
@@ -147,9 +150,6 @@ export default class FMStore {
 
       //add the action menu
       plugin[hook].action_menu && (this.config.action_menu[hook] = plugin[hook].action_menu);
-
-      //ad context menu
-      plugin[hook].context_menu && this.config.context_menu.push(plugin[hook].context_menu);
 
       //add the tab entry
       plugin[hook].tab && this.config.tabs.push({
