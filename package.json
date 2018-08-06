@@ -46,7 +46,7 @@
     "less-loader": "^4.0.5"
   },
   "dependencies": {
-    "antd": "^3.1.1",
+    "antd": "^3.2.3",
     "axios": "^0.17.1",
     "debounce": "^1.1.0",
     "mobx": "^3.4.1",
