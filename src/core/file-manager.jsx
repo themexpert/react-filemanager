@@ -64,7 +64,7 @@ const FileManager = class FileManager extends Component {
                   <TabPane
                     tab={tab.title}
                     key={tab.hook}>
-                    <Spin prefixCls="qxui" spinning={this.store.is_loading}>
+                    <Spin prefixCls="qxui-spin" spinning={this.store.is_loading}>
                       <tab.component store={this.store}/>
                     </Spin>
                   </TabPane>
