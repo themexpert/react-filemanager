@@ -42,6 +42,16 @@ const FMAction = class FMAction extends Component {
     this.props.fm_store.fetch();
   }, 300);
 
+  selectDir = index => {
+    const new_dir = [];
+    this.props.fm_store.working_dir.split('/').forEach((x, i) => {
+      if (i <= index)
+        new_dir.push(x);
+    });
+    this.props.fm_store.working_dir = new_dir.join('/');
+    this.props.fm_store.fetch();
+  };
+
   render = () => {
     const selected = this.props.fm_store.selected_items.length;
     return (
