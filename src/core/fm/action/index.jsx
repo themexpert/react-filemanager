@@ -35,9 +35,10 @@ const FMAction = class FMAction extends Component {
   
   doSearch = throttle( () => {
     if (this.state.query === '') {
-      return;
+      this.props.fm_store.query = null;
+    } else {
+      this.props.fm_store.query = this.state.query;
     }
-    this.props.fm_store.query = this.state.query;
     this.props.fm_store.fetch();
   }, 300);
 
