@@ -248,6 +248,15 @@ export default class FMStore {
     this.config.plugin_data.item_in_action = item;
   };
 
+  addEntry(item) {
+    item['selected'] = true;
+    if (item.is_dir) {
+      this.config.data.folders.unshift(item);
+      return;
+    }
+    this.config.data.files.unshift(item);
+  }
+
   //endregion
 
   //region Config getters

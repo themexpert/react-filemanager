@@ -16,16 +16,16 @@ export default class Uploader extends Component {
   };
 
   handleOk = e => {
-    this.props.store.refresh();
     this.props.close();
   };
 
   onChange = info => {
     const status = info.file.status;
     if (status !== 'uploading') {
-      console.log(info.file, info.fileList);
+// uploading
     }
     if (status === 'done') {
+      this.props.store.addEntry(info.file.response.file);
       message.success(`${info.file.name} file uploaded successfully.`);
     } else if (status === 'error') {
       message.error(`${info.file.name} file upload failed.`);

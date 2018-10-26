@@ -155,6 +155,9 @@ export default class Item extends Component {
 
   excerpt = () => {
     const basename = this.props.item.basename;
+    if (!basename) {
+      console.log(this.props.item);return '';
+    }
     const max = 11;
     return basename.split('').length > max ? this.props.item.filename.substr(0, max) + '...' + ( this.props.item.is_dir ? '' : this.props.item.extension ) : basename;
   };
