@@ -42,6 +42,8 @@ export default class Item extends Component {
   onDoubleClick = () => {
     const item = this.props.item;
 
+    this.killTimer();
+
     //what happens on double click on an item
     if (item.is_dir) {
       this.props.store.working_dir = this.props.store.working_dir + '/' + item.basename;
@@ -155,9 +157,6 @@ export default class Item extends Component {
 
   excerpt = () => {
     const basename = this.props.item.basename;
-    if (!basename) {
-      console.log(this.props.item);return '';
-    }
     const max = 11;
     return basename.split('').length > max ? this.props.item.filename.substr(0, max) + '...' + ( this.props.item.is_dir ? '' : this.props.item.extension ) : basename;
   };

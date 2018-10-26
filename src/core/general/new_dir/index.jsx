@@ -10,7 +10,7 @@ export default class NewDirectory extends Component {
         super(props);
 
         this.state = {
-            dirname: 'New Folder'
+            dirname: 'new_folder'
         };
     }
 
