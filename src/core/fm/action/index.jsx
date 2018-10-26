@@ -92,7 +92,7 @@ const FMAction = class FMAction extends Component {
             <div className="qx-col">
               <Breadcrumb className="qxui-breadcrumb">
                 <Breadcrumb.Item onClick={() => this.props.fm_store.working_dir = '/'}>
-                  <i className="qxicon-neuter"></i>
+                  <i className="qxio-home"></i>
                 </Breadcrumb.Item>
                 {this.props.fm_store.working_dir.split('/')
                   .map((x, i) => {
