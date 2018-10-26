@@ -1,7 +1,6 @@
 import React from 'react'
 import {render} from 'react-dom'
 import FileManager from './core/file-manager'
-import './style.less';
 
 window.ReactFileManager = {};
 window.ReactFileManager.React = React;

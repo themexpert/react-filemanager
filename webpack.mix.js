@@ -23,5 +23,6 @@ mix
       ]
     }
   })
-  .sourceMaps()
-  .react('build.js', 'dist');
+  .react('build.js', 'dist')
+  .less('src/style.less', 'dist')
+  .sourceMaps();

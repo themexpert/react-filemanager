@@ -1,13 +1,10 @@
 import React, {Component} from 'react'
 import {inject, observer} from 'mobx-react'
 import Item from "./item/index";
-import PluginContainer from "../../PluginContainer";
 import throttle from 'debounce';
-import Button from 'antd/lib/button'
+import Button from 'components/button'
 
-import {viewport} from "../../Helper";
 import ContextMenu from "../context_menu";
-const view_size = viewport();
 
 import file_types from '../../file_types';
 
@@ -22,14 +19,6 @@ const FMContent = class FMContent extends Component {
     this.props.fm_store.working_dir = '/';
   }
 
-  componentDidMount = () => {
-    document.getElementById('fm-content-holder').addEventListener('scroll', this.onScroll);
-  };
-
-  componentWillUnmount = () => {
-    document.getElementById('fm-content-holder').removeEventListener('scroll', this.onScroll);
-  };
-
   onContextMenu = (e, item) => {
     e.preventDefault();
     e.stopPropagation();
@@ -40,7 +29,6 @@ const FMContent = class FMContent extends Component {
       const {callback} = menu_item;
       const n_menu_item = Object.assign({}, menu_item);
       n_menu_item.callback = () => {
-        console.log('Inside callback', item);
         return callback.call(this, this.props.fm_store, item);
       };
       return n_menu_item;
@@ -106,7 +94,7 @@ const FMContent = class FMContent extends Component {
   };
 
   onScroll = throttle(e => {
-    const el = document.getElementById('fm-content-holder');
+    const el = e.target;
     const content = el.querySelector('#fm-content');
     const scrollTop = el.scrollTop;
     const offsetHeight = el.offsetHeight;
@@ -127,7 +115,7 @@ const FMContent = class FMContent extends Component {
 
   render = () => {
     return (
-      <div id="fm-content-holder">
+      <div id="fm-content-holder" onScroll={this.onScroll}>
         <div className="qx-row">
           <div id="fm-content" className="qx-col" onContextMenu={this.onContextMenu}>
             {this.props.fm_store.list
@@ -142,8 +130,7 @@ const FMContent = class FMContent extends Component {
               <Button className="fm-loadmore" icon="appstore-o" type="primary" onClick={this.onClickLoadMore}>Load
                 More</Button> : null}
           </div>
-          <ContextMenu menu_items={this.state.menu_items} closeContextMenu={this.clearContextMenu}/>
-          <PluginContainer/>
+          <ContextMenu menu_items={this.state.menu_items} closeContextMenu={this.clearContextMenu} el={this.props.fm_store.mount_point()}/>
         </div>
       </div>
     );
