@@ -74,6 +74,7 @@ export default class FMStore {
     //all the core information
     data: {
       total: 0,
+      query: '',
       current_page: 1,
       files: [],
       folders: [],
@@ -248,6 +249,10 @@ export default class FMStore {
     this.config.plugin_data.item_in_action = item;
   };
 
+  set query(query) {
+    this.config.data.query = query;
+  }
+
   addEntry(item) {
     item['selected'] = true;
     if (item.is_dir) {
@@ -364,6 +369,10 @@ export default class FMStore {
     return this.config.plugin_data.item_in_action;
   }
 
+  get query () {
+    return this.config.data.query;
+  }
+
   //endregion
 
   //region Http
@@ -397,7 +406,8 @@ export default class FMStore {
       alias: 'fetch_list',
       working_dir: this.config.data.working_dir,
       page: this.config.data.current_page,
-      per_page: perPage
+      per_page: perPage,
+      query: this.config.data.query,
     })
       .then(({data}) => {
         this.config.data.total = data.total;

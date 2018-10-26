@@ -15,6 +15,10 @@ import ButtonGroup from 'antd/lib/button/button-group';
 const FMAction = class FMAction extends Component {
   constructor(props) {
     super(props);
+
+    this.state = {
+      query: '',
+    };
   }
 
   showDeleteConfirmation = () => {
@@ -24,71 +28,18 @@ const FMAction = class FMAction extends Component {
     }
   };
 
-  onSearchInput = throttle(e => {
-    this.props.fm_store.plugin_data.search.query = e;
-    if (e === '')
-      return;
-    this
-      .props
-      .fm_store
-      .httpPost({
-        plugin: 'General',
-        alias: 'scan_dir',
-        working_dir: this.props.fm_store.working_dir,
-        payload: {
-          query: e
-        }
-      })
-      .then(({data}) => {
-        const dataSource = [];
-        for (let i = 0; i < data.length; i++) {
-          dataSource.push(data[i].basename);
-        }
-        this.props.fm_store.plugin_data.search.dataSet = data;
-        this.props.fm_store.plugin_data.search.dataSource = dataSource;
-      })
-      .catch(err => {
-        console.log(err);
-        message.error(err.response.data.message);
-      })
-  }, 300);
-
-  onSearchSelect = e => {
-    const exists = this
-      .props
-      .fm_store
-      .plugin_data
-      .search
-      .dataSet
-      .find(x => x.basename === e);
-    if (!exists) {
-      message.error('This directory does not exist');
+  handleQueryChange = query => {
+    this.setState({query: query.trim()});
+    this.doSearch();
+  };
+  
+  doSearch = throttle( () => {
+    if (this.state.query === '') {
       return;
     }
-    const dir = exists.is_dir
-      ? exists.full_path
-      : (() => {
-        const parts = exists
-          .full_path
-          .split('/');
-        parts.pop();
-        return parts.join('/');
-      })();
-
-    this.props.fm_store.working_dir = this.props.fm_store.working_dir + dir;
-    this.props.fm_store.plugin_data.search.dataSource = [];
-    this.props.fm_store.plugin_data.search.query = '';
-  };
-
-  selectDir = index => {
-    const new_dir = [];
-    this.props.fm_store.working_dir.split('/').forEach((x, i) => {
-      if (i <= index)
-        new_dir.push(x);
-    });
-    this.props.fm_store.working_dir = new_dir.join('/');
+    this.props.fm_store.query = this.state.query;
     this.props.fm_store.fetch();
-  };
+  }, 300);
 
   render = () => {
     const selected = this.props.fm_store.selected_items.length;
@@ -155,16 +106,10 @@ const FMAction = class FMAction extends Component {
                   </Button>)
                 })}
               </ButtonGroup>
-
-              {/* <AutoComplete
-                value={this.props.fm_store.plugin_data.search.query}
-                dataSource={this.props.fm_store.plugin_data.search.dataSource}
-                onSelect={this.onSearchSelect}
-                onSearch={this.onSearchInput}
-                placeholder="Search"
-                prefixCls="qxui-select">
-                <Input suffix={<i className="qxicon-folder-open certain-category-icon"></i>} prefixCls="qxui-input"/>
-              </AutoComplete> */}
+                <Input
+                value={this.state.query}
+                 suffix={<i className="qxicon-folder-open certain-category-icon"></i>}
+                  prefixCls="qxui-input" onChange={this.handleQueryChange}/>
             </div>
           </div>
         </div>
