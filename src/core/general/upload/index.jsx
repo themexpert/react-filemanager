@@ -52,7 +52,10 @@ export default class Uploader extends Component {
     const props = this.getProps();
     return (
       <div className="qx-fb-infobox qx-text-center">
-        <Dragger prefixCls="qxui-upload" {...props}>
+        <Dragger prefixCls="qxui-upload" {...props} onDragOver={(e) => {
+          e.stopPropagation();
+          e.preventDefault();
+        }}>
           <div className="qx-p-5">
             <i className="qxicon-inbox-in qx-fb-title-icon"></i>
             <p className="qx-mt-3">Click or drag file to this area to upload. You can upload multiple files.</p>
