@@ -2,8 +2,8 @@ import React, {Component} from 'react'
 import {remove_duplicate_slash} from "../../../Helper";
 
 const RAW = ["svg"];
-const IMAGE = ["jpg", "jpeg", "png"];
-const VIDEO = ["mkv", "mp4", "flv", "mpg"];
+const IMAGE = ["jpg", "jpeg", "png", "gif"];
+const VIDEO = ["mkv", "mp4", "flv", "mpg", "mov"];
 const AUDIO = ["mp3", "aac", "ogg"];
 
 let TIMER = null;
