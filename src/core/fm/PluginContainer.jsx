@@ -11,7 +11,7 @@ const PluginContainer =  class PluginContainer extends Component {
     cancelText: 'Close',
   };
 
-  componentWillUpdate(props) {
+  UNSAFE_componentWillUpdate(props) {
     if (props.fm_store.plugin.plugin !== null && !this.state.visible) {
       this.setState({visible: true});
     }

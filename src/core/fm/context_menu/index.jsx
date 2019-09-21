@@ -6,7 +6,7 @@ export default class ContextMenu extends Component {
     this.props.el.ownerDocument.addEventListener('click', this._handleClick);
   };
 
-  componentWillUnmount() {
+  UNSAFE_componentWillUnmount() {
     this.props.el.ownerDocument.removeEventListener('contextmenu', this._handleContextMenu);
     this.props.el.ownerDocument.removeEventListener('click', this._handleClick);
   }

@@ -16,7 +16,7 @@ export default class FileInfo extends Component {
         };
     }
 
-    componentWillMount = () => {
+    UNSAFE_componentWillMount = () => {
         this.getFileInfo();
     };
 

@@ -15,7 +15,7 @@ export default class NewFile extends Component {
     }
   }
 
-  componentWillMount = () => {
+  UNSAFE_componentWillMount = () => {
     this.props.setModalInfo({
       title: 'Create new file',
       okText: 'Save',
