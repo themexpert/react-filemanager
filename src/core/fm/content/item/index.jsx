@@ -1,10 +1,10 @@
 import React, {Component} from 'react';
 import {remove_duplicate_slash} from '../../../Helper';
 
-const RAW = ['svg'];
-const IMAGE = ['jpg', 'jpeg', 'png', 'gif'];
-const VIDEO = ['mkv', 'mp4', 'flv', 'mpg', 'mov'];
-const AUDIO = ['mp3', 'aac', 'ogg'];
+const RAW = ["svg"];
+const IMAGE = ['png', 'jpg', 'jpeg', 'bmp', 'webm', 'gif'];
+const VIDEO = ['mkv', 'flv', 'mp4', 'vob', '3gp', 'mpg', 'movie'];
+const AUDIO = ["mp3", "aac", "ogg"];
 
 let TIMER = null;
 
