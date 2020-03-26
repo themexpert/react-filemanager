@@ -1,3 +1,7 @@
+# <span color="red">ABANDONED!</span>
+You can still fork this repository, workout the missing dependencies and extend or/and you can check out [the new file manager](https://github.com/reactfilemanager) we are working on.
+
+
 React based file and media manager developed for [Quix Page Builder](https://www.themexpert.com/quix-pagebuilder) and open sourced by [ThemeXpert](https://www.themexpert.com) team.
 
 ## Dependency
