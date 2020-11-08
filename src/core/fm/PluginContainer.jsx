@@ -51,6 +51,7 @@ const PluginContainer =  class PluginContainer extends Component {
         okText={this.state.okText}
         getContainer={store.mount_point}
         prefixCls="qxui-modal"
+        wrapClassName="fm-plugincontainer"
       >
         <store.plugin.component
           ref={instance => this.child = instance}
