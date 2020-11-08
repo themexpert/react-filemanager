@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {remove_duplicate_slash} from '../../../Helper';
 
 const RAW = ["svg"];
-const IMAGE = ['png', 'jpg', 'jpeg', 'bmp', 'webm', 'gif'];
+const IMAGE = ['png', 'jpg', 'jpeg', 'bmp', 'webp', 'gif'];
 const VIDEO = ['mkv', 'flv', 'mp4', 'vob', '3gp', 'mpg', 'movie'];
 const AUDIO = ["mp3", "aac", "ogg"];
 
