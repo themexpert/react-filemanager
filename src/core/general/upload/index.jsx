@@ -21,6 +21,11 @@ export default class Uploader extends Component {
   };
 
   onChange = info => {
+    message.config({
+      prefixCls: 'qxui-message',
+      getContainer: this.props.store.mount_point
+    });
+    
     const status = info.file.status;
     if (status !== 'uploading') {
       console.log(info.file, info.fileList);
@@ -57,7 +62,7 @@ export default class Uploader extends Component {
           e.preventDefault();
         }}>
           <div className="qx-p-5">
-            <i className="qxicon-inbox-in qx-fb-title-icon"></i>
+            <i className="qxif-inbox qx-fb-title-icon"></i>
             <p className="qx-mt-3">Click or drag file to this area to upload. You can upload multiple files.</p>
           </div>
         </Dragger>
